@@ -24,7 +24,7 @@
     "express": "latest"
   },
   "scripts": {
-
+    "postinstall": "bower install",
     "start": "node app.js",
 
     "pretest": "npm install",

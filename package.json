@@ -27,7 +27,7 @@
   },
   "scripts": {
     "postinstall": "bower install",
-    "start": "node app.js",
+    "start": "node main.js",
 
     "pretest": "npm install",
     "test": "node node_modules/karma/bin/karma start test/karma.conf.js",

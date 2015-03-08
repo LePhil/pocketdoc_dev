@@ -3,7 +3,7 @@
 /* Controllers */
 var pocketdocControllers = angular.module('pocketdocControllers', []);
 
-pocketdocControllers.controller('AppCtrl', function($scope) {
+pocketdocControllers.controller('questionController', function($scope) {
     $scope.questions = [
       {
         'id'     : 0,

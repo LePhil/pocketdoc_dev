@@ -1,9 +1,8 @@
 var express = require('express');
 var app = express();
-app.use('/', express.static(__dirname + '/app'));
 
-//add this so the browser can GET the bower files
-app.use('/bower_components', express.static(__dirname + '/bower_components'));
+//Define root folder as the cwd
+app.use('/', express.static(__dirname));
 
 var port = Number(process.env.PORT || 5000);
 app.listen(port, function() { 

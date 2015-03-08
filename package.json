@@ -20,8 +20,9 @@
     "protractor": "~1.0.0"
   },
   "scripts": {
-    "preinstall": "bower install",
+    "prestart": "npm install",
     "start": "node main.js",
+    "postinstall": "bower install",
 
     "pretest": "npm install",
     "test": "node node_modules/karma/bin/karma start test/karma.conf.js",

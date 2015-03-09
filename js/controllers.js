@@ -3,7 +3,7 @@
 /* Controllers */
 var pocketdocControllers = angular.module('pocketdocControllers', []);
 
-pocketdocControllers.controller('questionController', function($scope) {
+pocketdocControllers.controller('AppCtrl', [ "$http", "$scope", function( $http, $scope ) {
     $scope.questions = [
       {
         'id'     : 0,
@@ -37,6 +37,19 @@ pocketdocControllers.controller('questionController', function($scope) {
       },
     ];
 
+    $http.post('http://pocketdoc.herokuapp.com/login', {name:'admin', password:"1234"}).
+    success(function(data, status, headers, config) {
+      // this callback will be called asynchronously
+      // when the response is available
+      console.log( "SUCCESS:", data, status, headers, config );
+    }).
+    error(function(data, status, headers, config) {
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+    console.log( "ERROR:", data, status, headers, config );
+    });
+
+
     $scope.answerQuestion = function( question, answer ) {
       console.log(question, answer);
       question.status = answer;
@@ -45,4 +58,4 @@ pocketdocControllers.controller('questionController', function($scope) {
     $scope.isAnswered = function( question ) {
       return question.status === "unanswered";
     }
-});
+} ]);

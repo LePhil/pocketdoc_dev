@@ -34,32 +34,14 @@ pocketdocControllers.controller('questionController', [ "$http", "$scope", funct
         'status' : 'unanswered',
         'subject': 'Blähungen?',
         'text'   : 'Haben Sie Blähungen?'
-      },
+      }
     ];
-
-    $http.get('http://jsonplaceholder.typicode.com/posts/1').
-    success(function(data, status, headers, config) {
-      // this callback will be called asynchronously
-      // when the response is available
-      console.log( "SUCCESS:", data, status, headers, config );
-    }).
-    error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-    console.log( "ERROR:", data, status, headers, config );
-    });
-
 
     $http.post('http://pocketdoc.herokuapp.com/login', {name:'admin', password:"1234"}).
     success(function(data, status, headers, config) {
-      // this callback will be called asynchronously
-      // when the response is available
       console.log( "SUCCESS:", data, status, headers, config );
-    }).
-    error(function(data, status, headers, config) {
-    // called asynchronously if an error occurs
-    // or server returns response with an error status.
-    console.log( "ERROR:", data, status, headers, config );
+    }).error(function(data, status, headers, config) {
+      console.log( "ERROR:", data, status, headers, config );
     });
 
 

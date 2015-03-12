@@ -15,9 +15,15 @@ img.status {
   width: 250px;
   height: 250px;
 }
-
+#app .run {
+  width: 100%;
+}
+#app {
+  width: 100%;
+}
 
 #container {
-  max-width: 864px;
+  max-width: 800px;
   margin: auto;
 }
+

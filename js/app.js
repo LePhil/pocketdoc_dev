@@ -22,4 +22,11 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			redirectTo: '/'
 		});
 	}
-]);
+]).
+factory("User", function() {
+	var user = {
+		name: "admin",
+    	id: 3
+	};
+	return user; 
+});

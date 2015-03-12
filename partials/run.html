@@ -4,7 +4,7 @@
       <md-item ng-repeat="question in questions">
         <md-item-content>
           <div class="md-tile-left">
-            <img ng-src="img/stati/{{question.status}}.png" class="status" alt="{{question.status}}">
+            <img ng-src="img/icons/status/{{question.status}}.png" class="status" alt="{{question.status}}">
           </div>
           <div class="md-tile-content">
             <h3>{{question.subject}}</h3>
@@ -20,4 +20,7 @@
   </md-content>
 
   <md-button ng-href="#/" class="md-raised">Zurück</md-button>
+  <md-button ng-click="goBack()" class="md-fab md-primary materialButton" aria-label="Zurück">
+    <md-icon md-svg-src="img/icons/back.svg"></md-icon>
+  </md-button>
 </div>

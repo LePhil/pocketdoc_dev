@@ -3,7 +3,7 @@
 /* Controllers */
 var pocketdocControllers = angular.module('pocketdocControllers', []);
 
-pocketdocControllers.controller('questionController', [ "$http", "$scope", function( $http, $scope ) {
+pocketdocControllers.controller('questionController', [ "$http", "$scope", "$location", function( $http, $scope, $location ) {
     $scope.questions = [
       {
         'id'     : 0,
@@ -52,5 +52,15 @@ pocketdocControllers.controller('questionController', [ "$http", "$scope", funct
 
     $scope.isAnswered = function( question ) {
       return question.status === "unanswered";
+    }
+
+    $scope.goBack = function() {
+      $location.url('/');
+    }
+} ]);
+
+pocketdocControllers.controller('mainController', [ "$http", "$scope", "$location", function( $http, $scope, $location ) {
+    $scope.run = function() {
+      $location.url('/run');
     }
 } ]);

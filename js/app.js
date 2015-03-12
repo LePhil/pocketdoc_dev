@@ -15,7 +15,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			controller: 'questionController'
 		})
 		.when('/', {
-			templateUrl: 'partials/main.html'
+			templateUrl: 'partials/main.html',
+			controller: 'mainController'
 		})
 		.otherwise({
 			redirectTo: '/'

@@ -1,0 +1,23 @@
+<div ng-controller="questionController">
+  <md-content>
+    <md-list>
+      <md-item ng-repeat="question in questions">
+        <md-item-content>
+          <div class="md-tile-left">
+            <img ng-src="img/stati/{{question.status}}.png" class="status" alt="{{question.status}}">
+          </div>
+          <div class="md-tile-content">
+            <h3>{{question.subject}}</h3>
+            <p>{{question.text}}</p>
+          </div>
+          <div class="answers" ng-show="isAnswered(question)">
+            <md-button class="positive md-raised" ng-click="answerQuestion(question, 'positive')">Ja</md-button>
+            <md-button class="negative md-raised" ng-click="answerQuestion(question, 'negative')">Nein</md-button>
+          </div>
+        </md-item-content>
+      </md-item>
+    </md-list>
+  </md-content>
+
+  <md-button ng-href="#/" class="md-raised">Zurück</md-button>
+</div>

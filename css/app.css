@@ -1,9 +1,5 @@
 /* app css stylesheet */
 
-body {
-  padding-top: 20px;
-}
-
 img.status {
   border-radius: 30px;
   border: 1px solid #ddd;
@@ -20,6 +16,7 @@ img.status {
 }
 #app {
   width: 100%;
+  margin: 10px;
 }
 
 #container {

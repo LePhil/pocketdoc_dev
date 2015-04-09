@@ -2,8 +2,8 @@
   "version": "0.0.0",
   "private": true,
   "name": "PocketDoc",
-  "description": "Frontend for PocketDoc",
-  "repository": "https://github.com/LePhil/pockedoc_dev",
+  "description": "Frontend for PocketDoc - Playground",
+  "repository": "https://github.com/LePhil/angularplayground",
   "license": "MIT",
   "dependencies": {
     "node": "latest",

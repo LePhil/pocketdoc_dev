@@ -5,28 +5,34 @@
 var pocketdocApp = angular.module('pocketdocApp', [
   "ngMaterial",
   "pocketdocControllers",
-  "ngRoute"
+  "pocketdocFactories",
+  "ngRoute",
+  "ngCookies",
+  "ngResource"
 ])
-.config(['$routeProvider', '$locationProvider',
-	function($routeProvider, $locationProvider) {
+.config(['$routeProvider', '$locationProvider', '$httpProvider',
+	function($routeProvider, $locationProvider, $httpProvider) {
+
+	    $httpProvider.defaults.useXDomain = true;
+	    $httpProvider.defaults.withCredentials = true;
+		delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+
 		$routeProvider
-		.when('/run', {
-			templateUrl: 'partials/run.html',
-			controller: 'questionController'
-		})
 		.when('/', {
-			templateUrl: 'partials/main.html',
+			templateUrl: 'partials/Splash.html',
 			controller: 'mainController'
 		})
+		.when('/run', {
+			templateUrl: 'partials/Questions.html',
+			controller: 'questionController'
+		})
+        .when('/diagnosis', {
+            templateUrl: 'partials/Diagnosis.html',
+            controller: 'questionController'
+        })
 		.otherwise({
 			redirectTo: '/'
 		});
 	}
-]).
-factory("User", function() {
-	var user = {
-		name: "admin",
-    	id: 3
-	};
-	return user; 
-});
+]);

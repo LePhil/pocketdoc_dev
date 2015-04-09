@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
       <meta name="viewport" content="width=device-width">
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="angular-material/angular-material.min.css">
 	<link rel="stylesheet" href="css/design.css">
 	<!-- Angular Dependencies -->
     <script src="bower_components/angular/angular.min.js"></script>

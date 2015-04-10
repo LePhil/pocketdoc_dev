@@ -6,33 +6,31 @@
 		
 		var UserService = {
 			
-			// Userhandling
-			createUser : function(userData){
+			// Data of User to save
+			createUser : function(userData, success, error){
 				
 			},
 			
-			getUser : function(id){
+			getUser : function(id, success, error){
 				
 			},
 			
-			updateUser : function(userData){
+			// New Data of user to update
+			updateUser : function(userData, success, error){
 				
 			},
 			
-			deleteUser : function(id){
+			deleteUser : function(id, success, error){
+				
+			},
+			
+			loginUser : function(email, password, success, error){
+				
+			},
+			
+			logoutUser : function(id, success, error){
 				
 			}
-			
-			
-			
-			// Run
-			getNextQuestion : function(){
-				
-			},
-			
-			answerQuestion : function(answer){
-				
-			},
 			
 		};
 		
@@ -44,16 +42,20 @@
 		
 		var HistoryService = {
 			
-			// History
-			getUserHistory : function(userId){
+			getUserHistory : function(userId, success, error){
 				
 			},
 			
-			getHistoryEntry : function(id){
+			getHistoryEntry : function(id, success, error){
 				
 			},
 			
-			deleteHistoryEntry : function(id){
+			deleteHistoryEntry : function(id, success, error){
+				
+			},
+			
+			// Data of History entry
+			createHistoryEntry : function(userId, data, success, error){
 				
 			}
 			
@@ -67,22 +69,51 @@
 		
 		var RunService = {
 			
-			// History
-			getUserHistory : function(userId){
+			// Personal data of user (gender, age, ...)
+			startRun : function(userId, data, success, error){
 				
 			},
 			
-			getHistoryEntry : function(id){
+			answerQuestion : function(userId, answerId, success, error){
 				
 			},
 			
-			deleteHistoryEntry : function(id){
+			changeAnswer : function(userId, answerId, success, error){
+				
+			},
+			
+			acceptDiagnosis : function(success, error){
+				
+			}
+		};
+		
+		return RunService;
+		
+	});
+	
+	backend.factory('FollowupService', function(){
+		
+		var FollowupService = {
+			
+			registerFollowup : function(userId, success, error){
+				
+			},
+			
+			startFollowup : function(id, success, error){
+				
+			},
+			
+			deleteFollowup : function(id, success, error){
+				
+			},
+			
+			getFollowups : function(userId, success, error){
 				
 			}
 			
 		};
 		
-		return RunService;
+		return FollowupService;
 		
 	});
 	

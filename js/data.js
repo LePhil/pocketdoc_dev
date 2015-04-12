@@ -34,7 +34,7 @@
 										"text"	: "Yes"
 									}
 								],
-								"next_questions"	: [2,5]
+								"next_questions"	: [2]
 							},
 							{
 								"id"				: 2,
@@ -49,6 +49,64 @@
 									}
 								],
 								"next_questions"	: [3]
+							}
+						],
+						"diagnosis"			: -1,
+						"action_suggestion"	: -1
+					},
+					{
+						"id"				: 2,
+						"type"				: 2, // Slider oder Dropdown
+						"description"		: [
+							{
+								"lang"	: 1,
+								"text"	: "Wie viel °C?"
+							},
+							{
+								"lang"	: 2,
+								"text"	: "How much °C?"
+							}
+						],
+						"answers"			: [
+							{
+								"id"				: 1,
+								"desc"				: [
+									{
+										"lang"	: 1,
+										"text"	: "37 - 38"
+									}
+								],
+								"next_questions"	: [3]
+							},
+							{
+								"id"				: 2,
+								"desc"				: [
+									{
+										"lang"	: 1,
+										"text"	: "38 - 39"
+									}
+								],
+								"next_questions"	: [4]
+							},
+							{
+								"id"				: 3,
+								"desc"				: [
+									{
+										"lang"	: 1,
+										"text"	: "39 - 40"
+									}
+								],
+								"next_questions"	: [5]
+							},
+							{
+								"id"				: 4,
+								"desc"				: [
+									{
+										"lang"	: 1,
+										"text"	: "> 40"
+									}
+								],
+								"next_questions"	: [6]
 							}
 						],
 						"diagnosis"			: -1,
@@ -168,7 +226,7 @@
 					}
 				];
 				
-			}
+			},
 			
 			languages : function(){
 				return [

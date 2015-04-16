@@ -52,6 +52,10 @@
 			
 			logoutUser : function(id, success, error){
 				
+			},
+
+			checkUserData: function(userData, success, error) {
+				
 			}
 			
 		};

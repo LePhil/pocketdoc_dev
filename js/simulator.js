@@ -12,7 +12,7 @@
 			},
 			
 			// Data of User to save
-			createUser : function(userData, success, error){
+			createUser : function(data, success, error){
 				
 				if (typeof(this.currentUser) !== "undefined")
 					error("Ein Benutzer ist aktuell eingeloggt. Bitte zuerst ausloggen.")
@@ -20,25 +20,25 @@
 				var users = localStorage.getItem("users");
 
 				if ( users.length > 0 ) {
-					userData.id = _.max(users, function(user){ return user.id; }) + 1;	//get highest ID and add 1.
+					data.id = _.max(users, function(user){ return user.id; }) + 1;	//get highest ID and add 1.
 				} else {
-					userData.id = 1;	//neat, first user!
+					data.id = 1;	//neat, first user!
 				}
 				
-				users.push(userData);
+				users.push(data);
 				
 				localStorage.setItem( "users", users );
 				
-				this.currentUser = userData;
+				this.currentUser = data;
 				
-				success(userData);
+				success(data);
 			},
 			
-			getUser : function(id, success, error){
+			getUser : function(data, success, error){
 				
 				var users = localStorage.getItem("users");
 				
-				var user = $.grep(users, function(e){ return e.id == id; });
+				var user = $.grep(users, function(e){ return e.id == data.id; });
 				
 				if (user.length == 0)
 					error("Id ist ungültig");
@@ -48,23 +48,23 @@
 			},
 			
 			// New Data of user to update
-			updateUser : function(userData, success, error){
+			updateUser : function(data, success, error){
 				
 			},
 			
-			deleteUser : function(id, success, error){
+			deleteUser : function(data, success, error){
 				
 			},
 			
-			loginUser : function(email, password, success, error){
+			loginUser : function(data, success, error){
 				
 			},
 			
-			logoutUser : function(id, success, error){
+			logoutUser : function(data, success, error){
 				
 			},
 
-			checkUserData: function(userData, success, error) {
+			checkUserData: function(data, success, error) {
 				return true;
 			}
 			
@@ -78,20 +78,20 @@
 		
 		var HistoryService = {
 			
-			getUserHistory : function(userId, success, error){
+			getUserHistory : function(data, success, error){
 				
 			},
 			
-			getHistoryEntry : function(id, success, error){
+			getHistoryEntry : function(data, success, error){
 				
 			},
 			
-			deleteHistoryEntry : function(id, success, error){
+			deleteHistoryEntry : function(data, success, error){
 				
 			},
 			
 			// Data of History entry
-			createHistoryEntry : function(userId, data, success, error){
+			createHistoryEntry : function(data, success, error){
 				
 			}
 			
@@ -184,11 +184,11 @@
 				
 			},
 			
-			changeAnswer : function(answerId, success, error){
+			changeAnswer : function(data, success, error){
 				
 			},
 			
-			acceptDiagnosis : function(success, error){
+			acceptDiagnosis : function(data, success, error){
 				
 				// Aktueller Run aufräumen und beenden
 				delete this.nextQuestions;

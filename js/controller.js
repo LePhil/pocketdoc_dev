@@ -75,6 +75,7 @@
 					function() {
 						
 						RunService.acceptDiagnosis(
+							undefined,
 							function(){
 								$location.url("/diagnosis");
 								DiagnosisData.diagnosis = diagnosis;

@@ -13,7 +13,12 @@
 					error("Ein Benutzer ist aktuell eingeloggt. Bitte zuerst ausloggen.")
 				
 				var users = localStorage.getItem("users");
-				userData.id = users.length;
+
+				if ( users.length > 0 ) {
+					userData.id = _.max(users, function(user){ return user.id; }) + 1;	//get highest ID and add 1.
+				} else {
+					userData.id = 1;	//neat, first user!
+				}
 				
 				users.push(userData);
 				
@@ -55,7 +60,7 @@
 			},
 
 			checkUserData: function(userData, success, error) {
-				
+				return true;
 			}
 			
 		};

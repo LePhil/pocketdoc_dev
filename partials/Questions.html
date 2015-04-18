@@ -2,7 +2,7 @@
 	<md-content>
 		<md-list>
 			<md-item ng-repeat="question in answeredQuestions">
-				<md-item-content>
+				<md-item-content class="answeredQuestion">
 					<md-card layout="row" layout-align="center center" flex>
 						<!--<div class="md-tile-left">
 							<md-icon md-svg-src="images/{{question.status}}.svg" class="answer-{{question.status}}"></md-icon>
@@ -30,6 +30,7 @@
                     <div>Loading...</div>
                 </div>
                 <div ng-hide="loading">
+
 					<div ng-show="currentQuestion.type == 1"  class="md-tile-content">
 						<h3>
 							<span>{{currentQuestion.description}} </span>
@@ -39,6 +40,7 @@
 							<md-button flex="50" class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[1])">{{currentQuestion.answers[1].desc}}</md-button>
 						</div>
 					</div>
+
 					<div ng-show="currentQuestion.type == 2"  class="md-tile-content">
 						<h3>
 							<span>{{currentQuestion.description}} </span>
@@ -51,6 +53,7 @@
 							<md-button flex class="md-raised md-warn answer-button" ng-click="answerQuestion(givenAnswer)">Bestätigen</md-button>
 						</div>
 					</div>
+
 					<div ng-show="currentQuestion.type == 3"  class="md-tile-content">
 						<h3>
 							<span>{{currentQuestion.description}} </span>
@@ -66,6 +69,7 @@
 							<md-button flex class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[givenAnswer-1])">Bestätigen</md-button>
 						</div>
 					</div>
+
 					<div ng-show="currentQuestion.type == 4"  class="md-tile-content">
 						<h3>
 							<span>{{currentQuestion.description}} </span>

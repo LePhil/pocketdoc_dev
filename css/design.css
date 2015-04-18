@@ -18,3 +18,22 @@ md-toolbar h1
 	margin: 3px;
 }
 
+html {
+	background-image: url("../images/agsquare.png");
+}
+
+body {
+}
+
+#currentQuestion,
+.answeredQuestion,
+.diagnosis,
+#contentContainer {
+	width: 100%;
+	max-width: 960px;
+	margin: 0 auto;
+}
+
+#mainRun {
+	margin-bottom: 10px;
+}

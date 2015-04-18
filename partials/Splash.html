@@ -14,11 +14,10 @@
 		
 		<p>Bitte wählen Sie aus nachfolgender Liste eine Ihnen gut bekannte Krankheit aus und gehen Sie den Dialog von PocketDok durch. Wir wünschen Ihnen viel Spass und freuen uns über Ihr Feedback!</p>
 	</div>
-	<div ng-controller="mainController">
-		<md-content>
-			<md-card>
-				<md-button class="md-raised md-primary" ng-click="run()">Diagnose starten!</md-button>
-			</md-card>
-		</md-content>
+	<div ng-controller="mainController" id="mainRun" layout="row" layout-align="end center">
+        <md-button class="md-primary" ng-click="run()">Diagnose jetzt starten!</md-button>
+		<md-button class="md-fab md-primary" ng-click="run()" aria-label="Diagnose jetzt starten!">
+			<md-icon md-svg-src="images/icons/play.svg" style="color: white;"></md-icon>
+		</md-button>
 	</div>
 </div>

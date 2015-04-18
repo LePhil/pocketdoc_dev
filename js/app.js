@@ -6,12 +6,13 @@ var pocketdocApp = angular.module('pocketdocApp', [
   "ngMaterial",
   "pocketdocControllers",
   "pocketdocFactories",
+  "pocketdocBackend",
   "ngRoute",
   "ngCookies",
   "ngResource"
 ])
-.config(['$routeProvider', '$locationProvider', '$httpProvider',
-	function($routeProvider, $locationProvider, $httpProvider) {
+.config(['$routeProvider', '$locationProvider', '$httpProvider', '$mdThemingProvider',
+	function($routeProvider, $locationProvider, $httpProvider, $mdThemingProvider) {
 
 	    $httpProvider.defaults.useXDomain = true;
 	    $httpProvider.defaults.withCredentials = true;
@@ -29,10 +30,13 @@ var pocketdocApp = angular.module('pocketdocApp', [
 		})
         .when('/diagnosis', {
             templateUrl: 'partials/Diagnosis.html',
-            controller: 'questionController'
+            controller: 'diagnosisController'
         })
 		.otherwise({
 			redirectTo: '/'
 		});
+		
+		$mdThemingProvider.theme('default')
+			.accentPalette('green');
 	}
 ]);

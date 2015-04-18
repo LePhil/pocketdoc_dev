@@ -1,11 +1,16 @@
 (function(){
 
-	var backend = angular.module('pocketdocBackend', []);
+	var backend = angular.module('pocketdocBackend', ['pocketdocData']);
 	
 	backend.factory('UserService', function(){
 		
 		var UserService = {
-						
+			
+			currentUser : {
+				id : -1,
+				lang : 1
+			},
+			
 			// Data of User to save
 			createUser : function(userData, success, error){
 				
@@ -87,7 +92,7 @@
 		
 	});
 	
-	backend.factory('RunService', ['UserService', 'DataService', function(UserService, DataService){
+	backend.factory('RunService', ['UserService', 'DataService', 'LanguageService', 'UtilService', function(UserService, DataService, LanguageService, UtilService){
 		
 		var RunService = {
 			
@@ -95,66 +100,74 @@
 			startRun : function(data, success, error){
 				
 				this.nextQuestions = [];
-				getQuestionData(0, success, error);
+				this.getQuestionData(1, success, error);
 				
 			},
 			
-			answerQuestion : function(answer, success, error){
+			answerQuestion : function(data, success, error){
 				
-				this.nextQuestions.push(answer.next_questions);
+				var currQuestion = this.currentQuestion;
+				var answerObj = UtilService.getElementById(data.answerId, currQuestion.answers );
+				
+				this.nextQuestions.push(answerObj.next_questions);
 				
 				if (this.nextQuestions.length == 0)
 					error("Ups, uns sind die Fragen ausgegangen.");
 				
-				getQuestionData(nextQuestions.pop(), success, error);
+				this.getQuestionData(this.nextQuestions.pop(), success, error);
 				
 			},
 			
 			getQuestionData : function(questionId, success, error){
 				
 				var questions = DataService.questions();
-				var firstQuestion = questions[questionId];
+				var firstQuestion = UtilService.getElementById(questionId, questions);
 				
 				var questionResult = {};
 				
 				var answerTexts = [];
 				
+				this.currentQuestion = firstQuestion;
+				
 				// Set type
 				questionResult.type = firstQuestion.type;
 				
 				// Set Question Text 
-				var questionText = firstQuestion.description[UserService.currentUser.lang].text;
+				var questionText = LanguageService.getCurrentLanguageObject(UserService.currentUser.lang, firstQuestion.description);
 				questionResult.description = questionText.text;
 				
 				// Set Answer Texts
 				for(var i = 0; i < firstQuestion.answers.length; i++)
 				{
-					var desc = firstQuestion.answers[i].desc[UserService.currentUser.lang].text;
+					var desc = LanguageService.getCurrentLanguageObject(UserService.currentUser.lang, firstQuestion.answers[i].desc);
 					answerTexts.push(
 						{
 							id : firstQuestion.answers[i].id,
-							desc : desc.text,
-							next_questions : firstQuestion.answers[i].next_questions
+							desc : desc.text
 						}
 					);
 				}
 				
+				questionResult.answers = answerTexts;
+				
 				// Set Diagnosis
 				if (firstQuestion.diagnosis >= 0)
 				{
-					var diagnosis = DataService.diagnoses[firstQuestion.diagnosis];
+					var diagnoses = DataService.diagnoses();
+					var diagnosis = UtilService.getElementById(firstQuestion.diagnosis, diagnoses);
 					questionResult.diagnosis = {
-						short_desc : diagnosis.short_desc[UserService.currentUser.lang].text,
-						description : diagnosis.description[UserService.currentUser.lang].text
+						short_desc : LanguageService.getCurrentLanguageObject(UserService.currentUser.lang, diagnosis.short_desc).text,
+						description : LanguageService.getCurrentLanguageObject(UserService.currentUser.lang, diagnosis.description).text
 					};
 				}
 				
 				// Set Action suggestion
 				if (firstQuestion.action_suggestion >= 0)
 				{
-					var action_suggestion = DataService.actionSuggestions[firstQuestion.action_suggestion];
+					var action_suggestions = DataService.actionSuggestions();
+					var action_suggestion = UtilService.getElementById(firstQuestion.action_suggestion, action_suggestions);
 					questionResult.action_suggestion = {
-						description : action_suggestion.description[UserService.currentUser.lang].text
+						description : LanguageService.getCurrentLanguageObject(UserService.currentUser.lang, action_suggestion.description).text
 					};
 				}
 				
@@ -170,7 +183,7 @@
 				
 				// Aktueller Run aufräumen und beenden
 				delete this.nextQuestions;
-				
+				success();
 			}
 		};
 		
@@ -211,12 +224,27 @@
 			getCurrentLanguageObject : function(langId, dataArray){
 				
 				var obj = $.grep(dataArray, function(e){ return e.lang == langId; });
-				return obj;
+				return obj[0];
 			}
 			
 		};
 		
 		return LanguageService;
+		
+	});
+	
+	backend.factory('UtilService', function(){
+		
+		var UtilService = {
+			
+			getElementById : function(id, array){
+				var obj = $.grep(array, function(e){ return e.id == id; });
+				return obj[0];
+			}
+			
+		};
+		
+		return UtilService;
 		
 	});
 	

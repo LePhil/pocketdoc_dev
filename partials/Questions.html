@@ -31,34 +31,27 @@
                 </div>
                 <div ng-hide="loading">
 
-					<div ng-show="currentQuestion.type == 1"  class="md-tile-content">
+					<div class="md-tile-content">
 						<h3>
 							<span>{{currentQuestion.description}} </span>
 						</h3>
-						<div layout="row">
-							<md-button flex="50" class="md-raised md-accent answer-button" ng-click="answerQuestion(currentQuestion.answers[0])">{{currentQuestion.answers[0].desc}}</md-button>
-							<md-button flex="50" class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[1])">{{currentQuestion.answers[1].desc}}</md-button>
+						
+						<div ng-show="currentQuestion.type == 1" layout="row" layout-align="center center">
+							<md-button flex="25" class="md-raised md-accent answer-button" ng-click="answerQuestion(currentQuestion.answers[0])">{{currentQuestion.answers[0].desc}}</md-button>
+							<md-button flex="25" class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[1])">{{currentQuestion.answers[1].desc}}</md-button>
 						</div>
-					</div>
-
-					<div ng-show="currentQuestion.type == 2"  class="md-tile-content">
-						<h3>
-							<span>{{currentQuestion.description}} </span>
-						</h3>
-						<div layout="column">
+					
+						<div ng-show="currentQuestion.type == 2" layout="column">
 							<md-select ng-model="givenAnswer" style="min-width: 200px;">
 								<md-select-label>{{ givenAnswer ? givenAnswer.desc : 'Bitte auswählen' }}</md-select-label>
 								<md-option ng-value="answer" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-option>
 							</md-select>
-							<md-button flex class="md-raised md-warn answer-button" ng-click="answerQuestion(givenAnswer)">Bestätigen</md-button>
+							<div layout="row" layout-align="center center">
+								<md-button flex="50" class="md-raised md-warn answer-button" ng-click="answerQuestion(givenAnswer)">Bestätigen</md-button>
+							</div>
 						</div>
-					</div>
 
-					<div ng-show="currentQuestion.type == 3"  class="md-tile-content">
-						<h3>
-							<span>{{currentQuestion.description}} </span>
-						</h3>
-						<div layout="column">
+						<div ng-show="currentQuestion.type == 3" layout="column">
 							<div layout="row">
 								<div flex="10">
 									<span class="md-body-1" layout-align="center center">{{currentQuestion.answers[givenAnswer - 1].desc}}</span>
@@ -66,16 +59,14 @@
 								<md-slider flex ng-model="givenAnswer" min="1" max="{{currentQuestion.answers.length}}" step="1" md-discrete >
 								</md-slider>
 							</div>
-							<md-button flex class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[givenAnswer-1])">Bestätigen</md-button>
+							<div layout="row" layout-align="center center">
+								<md-button flex="50" class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[givenAnswer-1])">Bestätigen</md-button>
+							</div>
 						</div>
-					</div>
 
-					<div ng-show="currentQuestion.type == 4"  class="md-tile-content">
-						<h3>
-							<span>{{currentQuestion.description}} </span>
-						</h3>
-						<div layout="row">
-							<md-button flex style="answer-button" ng-repeat="answer in currentQuestion.answers" ng-click="answerQuestion(answer)">{{answer.desc}}</md-button>
+
+						<div ng-show="currentQuestion.type == 4" layout="row" layout-align="center center">
+							<md-button flex="50" style="answer-button" ng-repeat="answer in currentQuestion.answers" ng-click="answerQuestion(answer)">{{answer.desc}}</md-button>
 						</div>
 					</div>
                 </div>

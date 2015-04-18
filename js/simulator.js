@@ -22,7 +22,7 @@
 				
 				users.push(userData);
 				
-				localStorage.setItem("users", userData);
+				localStorage.setItem( "users", users );
 				
 				this.currentUser = userData;
 				
@@ -56,6 +56,10 @@
 			},
 			
 			logoutUser : function(id, success, error){
+				
+			},
+
+			checkUserData: function(userData, success, error) {
 				
 			}
 			

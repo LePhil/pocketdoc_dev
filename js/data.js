@@ -492,7 +492,7 @@
 							},
 							{
 								"lang"	: 2,
-								"text"	: "Go to a doctor."
+								"text"	: "Go visit a doctor."
 							}
 						]
 					}
@@ -514,53 +514,32 @@
 			},
 			
 			histories : function(){
-				
 				return [
 					{
-						"id"				: 1,
-						"user_id"			: 1,
-						"timestamp"			: "2015-04-10",
-						"different_person"	: false,
-						"diagnosis"			: {
-							"id"				: 1,
-							"description"		: [
-								{
-									"lang"			: 1,
-									"text"			: "Erkältung"
-								},
-								{
-									"lang"			: 2,
-									"text"			: "Cold"
-								}
-							]
+						"id": 1,
+						"user_id": 1,
+						"timestamp": "2015-04-10 09:12:34",
+						"patient": {
+							"self": true /* if false, here would be more information to the "treated" pationt, like name, age, ... */
 						},
-						"questions"			: [
+						"content": [
 							{
-								"description"		: [
-									{
-										"lang"	: 1,
-										"text"	: "Haben sie Fieber?"
-									},
-									{
-										"lang"	: 2,
-										"text"	: "Do you have fever?"
-									}
-								],
-								"answer"			: {
-									"desc"				: [
-										{
-											"lang"	: 1,
-											"text"	: "ja"
-										},
-										{
-											"lang"	: 2,
-											"text"	: "yes"
-										}
-									]
-								}
+								"type": "answer",
+								"id": 1,
+								"answer": 1
+							}, {
+								"type": "answer",
+								"id": 2,
+								"answer": 2
+							}, {
+								"type": "diagnosis",
+								"id": 1,
+								"accepted": true
+							}, {
+								"type": "actionSuggestion",
+								"id": 1
 							}
 						]
-						
 					}
 				];
 				
@@ -569,12 +548,29 @@
 			languages : function(){
 				return [
 					{
-						"id"	: 1,
-						"image"	: "german.png"
-					},
-					{
-						"id"	: 2,
-						"image"	: "english.png"
+						"id": 1,
+						"desc"  : [
+							{
+								"lang": 1,
+								"text": "Deutsch"
+							}, {
+								"lang": 2,
+								"text": "German"
+							}
+						],
+						"image": "german.png"
+					}, {
+						"id": 2,
+						"desc"  : [
+							{
+								"lang": 1,
+								"text": "Englisch"
+							}, {
+								"lang": 2,
+								"text": "English"
+							}
+						],
+						"image": "english.png"
 					}
 				];
 			}

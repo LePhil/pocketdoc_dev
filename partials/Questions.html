@@ -29,8 +29,7 @@
                     <md-progress-circular md-mode="indeterminate" ng-show="loading"></md-progress-circular>
                     <div>Loading...</div>
                 </div>
-                <div ng-hide="loading">
-
+                <div ng-hide="loading || hidden">
 					<div class="md-tile-content">
 						<h3>
 							<span>{{currentQuestion.description}} </span>

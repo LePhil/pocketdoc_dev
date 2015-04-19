@@ -6,7 +6,8 @@
 		['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog',
 		function( $scope, $location, RunService, DiagnosisData, $mdDialog ) {
 
-			$scope.loading = true;
+            $scope.loading = true;
+			$scope.hidden = true;
 			
 			RunService.startRun(
 				"",
@@ -15,7 +16,8 @@
 					console.log(questionData);
 					$scope.currentQuestion = questionData;
 					$scope.answeredQuestions = [];
-					$scope.loading = false;
+                    $scope.loading = false;
+					$scope.hidden = false;
 				},
 				function(error){
 					alert(error);
@@ -23,12 +25,13 @@
 			);
 			
 			$scope.answerQuestion = function(givenAnswer){
-				
-				$scope.loading = true;
-				console.log(givenAnswer);
+                $scope.loading = true;
+				$scope.hidden = true;
+
+				console.log("Given answer:", givenAnswer);
 				RunService.answerQuestion(
 					{
-							answerId : givenAnswer.id
+						answerId : givenAnswer.id
 					},
 					function(questionData){
 						// Success
@@ -40,21 +43,22 @@
 							}
 						);
 						
-						console.log($scope.answeredQuestions);
-						
-						// Neue Frage anzeigen
+						// Show new question
 						$scope.currentQuestion = questionData;
 						$scope.givenAnswer = undefined;
 						$scope.loading = false;
 						
-						if ($scope.currentQuestion.type == 3)
+						if ($scope.currentQuestion.type == 3) {
 							$scope.givenAnswer = 1;
+                        }
 						
-						if (typeof(questionData.diagnosis) !== "undefined")
-						{
+                        // If diagnosis exists, show it
+						if (typeof(questionData.diagnosis) !== "undefined") {
 							$scope.showDiagnosis(questionData.diagnosis, questionData.action_suggestion);
-						}
-					}, 
+						} else {
+                            $scope.showNewQuestion();
+                        }
+					},
 					function(error){
 						alert(error);
 					}
@@ -88,11 +92,17 @@
 						
 					},
 					function() {
+                        $scope.showNewQuestion();
 						console.log( "No, continue" );
 					}
 				);
 					
 			};
+
+            $scope.showNewQuestion = function() {
+                console.log( "showin new question" );
+                $scope.hidden = false;
+            };
 
 		} 
 	]);

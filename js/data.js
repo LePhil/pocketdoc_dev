@@ -130,11 +130,11 @@
 						"description"		: [
 							{
 								"lang"	: 1,
-								"text"	: "Haben sie Fieber?"
+								"text"	: "Haben Sie Fieber?"
 							},
 							{
 								"lang"	: 2,
-								"text"	: "Do you have fever?"
+								"text"	: "Do you have a temperature?"
 							}
 						],
 						"answers"			: [
@@ -176,7 +176,7 @@
 						"description"		: [
 							{
 								"lang"	: 1,
-								"text"	: "Haben sie Schmerzen?"
+								"text"	: "Haben Sie Schmerzen?"
 							},
 							{
 								"lang"	: 2,
@@ -226,7 +226,7 @@
 							},
 							{
 								"lang"	: 2,
-								"text"	: "How strong are the pains?"
+								"text"	: "How strong is the pain?"
 							}
 						],
 						"answers"			: [
@@ -374,7 +374,7 @@
 						"description"		: [
 							{
 								"lang"	: 1,
-								"text"	: "Haben sie Husten?"
+								"text"	: "Haben Sie Husten?"
 							},
 							{
 								"lang"	: 2,
@@ -475,7 +475,7 @@
 						"description"	: [
 							{
 								"lang"	: 1,
-								"text"	: "Behandeln sie sich zu Hause."
+								"text"	: "Behandeln Sie sich zu Hause."
 							},
 							{
 								"lang"	: 2,
@@ -488,7 +488,7 @@
 						"description"	: [
 							{
 								"lang"	: 1,
-								"text"	: "Suchen sie einen Arzt auf."
+								"text"	: "Suchen Sie einen Arzt auf."
 							},
 							{
 								"lang"	: 2,

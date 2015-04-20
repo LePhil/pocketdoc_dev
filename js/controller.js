@@ -123,7 +123,7 @@
         $scope.language = "de";
         
         $scope.openLanguageBar = function() {
-            $scope.languageBarOpen = true;
+            $scope.languageBarOpen = !$scope.languageBarOpen;
         };
         $scope.changeLanguage = function( lang ) {
             $scope.languageBarOpen = false;

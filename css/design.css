@@ -28,7 +28,8 @@ body {
 #currentQuestion,
 .answeredQuestion,
 .diagnosis,
-#contentContainer {
+#contentContainer,
+#headerbar {
 	width: 100%;
 	max-width: 960px;
 	margin: 0 auto;
@@ -36,4 +37,9 @@ body {
 
 #mainRun {
 	margin-bottom: 10px;
+}
+
+.md-icon-button .s36 {
+	width: 36px;
+	height: 36px;
 }

@@ -210,7 +210,7 @@
 										"text"	: "No"
 									}
 								],
-								"next_questions"	: [4]
+								"next_questions"	: [7]
 							}
 						],
 						"diagnosis"			: -1,

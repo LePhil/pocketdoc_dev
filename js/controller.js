@@ -65,46 +65,42 @@
 				);
 			};
 			
-			$scope.showDiagnosis = function(diagnosis, actionSuggestion){
-				
-				var confirm = $mdDialog.confirm()
+			$scope.showDiagnosis = function(diagnosis, actionSuggestion) {
+                var confirm = $mdDialog.confirm()
                 .title('Diagnose Gefunden')
                 .content( diagnosis.description )
                 .ariaLabel('Lucky day')
                 .ok('Ja, Details einsehen')
                 .cancel('Nein, weitere Fragen beantworten.')
-				.clickOutsideToClose(false);
+                .clickOutsideToClose(false);
 
-				$mdDialog.show(confirm).then(
-					function() {
-						
-						RunService.acceptDiagnosis(
-							undefined,
-							function(){
-								$location.url("/diagnosis");
-								DiagnosisData.diagnosis = diagnosis;
-								DiagnosisData.actionSuggestion = actionSuggestion;
-							},
-							function(error){
-								alert(error);
-							}
-						);
-						
-					},
-					function() {
+                $mdDialog.show(confirm).then(
+                    function() {
+                        RunService.acceptDiagnosis(
+                            undefined,
+                            function(){
+                                $location.url("/diagnosis");
+                                DiagnosisData.diagnosis = diagnosis;
+                                DiagnosisData.actionSuggestion = actionSuggestion;
+                            },
+                            function(error){
+                                alert(error);
+                            }
+                        );
+                        
+                    },
+                    function() {
                         $scope.showNewQuestion();
-						console.log( "No, continue" );
-					}
-				);
-					
+                        console.log( "No, continue" );
+                    }
+                );
 			};
 
             $scope.showNewQuestion = function() {
-                console.log( "showin new question" );
                 $scope.hidden = false;
             };
 
-		} 
+		}
 	]);
 	
 	pocketdocControllers.controller('diagnosisController', ['$scope','DiagnosisData', function($scope, DiagnosisData){
@@ -120,5 +116,56 @@
 		  $location.url('/run');
 		};
 	} ]);
-	
+
+    pocketdocControllers.controller('HeaderController', ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', function($scope, $mdDialog, $timeout, $mdSidenav, $log) {
+        $scope.language = false;
+        
+        $scope.changeLanguage = function() {
+            $scope.language = !$scope.language;
+        }
+
+        $scope.toggleRight = buildToggler('right');
+        /**
+         * Build handler to open/close a SideNav; when animation finishes
+         * report completion in console
+         */
+        function buildToggler(navID) {
+            return function() {
+                return $mdSidenav(navID).toggle()
+                    .then(function () {
+                        $log.debug("toggle " + navID + " is done");
+                    });
+            }
+        }
+
+        $scope.close = function () {
+            $mdSidenav('right').close()
+            .then(function () {
+                $log.debug("close RIGHT is done");
+            });
+        };
+
+        $scope.profile = function() {
+            $scope.notImplementedYet("Profil");
+        }
+        $scope.logout = function() {
+            $scope.notImplementedYet("Logout");
+        }
+        $scope.login = function() {
+            $scope.notImplementedYet("Login");
+        }
+        $scope.register = function() {
+            $scope.notImplementedYet("Registrieren");
+        }
+
+        $scope.notImplementedYet = function( functionality ) {
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .title('Noch nicht implementiert')
+                    .content('Die Funktion "' + functionality + '" wurde noch nicht implementiert.' )
+                    .ariaLabel('Noch nicht implementiert')
+                    .ok('OK')
+            );
+        };
+    }]);
 })();

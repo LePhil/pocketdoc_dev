@@ -29,7 +29,8 @@ body {
 .answeredQuestion,
 .diagnosis,
 #contentContainer,
-#headerbar {
+#headerbar,
+#languagebar {
 	width: 100%;
 	max-width: 960px;
 	margin: 0 auto;

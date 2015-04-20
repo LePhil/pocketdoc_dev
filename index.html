@@ -17,6 +17,7 @@
     <script src="bower_components/angular-aria/angular-aria.min.js"></script>
 	<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
 	<script src="bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="bower_components/angular-translate/angular-translate.min.js"></script>
 	
 	<!-- Angular Material Dependencies -->
     <script src="bower_components/angular-material/angular-material.min.js"></script>
@@ -34,12 +35,13 @@
 	
   </head>
 
+  <!-- TODO: extract all of this -->
   <body layout="column">
   	<div ng-controller="HeaderController">
 		<md-toolbar>
 			<div id="headerbar" class="md-toolbar-tools">
-				<md-button class="md-icon-button" aria-label="Sprache" ng-click="changeLanguage()">
-					<md-icon md-svg-icon="images/icons/german.svg" class="s36"></md-icon>
+				<md-button class="md-icon-button" aria-label="Sprache" ng-click="openLanguageBar()">
+					<md-icon md-svg-icon="images/icons/{{language}}.svg" class="s36"></md-icon>
 				</md-button>
 				<span flex></span>
 				<h2>
@@ -52,16 +54,16 @@
 			</div>
 		</md-toolbar>
 
-		<md-subheader id="languagebar" ng-show="language" class="md-primary">
+		<md-subheader id="languagebar" ng-show="languageBarOpen" class="md-primary">
 			<md-content layout="row" flex>
-				<md-button class="md-icon-button" aria-label="Deutsch">
-					<md-icon md-svg-icon="images/icons/german.svg" class="s36"></md-icon>
+				<md-button class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage('de')">
+					<md-icon md-svg-icon="images/icons/de.svg" class="s36"></md-icon>
 				</md-button>
-				<md-button class="md-icon-button" aria-label="English">
-					<md-icon md-svg-icon="images/icons/english.svg" class="s36"></md-icon>
+				<md-button class="md-icon-button" aria-label="English" ng-click="changeLanguage('en')">
+					<md-icon md-svg-icon="images/icons/en.svg" class="s36"></md-icon>
 				</md-button>
-				<md-button class="md-icon-button" aria-label="Français">
-					<md-icon md-svg-icon="images/icons/french.svg" class="s36"></md-icon>
+				<md-button class="md-icon-button" aria-label="Français" ng-click="changeLanguage('fr')">
+					<md-icon md-svg-icon="images/icons/fr.svg" class="s36"></md-icon>
 				</md-button>
 			</md-content>
 		</md-subheader>
@@ -92,7 +94,6 @@
         </div>
       </md-content>
     </md-sidenav>
-
 
     <div layout="row" flex>
         <div layout="column" flex id="content">

@@ -15,6 +15,7 @@
     "angular-animate": "latest",
     "angular-material": "latest",
     "angular-cookies": "latest",
+    "angular-translate": "latest",
     "underscore": "latest"
   }
 }

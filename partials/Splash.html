@@ -3,7 +3,7 @@
 		<img id="logo" src="images/PocketDocMaskottchen.jpg">
 	</div>
 	<div layout="column">
-
+		<h2>{{ 'main_welcome' | translate }}</h2>
 		<h3>Liebe Testuserin, lieber Testuser</h3>
 		<p>PocketDok ist ein neuartiges, elektronisches Patienten-Empowerment Programm. Es hilft erkrankten Menschen über einen natürlichen Dialog eine erste Diagnose zu erhalten und gibt ihnen eine Entscheidungsgrundlage für die weitere Behandlung. PocketDok empfiehlt Hausmittel, erkundigt sich nach dem Verlauf der Krankheit oder rät bei Bedarf zum Aufsuchen eines Arztes. PocketDok kann als mobile App und Website betrieben oder in eine bestehende Anwendung integriert werden.</p>
 		
@@ -15,7 +15,7 @@
 		<p>Bitte wählen Sie aus nachfolgender Liste eine Ihnen gut bekannte Krankheit aus und gehen Sie den Dialog von PocketDok durch. Wir wünschen Ihnen viel Spass und freuen uns über Ihr Feedback!</p>
 	</div>
 	<div ng-controller="mainController" id="mainRun" layout="row" layout-align="end center">
-        <md-button class="md-primary" ng-click="run()">Diagnose jetzt starten!</md-button>
+        <md-button class="md-primary" ng-click="run()">{{ 'main_startDiagnosis' | translate }}</md-button>
 		<md-button class="md-fab md-primary" ng-click="run()" aria-label="Diagnose jetzt starten!">
 			<md-icon md-svg-src="images/icons/play.svg" style="color: white;"></md-icon>
 		</md-button>

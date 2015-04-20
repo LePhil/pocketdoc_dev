@@ -9,10 +9,11 @@ var pocketdocApp = angular.module('pocketdocApp', [
   "pocketdocBackend",
   "ngRoute",
   "ngCookies",
-  "ngResource"
+  "ngResource",
+  "pascalprecht.translate"
 ])
-.config(['$routeProvider', '$locationProvider', '$httpProvider', '$mdThemingProvider',
-	function($routeProvider, $locationProvider, $httpProvider, $mdThemingProvider) {
+.config(['$routeProvider', '$locationProvider', '$httpProvider', '$mdThemingProvider', '$translateProvider',
+	function($routeProvider, $locationProvider, $httpProvider, $mdThemingProvider, $translateProvider) {
 
 	    $httpProvider.defaults.useXDomain = true;
 	    $httpProvider.defaults.withCredentials = true;
@@ -28,15 +29,25 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			templateUrl: 'partials/Questions.html',
 			controller: 'questionController'
 		})
-        .when('/diagnosis', {
-            templateUrl: 'partials/Diagnosis.html',
-            controller: 'diagnosisController'
-        })
+		.when('/diagnosis', {
+			templateUrl: 'partials/Diagnosis.html',
+			controller: 'diagnosisController'
+		})
 		.otherwise({
 			redirectTo: '/'
 		});
 		
-		$mdThemingProvider.theme('default')
-			.accentPalette('green');
+		$mdThemingProvider.theme('default').accentPalette('green');
+
+		$translateProvider.translations('de', {
+			main_startDiagnosis: 'Diagnose jetzt starten!',
+			main_welcome: 'Willkommen!'
+		});
+		$translateProvider.translations('en', {
+			main_startDiagnosis: 'Start Diagnosis now!',
+			main_welcome: 'Welcome!'
+		});
+
+		$translateProvider.preferredLanguage('de');
 	}
 ]);

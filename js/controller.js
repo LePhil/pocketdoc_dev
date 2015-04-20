@@ -110,19 +110,30 @@
 		
 	}]);
 	
-	pocketdocControllers.controller('mainController', [ '$scope', '$location', '$http', function( $scope, $location,  $http ) {
+	pocketdocControllers.controller('mainController', [ '$scope', '$location', '$http', '$translate', function( $scope, $location, $http, $translate ) {
 
         $scope.run = function() {
 		  $location.url('/run');
 		};
 	} ]);
 
-    pocketdocControllers.controller('HeaderController', ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', function($scope, $mdDialog, $timeout, $mdSidenav, $log) {
-        $scope.language = false;
+    pocketdocControllers.controller('HeaderController', ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate',
+                                                function( $scope, $mdDialog, $timeout, $mdSidenav, $log, $translate ) {
+        $scope.languageBarOpen = false;
+        $scope.language = "de";
         
-        $scope.changeLanguage = function() {
-            $scope.language = !$scope.language;
-        }
+        $scope.openLanguageBar = function() {
+            $scope.languageBarOpen = true;
+        };
+        $scope.changeLanguage = function( lang ) {
+            $scope.languageBarOpen = false;
+            $scope.language = lang;
+            $translate.use( lang ).then(function (lang) {
+                console.log("Sprache zu " + lang + " gewechselt.");
+            }, function ( lang ) {
+                console.log("Irgendwas lief schief.");
+            });
+        };
 
         $scope.toggleRight = buildToggler('right');
         /**

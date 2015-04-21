@@ -27,7 +27,8 @@
 			$scope.answerQuestion = function(givenAnswer){
                 $scope.loading = true;
 				$scope.hidden = true;
-
+				
+				alert("answer question!");
 				console.log("Given answer:", givenAnswer);
 				RunService.answerQuestion(
 					{
@@ -36,6 +37,7 @@
 					function(questionData){
 						// Success
 						// Vorherige Frage in die Liste einfügen
+						alert("Question Answered!");
 						$scope.answeredQuestions.push(
 							{
 								question: $scope.currentQuestion,
@@ -76,6 +78,7 @@
 
                 $mdDialog.show(confirm).then(
                     function() {
+						alert("Diagnosis show!");
                         RunService.acceptDiagnosis(
                             undefined,
                             function(){

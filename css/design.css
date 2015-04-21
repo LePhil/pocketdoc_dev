@@ -13,6 +13,10 @@ md-toolbar h1
   margin: auto;
 }
 
+md-list{
+	padding : 0;
+}
+
 .answer-button
 {
 	margin: 3px;

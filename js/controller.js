@@ -90,6 +90,7 @@
                         
                     },
                     function() {
+						alert("Weiter");
                         $scope.showNewQuestion();
                         console.log( "No, continue" );
                     }

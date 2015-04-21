@@ -13,7 +13,7 @@
     "angular-route": "latest",
     "angular-resource": "latest",
     "angular-animate": "latest",
-    "angular-material": "latest",
+    "angular-material": "master",
     "angular-cookies": "latest",
     "angular-translate": "latest",
     "underscore": "latest"

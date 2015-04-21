@@ -90,7 +90,6 @@
                         
                     },
                     function() {
-						alert("Weiter");
                         $scope.showNewQuestion();
                         console.log( "No, continue" );
                     }
@@ -98,6 +97,7 @@
 			};
 
             $scope.showNewQuestion = function() {
+				$scope.loading = false;
                 $scope.hidden = false;
             };
 
@@ -124,9 +124,11 @@
         $scope.language = "de";
         
         $scope.openLanguageBar = function() {
+			alert("language")
             $scope.languageBarOpen = !$scope.languageBarOpen;
         };
         $scope.changeLanguage = function( lang ) {
+			alert("language set");
             $scope.languageBarOpen = false;
             $scope.language = lang;
             $translate.use( lang ).then(function (lang) {

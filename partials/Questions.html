@@ -36,8 +36,8 @@
 						</h3>
 						<!-- TODO: clean up -->
 						<div ng-show="currentQuestion.type == 1" layout="row" layout-align="center center">
-							<md-button flex="25" class="md-raised md-accent answer-button" ng-click="answerQuestion(currentQuestion.answers[0], $event); $event.stopPropagation();">{{currentQuestion.answers[0].desc}}</md-button>
-							<md-button flex="25" class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[1], $event); $event.stopPropagation();">{{currentQuestion.answers[1].desc}}</md-button>
+							<md-button flex="25" class="md-raised md-accent answer-button" ng-click="answerQuestion(currentQuestion.answers[0])">{{currentQuestion.answers[0].desc}}</md-button>
+							<md-button flex="25" class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[1])">{{currentQuestion.answers[1].desc}}</md-button>
 						</div>
 					
 						<!-- SELECT -->
@@ -47,7 +47,7 @@
 								<md-option ng-value="answer" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-option>
 							</md-select>
 							<div layout="row" layout-align="center center">
-								<md-button flex="50" ng-show="givenAnswer" class="md-raised md-warn answer-button" ng-click="answerQuestion(givenAnswer, $event); $event.stopPropagation();">Bestätigen</md-button>
+								<md-button flex="50" ng-show="givenAnswer" class="md-raised md-warn answer-button" ng-click="answerQuestion(givenAnswer)">Bestätigen</md-button>
 							</div>
 						</div>
 
@@ -61,13 +61,13 @@
 								</md-slider>
 							</div>
 							<div layout="row" layout-align="center center">
-								<md-button flex="50" class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[givenAnswer-1], $event); $event.stopPropagation();">Bestätigen</md-button>
+								<md-button flex="50" class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[givenAnswer-1])">Bestätigen</md-button>
 							</div>
 						</div>
 
 						<!--  -->
 						<div ng-show="currentQuestion.type == 4" layout="row" layout-align="center center">
-							<md-button flex="50" style="answer-button" ng-repeat="answer in currentQuestion.answers" ng-click="answerQuestion(answer, $event); $event.stopPropagation();">{{answer.desc}}</md-button>
+							<md-button flex="50" style="answer-button" ng-repeat="answer in currentQuestion.answers" ng-click="answerQuestion(answer)">{{answer.desc}}</md-button>
 						</div>
 					</div>
                 </div>

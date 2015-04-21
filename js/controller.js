@@ -24,11 +24,9 @@
 				}
 			);
 			
-			$scope.answerQuestion = function(givenAnswer, event){
+			$scope.answerQuestion = function(givenAnswer){
                 $scope.loading = true;
 				$scope.hidden = true;
-				
-				event.preventDefault();
 				
 				console.log("Given answer:", givenAnswer);
 				RunService.answerQuestion(

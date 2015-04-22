@@ -286,7 +286,7 @@
 							},
 							{
 								"lang"	: 2,
-								"text"	: "???"
+								"text"	: "Is the pain static and always there?"
 							}
 						],
 						"answers"			: [
@@ -332,7 +332,7 @@
 							},
 							{
 								"lang"	: 2,
-								"text"	: "???"
+								"text"	: "Is there anything that makes the pain worse?"
 							}
 						],
 						"answers"			: [
@@ -378,7 +378,7 @@
 							},
 							{
 								"lang"	: 2,
-								"text"	: "???"
+								"text"	: "Do you have a cough?"
 							}
 						],
 						"answers"			: [

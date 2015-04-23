@@ -1,7 +1,7 @@
 (function(){
 
 	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices']);
-
+    
 	pocketdocControllers.controller('questionController',
 		['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog',
 		function( $scope, $location, RunService, DiagnosisData, $mdDialog ) {
@@ -100,15 +100,11 @@
 				$scope.loading = false;
                 $scope.hidden = false;
             };
-
-		}
-	]);
+	}]);
 	
 	pocketdocControllers.controller('diagnosisController', ['$scope','DiagnosisData', function($scope, DiagnosisData){
-		
 		$scope.diagnosis = DiagnosisData.diagnosis;
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
-		
 	}]);
 	
 	pocketdocControllers.controller('mainController', [ '$scope', '$location', '$http', '$translate', function( $scope, $location, $http, $translate ) {
@@ -116,69 +112,70 @@
         $scope.run = function() {
 		  $location.url('/run');
 		};
-	} ]);
+	}]);
 
-    pocketdocControllers.controller('HeaderController', ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate',
-                                                function( $scope, $mdDialog, $timeout, $mdSidenav, $log, $translate ) {
-        $scope.languageBarOpen = false;
-        $scope.language = "de";
-        
-        $scope.openLanguageBar = function($event) {
-            $event.stopPropagation();
-            $scope.languageBarOpen = !$scope.languageBarOpen;
-        };
-        $scope.changeLanguage = function( lang ) {
+    pocketdocControllers.controller('HeaderController',
+        ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate',
+        function( $scope, $mdDialog, $timeout, $mdSidenav, $log, $translate ) {
             $scope.languageBarOpen = false;
-            $scope.language = lang;
-            $translate.use( lang ).then(function (lang) {
-                console.log("Sprache zu " + lang + " gewechselt.");
-            }, function ( lang ) {
-                console.log("Irgendwas lief schief.");
-            });
-        };
+            $scope.language = "de";
+            
+            $scope.openLanguageBar = function($event) {
+                $event.stopPropagation();
+                $scope.languageBarOpen = !$scope.languageBarOpen;
+            };
+            $scope.changeLanguage = function( lang ) {
+                $scope.languageBarOpen = false;
+                $scope.language = lang;
+                $translate.use( lang ).then(function (lang) {
+                    console.log("Sprache zu " + lang + " gewechselt.");
+                }, function ( lang ) {
+                    console.log("Irgendwas lief schief.");
+                });
+            };
 
-        $scope.toggleRight = buildToggler('right');
-        /**
-         * Build handler to open/close a SideNav; when animation finishes
-         * report completion in console
-         */
-        function buildToggler(navID) {
-            return function() {
-                return $mdSidenav(navID).toggle()
-                    .then(function () {
-                        $log.debug("toggle " + navID + " is done");
-                    });
+            $scope.toggleRight = buildToggler('right');
+            /**
+             * Build handler to open/close a SideNav; when animation finishes
+             * report completion in console
+             */
+            function buildToggler(navID) {
+                return function() {
+                    return $mdSidenav(navID).toggle()
+                        .then(function () {
+                            $log.debug("toggle " + navID + " is done");
+                        });
+                }
             }
-        }
 
-        $scope.close = function () {
-            $mdSidenav('right').close()
-            .then(function () {
-                $log.debug("close RIGHT is done");
-            });
-        };
+            $scope.close = function () {
+                $mdSidenav('right').close()
+                .then(function () {
+                    $log.debug("close RIGHT is done");
+                });
+            };
 
-        $scope.profile = function() {
-            $scope.notImplementedYet("Profil");
-        }
-        $scope.logout = function() {
-            $scope.notImplementedYet("Logout");
-        }
-        $scope.login = function() {
-            $scope.notImplementedYet("Login");
-        }
-        $scope.register = function() {
-            $scope.notImplementedYet("Registrieren");
-        }
+            $scope.profile = function() {
+                $scope.notImplementedYet("Profil");
+            }
+            $scope.logout = function() {
+                $scope.notImplementedYet("Logout");
+            }
+            $scope.login = function() {
+                $scope.notImplementedYet("Login");
+            }
+            $scope.register = function() {
+                $scope.notImplementedYet("Registrieren");
+            }
 
-        $scope.notImplementedYet = function( functionality ) {
-            $mdDialog.show(
-                $mdDialog.alert()
-                    .title('Noch nicht implementiert')
-                    .content('Die Funktion "' + functionality + '" wurde noch nicht implementiert.' )
-                    .ariaLabel('Noch nicht implementiert')
-                    .ok('OK')
-            );
-        };
+            $scope.notImplementedYet = function( functionality ) {
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .title('Noch nicht implementiert')
+                        .content('Die Funktion "' + functionality + '" wurde noch nicht implementiert.' )
+                        .ariaLabel('Noch nicht implementiert')
+                        .ok('OK')
+                );
+            };
     }]);
 })();

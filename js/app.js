@@ -11,8 +11,7 @@ var pocketdocApp = angular.module('pocketdocApp', [
   "ngCookies",
   "ngResource",
   "pascalprecht.translate"
-])
-.config(['$routeProvider', '$locationProvider', '$httpProvider', '$mdThemingProvider', '$translateProvider',
+]).config(['$routeProvider', '$locationProvider', '$httpProvider', '$mdThemingProvider', '$translateProvider',
 	function($routeProvider, $locationProvider, $httpProvider, $mdThemingProvider, $translateProvider) {
 
 	    $httpProvider.defaults.useXDomain = true;

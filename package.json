@@ -3,7 +3,7 @@
   "private": true,
   "name": "PocketDoc",
   "description": "Frontend for PocketDoc",
-  "repository": "https://github.com/LePhil/pockedoc_dev",
+  "repository": "https://github.com/LePhil/pocketdoc_dev",
   "license": "MIT",
   "dependencies": {
     "node": "latest",

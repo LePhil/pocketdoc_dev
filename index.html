@@ -74,24 +74,32 @@
         <h1 class="md-toolbar-tools">Account</h1>
       </md-toolbar>
       <md-content ng-controller="HeaderController" layout-padding>
-        <form>
-          <md-input-container>
-            <label for="testInput">E-Mail</label>
-            <input type="text" id="testInput" ng-model="user.email" md-sidenav-focus>
-          </md-input-container>
-          <md-input-container>
-            <label for="password">Passwort</label>
-            <input type="password" id="password" ng-model="user.password">
-          </md-input-container>
-        </form>
+        <div ng-hide="loggedIn">
+			<form>
+			  <md-input-container>
+				<label for="testInput">E-Mail</label>
+				<input type="text" id="testInput" ng-model="user.email" md-sidenav-focus>
+			  </md-input-container>
+			  <md-input-container>
+				<label for="password">Passwort</label>
+				<input type="password" id="password" ng-model="user.password">
+			  </md-input-container>
+			</form>
 
-        <div layout="column" flex>
-	        <md-button ng-click="login()" class="md-primary">Login</md-button>
-	        <md-button ng-click="register()" class="md-primary">Registrieren</md-button>
-	        <md-button ng-click="logout()" class="md-primary">Logout</md-button>
-	        <md-button ng-click="profile()" class="md-primary">Profil</md-button>
-	        <md-button ng-click="close()" class="md-primary">Schliessen</md-button>
-        </div>
+			<div layout="column" flex>
+				<md-button ng-click="login()" class="md-primary">Login</md-button>
+				<md-button ng-click="register()" class="md-primary">Registrieren</md-button>
+				<md-button ng-click="close()" class="md-primary">Schliessen</md-button>
+			</div>
+		</div>
+		<div ng-show="loggedIn">
+			<div layout="column" flex>
+				<md-button ng-click="logout()" class="md-primary">Logout</md-button>
+				<md-button ng-click="profile()" class="md-primary">Profil</md-button>
+				<md-button ng-click="close()" class="md-primary">Schliessen</md-button>
+			</div>
+		</div>
+		
       </md-content>
     </md-sidenav>
 

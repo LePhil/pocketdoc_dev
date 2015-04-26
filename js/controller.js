@@ -107,16 +107,52 @@
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
 	}]);
 	
+	pocketdocControllers.controller('registrationController', ['$scope', '$location', function($scope, $location){
+		
+		$scope.user = {};
+		
+		$scope.setGender = function(gender){
+			if (typeof($scope.user.gender) !== "undefined")
+				$("#gender-button-" + $scope.user.gender).removeClass("md-primary");
+			
+			$scope.user.gender = gender;
+			$("#gender-button-" + $scope.user.gender).addClass("md-primary");
+		};
+		
+		$scope.changeLanguage = function(){
+			
+		};
+		
+		$scope.cancelClick = function(){
+			$location.url('/');
+		};
+		
+		$scope.registerClick = function(){
+			
+		};
+		
+	}]);
+	
 	pocketdocControllers.controller('mainController', [ '$scope', '$location', '$http', '$translate', function( $scope, $location, $http, $translate ) {
 
         $scope.run = function() {
 		  $location.url('/run');
 		};
+		
+		$scope.$on("login", function(event, data){
+			$scope.userName = data.name;
+			console.log(data);
+			$scope.loggedIn = true;
+		});
+		
+		$scope.$on("logout", function(event, data){
+			$scope.loggedIn = false;
+		})
 	}]);
 
     pocketdocControllers.controller('HeaderController',
-        ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate',
-        function( $scope, $mdDialog, $timeout, $mdSidenav, $log, $translate ) {
+        ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService',
+        function( $scope, $mdDialog, $timeout, $mdSidenav, $log, $translate, $location, UserService ) {
             $scope.languageBarOpen = false;
             $scope.language = "de";
             
@@ -159,13 +195,39 @@
                 $scope.notImplementedYet("Profil");
             }
             $scope.logout = function() {
-                $scope.notImplementedYet("Logout");
+                UserService.logoutUser(
+					{					
+					},
+					function(data){
+						$scope.close();
+						$scope.loggedIn = false;
+						$scope.$root.$broadcast("logout", data);
+					},
+					function(error){
+						alert(error);
+					}
+				);
             }
             $scope.login = function() {
-                $scope.notImplementedYet("Login");
+				UserService.loginUser(
+					{
+						email : $scope.user.email,
+						password : $scope.user.password 
+					},
+					function(data){
+						$scope.close();
+						$scope.loggedIn = true;
+						$scope.user = {};
+						$scope.$root.$broadcast("login", data);
+					},
+					function(error){
+						alert(error);
+					}
+				);
             }
             $scope.register = function() {
-                $scope.notImplementedYet("Registrieren");
+				$scope.close();
+                $location.url("/registration");
             }
 
             $scope.notImplementedYet = function( functionality ) {

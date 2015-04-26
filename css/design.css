@@ -56,3 +56,31 @@ body {
 #languageBar button {
 	z-index: 1;
 }
+
+h1{
+	text-align: center;
+}
+
+.profile-title{
+	border-bottom: 1px solid;
+	padding-left: 0 !important;
+}
+.profile-subtitle{
+	padding-left: 0;
+}
+
+.gender-row{
+	margin: 1em 0;
+}
+
+.age-category{
+	margin-top: 1em;
+}
+
+.button-selected {
+	border: 1px solid rgb(63,81,181);
+}
+
+.registration-button{
+	margin: 0 5px;
+}

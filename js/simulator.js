@@ -2,7 +2,7 @@
 
 	var backend = angular.module('pocketdocBackend', ['pocketdocData']);
 	
-	backend.factory('UserService', function(){
+	backend.factory('UserService', ['DataService', function(DataService){
 		
 		var currentUser = {
 				id : -1,
@@ -53,11 +53,44 @@
 		};
 		
 		var login = function(data, success, error){
+			var users = localStorage.getItem("users");
 			
+			if (users === null)
+			{
+				users = DataService.users();
+				localStorage.setItem("users", angular.toJson(users));
+			}
+			else
+				users = JSON.parse(users);
+			
+			var user = $.grep(users, function(e){ return e.email == data.email; });
+			
+			if (user.length == 1){
+				if (data.password == user[0].password){
+					currentUser = user[0];
+					delete currentUser.password;
+					success({
+						name : currentUser.name
+					});
+				}
+				else{
+					error("Falsches Passwort!");
+				}
+			}
+			else
+				error("Benutzer nicht gefunden");
 		};
 		
 		var logout = function(data, success, error){
 			
+			var userName = currentUser.name;
+			
+			currentUser = {
+				id : -1,
+				lang : currentUser.lang,
+			};
+			
+			success({name : userName});
 		};
 		
 		var checkData = function(data, success, error){
@@ -79,7 +112,7 @@
 			getCurrentUser : getCurrent
 		};
 		
-	});
+	}]);
 	
 	backend.factory('HistoryService', function(){
 		

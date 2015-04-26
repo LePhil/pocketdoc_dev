@@ -1,6 +1,6 @@
 (function(){
 
-	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices']);
+	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices', 'ngMessages']);
     
 	pocketdocControllers.controller('questionController',
 		['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog',
@@ -111,6 +111,9 @@
 		
 		$scope.user = {};
 		
+		$scope.user.lang = UserService.getCurrentUser().lang;
+		$("#language-button-" + $scope.user.lang).addClass("language-selected");
+		
 		$scope.setGender = function(gender){
 			if (typeof($scope.user.gender) !== "undefined")
 				$("#gender-button-" + $scope.user.gender).removeClass("md-primary");
@@ -119,8 +122,10 @@
 			$("#gender-button-" + $scope.user.gender).addClass("md-primary");
 		};
 		
-		$scope.changeLanguage = function(){
-			
+		$scope.changeLanguage = function(lang){
+			$("#language-button-" + $scope.user.lang).removeClass("language-selected");
+			$scope.user.lang = lang;
+			$("#language-button-" + $scope.user.lang).addClass("language-selected");
 		};
 		
 		$scope.cancelClick = function(){
@@ -133,16 +138,27 @@
 				$scope.user,
 				function(data){
 					alert("success");
+					$location.url('/');
 				},
 				function(error){
 					alert(error)
-				});
+				}
+			);
 		};
 		
 	}]);
 	
-	pocketdocControllers.controller('mainController', [ '$scope', '$location', '$http', '$translate', function( $scope, $location, $http, $translate ) {
+	pocketdocControllers.controller('mainController', [ '$scope', '$location', '$http', '$translate', 'UserService', function( $scope, $location, $http, $translate, UserService ) {
 
+		var currentUser = UserService.getCurrentUser();
+		if (currentUser.id !== -1){
+			$scope.userName = currentUser.name;
+			$scope.loggedIn = true;
+		}
+		else{
+			currentUser = undefined;
+		}
+		
         $scope.run = function() {
 		  $location.url('/run');
 		};
@@ -163,6 +179,8 @@
         function( $scope, $mdDialog, $timeout, $mdSidenav, $log, $translate, $location, UserService ) {
             $scope.languageBarOpen = false;
             $scope.language = "de";
+			
+			$scope.loggedIn = UserService.getCurrentUser().id !== -1;
             
             $scope.openLanguageBar = function($event) {
                 $event.stopPropagation();

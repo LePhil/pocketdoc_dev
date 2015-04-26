@@ -12,23 +12,27 @@
 		var create = function(data, success, error){
 				
 			if (currentUser.id !== -1)
-				error("Ein Benutzer ist aktuell eingeloggt. Bitte zuerst ausloggen.")
-			
-			var users = JSON.parse(localStorage.getItem("users"));
-
-			if ( users.length > 0 ) {
-				data.id = _.max(users, function(user){ return user.id; }) + 1;	//get highest ID and add 1.
-			} else {
-				data.id = 1;	//neat, first user!
+			{
+				error("Ein Benutzer ist aktuell eingeloggt. Bitte zuerst ausloggen.");
 			}
-			
-			users.push(data);
-			
-			localStorage.setItem( "users", angular.toJson(users) );
-			
-			currentUser = data;
-			
-			success(data);
+			{
+				var users = JSON.parse(localStorage.getItem("users"));
+
+				if ( users != null && users.length > 0 ) {
+					data.id = _.max(users, function(user){ return user.id; }).id + 1;	//get highest ID and add 1.
+				} else {
+					users = [];
+					data.id = 1;	//neat, first user!
+				}
+				
+				users.push(data);
+				
+				localStorage.setItem( "users", angular.toJson(users) );
+				
+				currentUser = data;
+				
+				success(data);
+			}
 		};
 		
 		var get = function(data, success, error){
@@ -53,15 +57,9 @@
 		};
 		
 		var login = function(data, success, error){
-			var users = localStorage.getItem("users");
 			
-			if (users === null)
-			{
-				users = DataService.users();
-				localStorage.setItem("users", angular.toJson(users));
-			}
-			else
-				users = JSON.parse(users);
+			var users = localStorage.getItem("users");
+			users = JSON.parse(users);
 			
 			var user = $.grep(users, function(e){ return e.email == data.email; });
 			

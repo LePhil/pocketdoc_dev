@@ -3,11 +3,17 @@
 		<div class="profile-title" flex>Profil:</div>
 		<md-input-container flex>
 			<label for="email">E-Mail: </label>
-			<input ng-model="user.email" type="email" id="email">
+			<input ng-model="user.email" type="email" id="email" required>
+			<div ng-messages="projectForm.description.$error">
+				<div ng-message="required">Pflichtfeld!</div>
+			</div>
 		</md-input-container>
 		<md-input-container flex>
 			<label for="password">Passwort: </label>
-			<input ng-model="user.password" type="password" id="password">
+			<input ng-model="user.password" type="password" id="password" required>
+			<div ng-messages="projectForm.description.$error">
+				<div ng-message="required">Pflichtfeld!</div>
+			</div>
 		</md-input-container>
 		<md-input-container flex>
 			<label for="name">Name: </label>
@@ -21,7 +27,7 @@
 				<md-button id="gender-button-2" flex class="md-raised registration-button" ng-click="setGender(2)">Weiblich</md-button>
 			</div>
 			<div class="profile-subtitle">Altersbereich:</div>
-			<md-select placeholder="Bitte ausw&auml;hlen" ng-model="user.age" class="age-category">
+			<md-select placeholder="Bitte ausw&auml;hlen" ng-model="user.age_category" class="age-category">
 				<md-option value="1">bis 12 Jahre</md-option>
 				<md-option value="2">12 - 24 Jahre</md-option>
 			</md-select>
@@ -30,13 +36,13 @@
 		<div flex layout="column">
 			<div class="profile-subtitle" >Sprache:</div>
 			<div layout="row">
-				<md-button class="md-icon-button button-selected" aria-label="Deutsch" ng-click="changeLanguage('de')">
+				<md-button id="language-button-1" class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage(1)">
 					<md-icon md-svg-icon="images/icons/de.svg" class="s36"></md-icon>
 				</md-button>
-				<md-button class="md-icon-button" aria-label="English" ng-click="changeLanguage('en')">
+				<md-button id="language-button-2" class="md-icon-button" aria-label="English" ng-click="changeLanguage(2)">
 					<md-icon md-svg-icon="images/icons/en.svg" class="s36"></md-icon>
 				</md-button>
-				<md-button class="md-icon-button" aria-label="Français" ng-click="changeLanguage('fr')">
+				<md-button id="language-button-3" class="md-icon-button" aria-label="Français" ng-click="changeLanguage(3)">
 					<md-icon md-svg-icon="images/icons/fr.svg" class="s36"></md-icon>
 				</md-button>
 			</div>

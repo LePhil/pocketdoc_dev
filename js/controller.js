@@ -107,7 +107,7 @@
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
 	}]);
 	
-	pocketdocControllers.controller('registrationController', ['$scope', '$location', function($scope, $location){
+	pocketdocControllers.controller('registrationController', ['$scope', '$location', 'UserService', function($scope, $location, UserService){
 		
 		$scope.user = {};
 		
@@ -128,7 +128,15 @@
 		};
 		
 		$scope.registerClick = function(){
-			
+			$scope.user.lang = 1;
+			UserService.createUser(
+				$scope.user,
+				function(data){
+					alert("success");
+				},
+				function(error){
+					alert(error)
+				});
 		};
 		
 	}]);

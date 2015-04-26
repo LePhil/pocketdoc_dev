@@ -11,10 +11,10 @@
 		
 		var create = function(data, success, error){
 				
-			if (typeof(currentUser) !== "undefined")
+			if (currentUser.id !== -1)
 				error("Ein Benutzer ist aktuell eingeloggt. Bitte zuerst ausloggen.")
 			
-			var users = localStorage.getItem("users");
+			var users = JSON.parse(localStorage.getItem("users"));
 
 			if ( users.length > 0 ) {
 				data.id = _.max(users, function(user){ return user.id; }) + 1;	//get highest ID and add 1.
@@ -24,7 +24,7 @@
 			
 			users.push(data);
 			
-			localStorage.setItem( "users", users );
+			localStorage.setItem( "users", angular.toJson(users) );
 			
 			currentUser = data;
 			

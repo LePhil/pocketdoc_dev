@@ -4,76 +4,42 @@
 			<md-item ng-repeat="question in answeredQuestions">
 				<md-item-content class="answeredQuestion">
 					<md-card layout="row" layout-align="center center" flex>
-						<!--<div class="md-tile-left">
-							<md-icon md-svg-src="images/{{question.status}}.svg" class="answer-{{question.status}}"></md-icon>
-						</div> -->
+
 						<div class="md-tile-content" layout="row" flex>
 							<h3 flex>{{question.question.description}}</h3>
 							<h3>{{question.answer.desc}}</h3>
 						</div>
+
 					</md-card>
 				</md-item-content>
 			</md-item>
 		</md-list>
 	</md-content>
-	<div>
-        <!--
-		<div ng-hide="user.loggedIn" layout-align="center center" layout="row" flex>
-            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-            <div>Login...</div>
-        </div>
-		-->
-		<md-content id="currentQuestion">
-            <md-card>
-                <div ng-show="loading" layout-align="center center" layout="row">
-                    <md-progress-circular md-mode="indeterminate" ng-show="loading"></md-progress-circular>
-                    <div>Loading...</div>
-                </div>
-                <div ng-hide="loading || hidden">
-					<div class="md-tile-content">
-						<h3>
-							<span>{{currentQuestion.description}} </span>
-						</h3>
-						<!-- TODO: clean up -->
-						<div ng-show="currentQuestion.type == 1" layout="row" layout-align="center center">
-							<md-button flex="25" class="md-raised md-accent answer-button" ng-click="answerQuestion(currentQuestion.answers[0])">{{currentQuestion.answers[0].desc}}</md-button>
-							<md-button flex="25" class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[1])">{{currentQuestion.answers[1].desc}}</md-button>
-						</div>
-					
-						<!-- SELECT -->
-						<div ng-show="currentQuestion.type == 2" layout="column">
-							<md-select ng-model="givenAnswer" style="min-width: 200px;">
-								<md-select-label>{{ givenAnswer ? givenAnswer.desc : 'Bitte auswählen' }}</md-select-label>
-								<md-option ng-value="answer" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-option>
-							</md-select>
-							<div layout="row" layout-align="center center">
-								<md-button flex="50" ng-show="givenAnswer" class="md-raised md-warn answer-button" ng-click="answerQuestion(givenAnswer)">Bestätigen</md-button>
-							</div>
-						</div>
-
-						<!-- SLIDER -->
-						<div ng-show="currentQuestion.type == 3" layout="column">
-							<div layout="row">
-								<div flex="10">
-									<span class="md-body-1" layout-align="center center">{{currentQuestion.answers[givenAnswer - 1].desc}}</span>
-								</div>
-								<md-slider flex ng-model="givenAnswer" min="1" max="{{currentQuestion.answers.length}}" step="1" md-discrete >
-								</md-slider>
-							</div>
-							<div layout="row" layout-align="center center">
-								<md-button flex="50" class="md-raised md-warn answer-button" ng-click="answerQuestion(currentQuestion.answers[givenAnswer-1])">Bestätigen</md-button>
-							</div>
-						</div>
-
-						<!--  -->
-						<div ng-show="currentQuestion.type == 4" layout="row" layout-align="center center">
-							<md-button flex="50" style="answer-button" ng-repeat="answer in currentQuestion.answers" ng-click="answerQuestion(answer)">{{answer.desc}}</md-button>
-						</div>
+	<md-content id="currentQuestion">
+        <md-card>
+            <div ng-show="loading" layout-align="center center" layout="row">
+                <md-progress-circular md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+                <div>Loading...</div>
+            </div>
+            <div ng-hide="loading || hidden">
+				<div class="md-tile-content">
+					<h3>
+						<span>{{currentQuestion.description}} </span>
+					</h3>
+					<!-- TYPE: YES NO MAYBE -->
+					<div ng-show="currentQuestion.type == 'yesnomaybe'" layout="row" layout-align="center center">
+						<md-button flex="25" class="md-raised answer-button" ng-click="answerQuestion(answer)" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-button>
 					</div>
-                </div>
-			</md-card>
-		</md-content>
-	</div>
+
+					<!-- TYPE: LIST -->
+					<div ng-show="currentQuestion.type == 'list'" layout="column" layout-align="center center">
+						<md-button flex="50" class="md-raised answer-button" ng-click="answerQuestion(answer)" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-button>
+					</div>
+
+				</div>
+            </div>
+		</md-card>
+	</md-content>
 </div>
 
 

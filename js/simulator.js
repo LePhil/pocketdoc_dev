@@ -6,7 +6,7 @@
 		
 		var currentUser = {
 				id : -1,
-				lang : 1
+				lang : 0
 		};
 		
 		var create = function(data, success, error){

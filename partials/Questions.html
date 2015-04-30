@@ -28,7 +28,7 @@
 					</h3>
 					<!-- TYPE: YES NO MAYBE -->
 					<div ng-show="currentQuestion.type == 'yesnomaybe'" layout="row" layout-align="center center">
-						<md-button flex="25" class="md-raised answer-button" ng-click="answerQuestion(answer)" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-button>
+						<md-button flex="25" class="md-raised answer-button" ng-class="answer.style" ng-click="answerQuestion(answer)" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-button>
 					</div>
 
 					<!-- TYPE: LIST -->

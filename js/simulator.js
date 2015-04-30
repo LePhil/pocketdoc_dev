@@ -188,11 +188,12 @@
 				answerTexts.push(
 					{
 						id : firstQuestion.answers[i].id,
-						desc : desc.text
+						desc : desc.text,
+						style: firstQuestion.answers[i].style || ""
 					}
 				);
 			}
-			
+
 			questionResult.answers = answerTexts;
 			
 			// Set Diagnosis

@@ -31,7 +31,7 @@
 										"lang": 1,
 										"text": "In the last 2 hours"
 									}
-								],
+								], 
 								"next_questions": [1]
 							}, {
 								"id": 1,
@@ -145,6 +145,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [2]
 							}, {
 								"id": 1,
@@ -157,6 +158,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [3]
 							}
 						],
@@ -186,6 +188,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [3]
 							}, {
 								"id": 1,
@@ -198,6 +201,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [3]
 							}
 						],
@@ -227,6 +231,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [4]
 							}, {
 								"id": 1,
@@ -239,6 +244,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [12]
 							}
 						],
@@ -345,6 +351,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [6]
 							}, {
 								"id": 1,
@@ -357,6 +364,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [6]
 							}
 						],
@@ -386,6 +394,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [7]
 							}, {
 								"id": 1,
@@ -398,6 +407,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [7]
 							}
 						],
@@ -427,6 +437,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [8]
 							}, {
 								"id": 1,
@@ -439,6 +450,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [12]
 							}
 						],
@@ -468,6 +480,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [9]
 							}, {
 								"id": 1,
@@ -480,6 +493,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [9]
 							}
 						],
@@ -509,6 +523,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [10]
 							}, {
 								"id": 1,
@@ -521,6 +536,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [10]
 							}
 						],
@@ -550,6 +566,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [11]
 							}, {
 								"id": 1,
@@ -562,6 +579,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [11]
 							}
 						],
@@ -591,6 +609,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [12]
 							}, {
 								"id": 1,
@@ -603,6 +622,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [12]
 							}
 						],
@@ -632,6 +652,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [13]
 							}, {
 								"id": 1,
@@ -644,6 +665,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [13]
 							}
 						],
@@ -673,6 +695,7 @@
 										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [13]
 							}, {
 								"id": 1,
@@ -685,6 +708,7 @@
 										"text": "No"
 									}
 								],
+								"style": "md-warn",
 								"next_questions": [13]
 							}
 						],

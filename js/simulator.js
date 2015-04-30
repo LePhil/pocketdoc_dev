@@ -146,7 +146,7 @@
 		
 		
 		var start = function(data, success, error){
-			getQ(1, success, error);
+			getQ(0, success, error);
 		};
 		
 		var answerQ = function(data, success, error){

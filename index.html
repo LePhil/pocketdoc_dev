@@ -76,14 +76,14 @@
       </md-toolbar>
       <md-content ng-controller="HeaderController" layout-padding>
         <div ng-hide="loggedIn">
-			<form>
+			<form novalidate>
 			  <md-input-container>
 				<label for="testInput">E-Mail</label>
-				<input type="text" id="testInput" ng-model="user.email" md-sidenav-focus>
+				<input type="text" id="testInput" ng-model="user.email" md-sidenav-focus required >
 			  </md-input-container>
 			  <md-input-container>
 				<label for="password">Passwort</label>
-				<input type="password" id="password" ng-model="user.password">
+				<input type="password" id="password" ng-model="user.password" required>
 			  </md-input-container>
 			</form>
 

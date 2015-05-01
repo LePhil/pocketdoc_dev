@@ -1,6 +1,8 @@
 <div layout="column">
 	<md-content layout-padding layout="column" layout-sm="column">
+		
 		<div class="profile-title" flex>Profil:</div>
+
 		<md-input-container flex>
 			<label for="email">E-Mail: </label>
 			<input ng-model="user.email" type="email" id="email" required>
@@ -8,6 +10,7 @@
 				<div ng-message="required">Pflichtfeld!</div>
 			</div>
 		</md-input-container>
+
 		<md-input-container flex>
 			<label for="password">Passwort: </label>
 			<input ng-model="user.password" type="password" id="password" required>
@@ -19,12 +22,22 @@
 			<label for="name">Name: </label>
 			<input ng-model="user.name" id="name">
 		</md-input-container>
+
 		<div class="profile-title" flex>Pers&ouml;nliche Angaben:</div>
 		<div flex layout="column">
 			<div class="profile-subtitle">Geschlecht:</div>
 			<div layout="row" class="gender-row">
-				<md-button id="gender-button-1" flex class="md-raised registration-button" ng-click="setGender(1)">M&auml;nnlich</md-button>
-				<md-button id="gender-button-2" flex class="md-raised registration-button" ng-click="setGender(2)">Weiblich</md-button>
+
+				<md-button id="gender-button-male" flex class="md-raised registration-button" ng-click="setGender(0)" ng-class="{'md-primary': user.gender == 0}">
+					<md-icon md-svg-icon="images/icons/gender-male.svg"></md-icon>
+					<span>M&auml;nnlich</span>
+				</md-button>
+
+				<md-button id="gender-button-female" flex class="md-raised registration-button" ng-click="setGender(1)" ng-class="{'md-primary': user.gender == 1}">
+					<md-icon md-svg-icon="images/icons/gender-female.svg"></md-icon>
+					<span>Weiblich</span>
+				</md-button>
+
 			</div>
 			<div class="profile-subtitle">Altersbereich:</div>
 			<md-select placeholder="Bitte ausw&auml;hlen" ng-model="user.age_category" class="age-category">
@@ -32,21 +45,23 @@
 				<md-option value="2">12 - 24 Jahre</md-option>
 			</md-select>
 		</div>
+
 		<div class="profile-title" flex>Einstellungen:</div>
 		<div flex layout="column">
 			<div class="profile-subtitle" >Sprache:</div>
 			<div layout="row">
-				<md-button id="language-button-1" class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage(1)">
+				<md-button id="language-button-de" class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage(0)" ng-class="{'md-primary md-raised': user.lang == 0}">
 					<md-icon md-svg-icon="images/icons/de.svg" class="s36"></md-icon>
 				</md-button>
-				<md-button id="language-button-2" class="md-icon-button" aria-label="English" ng-click="changeLanguage(2)">
+				<md-button id="language-button-en" class="md-icon-button" aria-label="English" ng-click="changeLanguage(1)" ng-class="{'md-primary md-raised': user.lang == 1}">
 					<md-icon md-svg-icon="images/icons/en.svg" class="s36"></md-icon>
 				</md-button>
-				<md-button id="language-button-3" class="md-icon-button" aria-label="Français" ng-click="changeLanguage(3)">
+				<md-button id="language-button-fr" class="md-icon-button" aria-label="Français" ng-click="changeLanguage(2)" ng-class="{'md-primary md-raised': user.lang == 2}">
 					<md-icon md-svg-icon="images/icons/fr.svg" class="s36"></md-icon>
 				</md-button>
 			</div>
 		</div>
+
 		<div flex layout="row" layout-align="center center">
 			<md-button ng-click="cancelClick()" class="registration-button" flex>Abbrechen</md-button>
 			<md-button class="md-raised md-primary registration-button" ng-click="registerClick()" flex>Registrieren</md-button>

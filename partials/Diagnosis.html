@@ -1,15 +1,26 @@
 ﻿<div layout="column">
-	<md-content class="diagnosis">
-		<md-card layout="column" layout-align="center center" flex class="md-tile-content">
-			<div>Ihre Diagnose:</div>
-			<div>{{diagnosis.short_desc}}</div>
-			<div>{{diagnosis.description}}</div>
-			<div></div>
-			<div>Handlungsempfehlung:</div>
-			<div>{{actionSuggestion.description}}</div>
-		</md-card>
+    <div class="diagnosis">
+        <md-card layout="column" layout-align="center center" flex class="md-tile-content">
+            <div>Ihre Diagnose:</div>
+            <div>{{diagnosis.short_desc}}</div>
+            <div>{{diagnosis.description}}</div>
+            <div></div>
+            <div>Handlungsempfehlung:</div>
+            <div>{{actionSuggestion.description}}</div>
+        </md-card>
         <div layout="row" flex>
             <md-button ng-hide="true" flex="20" class="md-raised md-accent" ng-click="goToRun()">Neue Diagnosis</md-button>
         </div>
-	</md-content>
+    </div>
+
+    <div class="follow-up">
+        <md-card layout="column" layout-align="center center" flex class="md-tile-content">
+            <h2>Follow-Up</h2>
+            <p>Sie können zu einem späterem Zeitpunkt ein Follow-Up zu dieser Diagnose durchführen. Dadurch können Sie mit einem weiteren Durchlauf die Diagnose bestätigen.</p>
+        </md-card>
+        <div layout="row" flex>
+            <md-button flex="20" class="md-accent" ng-click="goToMain()">Lieber nicht</md-button>
+            <md-button flex="20" class="md-raised md-accent" ng-click="addFollowUp()">Follow-Up eintragen</md-button>
+        </div>
+    </div>
 </div>

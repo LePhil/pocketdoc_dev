@@ -10,9 +10,7 @@
 		};
 		
 		var create = function(data, success, error){
-				
-			if (currentUser.id !== -1)
-			{
+			if (currentUser.id !== -1) {
 				error("Ein Benutzer ist aktuell eingeloggt. Bitte zuerst ausloggen.");
 			}
 			{
@@ -57,26 +55,26 @@
 		};
 		
 		var login = function(data, success, error){
+			var users = JSON.parse( localStorage.getItem("users") ),
+				user = $.grep( users, function( e ){
+					// check if user exists by comparing the emails.
+					return e.email == data.email;
+				} );
 			
-			var users = localStorage.getItem("users");
-			users = JSON.parse(users);
-			
-			var user = $.grep(users, function(e){ return e.email == data.email; });
-			
-			if (user.length == 1){
-				if (data.password == user[0].password){
+			if (user.length === 1){
+				if (data.password === user[0].password){
 					currentUser = user[0];
 					delete currentUser.password;
+					
 					success({
 						name : currentUser.name
 					});
-				}
-				else{
+				} else {
 					error("Falsches Passwort!");
 				}
-			}
-			else
+			} else {
 				error("Benutzer nicht gefunden");
+			}
 		};
 		
 		var logout = function(data, success, error){
@@ -97,7 +95,7 @@
 		
 		var getCurrent = function(){
 			return currentUser;
-		}
+		};
 		
 		return {
 			createUser : create,

@@ -1,4 +1,4 @@
-(function(){
+(function() {
 
 	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices', 'ngMessages']);
     
@@ -11,20 +11,20 @@
 			
 			RunService.startRun(
 				"",
-				function(questionData){
+				function( questionData ) {
 					// Success
-					console.log(questionData);
+					console.log( questionData );
 					$scope.currentQuestion = questionData;
 					$scope.answeredQuestions = [];
                     $scope.loading = false;
 					$scope.hidden = false;
 				},
-				function(error){
-					alert(error);
+				function( error ) {
+					alert( error );
 				}
 			);
 			
-			$scope.answerQuestion = function(givenAnswer){
+			$scope.answerQuestion = function(givenAnswer) {
                 $scope.loading = true;
 				$scope.hidden = true;
 				
@@ -33,9 +33,8 @@
 					{
 						answerId : givenAnswer.id
 					},
-					function(questionData){
-						// Success
-						// Vorherige Frage in die Liste einfügen
+					function( questionData ) {
+						// Success: Add previous question to the list
 						$scope.answeredQuestions.push(
 							{
 								question: $scope.currentQuestion,
@@ -48,10 +47,6 @@
 						$scope.givenAnswer = undefined;
 						$scope.loading = false;
 						
-						if ($scope.currentQuestion.type == 3) {
-							$scope.givenAnswer = 1;
-                        }
-						
                         // If diagnosis exists, show it
 						if (typeof(questionData.diagnosis) !== "undefined") {
 							$scope.showDiagnosis(questionData.diagnosis, questionData.action_suggestion);
@@ -59,32 +54,32 @@
                             $scope.showNewQuestion();
                         }
 					},
-					function(error){
-						alert(error);
+					function( error ) {
+						alert( error );
 					}
 				);
 			};
 			
 			$scope.showDiagnosis = function(diagnosis, actionSuggestion) {
                 var confirm = $mdDialog.confirm()
-                .title('Diagnose Gefunden')
-                .content( diagnosis.description )
-                .ariaLabel('Lucky day')
-                .ok('Ja, Details einsehen')
-                .cancel('Nein, weitere Fragen beantworten.')
-                .clickOutsideToClose(false);
+                    .title('Diagnose Gefunden')
+                    .content( diagnosis.description )
+                    .ariaLabel('Lucky day')
+                    .ok('Ja, Details einsehen')
+                    .cancel('Nein, weitere Fragen beantworten.')
+                    .clickOutsideToClose(false);
 
-                $mdDialog.show(confirm).then(
+                $mdDialog.show( confirm ).then(
                     function() {
                         RunService.acceptDiagnosis(
                             undefined,
-                            function(){
+                            function() {
                                 $location.url("/diagnosis");
                                 DiagnosisData.diagnosis = diagnosis;
                                 DiagnosisData.actionSuggestion = actionSuggestion;
                             },
-                            function(error){
-                                alert(error);
+                            function( error ) {
+                                alert( error );
                             }
                         );
                         
@@ -102,46 +97,72 @@
             };
 	}]);
 	
-	pocketdocControllers.controller('diagnosisController', ['$scope','DiagnosisData', function($scope, DiagnosisData){
+	pocketdocControllers.controller('diagnosisController', ['$scope', '$location', 'DiagnosisData', function($scope, $location, DiagnosisData) {
 		$scope.diagnosis = DiagnosisData.diagnosis;
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
+
+        $scope.goToMain = function() { $location.url('/'); };
+        $scope.addFollowUp = function() { $location.url('/'); };
 	}]);
 	
-	pocketdocControllers.controller('registrationController', ['$scope', '$location', 'UserService', function($scope, $location, UserService){
+    /**
+     * Gets used on the registration page and handles all interaction there.
+     *
+     * @name registrationController
+     * @return {[type]}
+     * @author Roman Eichenberger, Philipp Christen
+     */
+	pocketdocControllers.controller('registrationController', ['$scope', '$location', 'UserService', function($scope, $location, UserService) {
 		
 		$scope.user = {};
 		
 		$scope.user.lang = UserService.getCurrentUser().lang;
+
 		$("#language-button-" + $scope.user.lang).addClass("language-selected");
 		
-		$scope.setGender = function(gender){
-			if (typeof($scope.user.gender) !== "undefined")
-				$("#gender-button-" + $scope.user.gender).removeClass("md-primary");
-			
-			$scope.user.gender = gender;
-			$("#gender-button-" + $scope.user.gender).addClass("md-primary");
+        /**
+         * Sets the gender of the to-be-registered user.
+         * 
+         * @param {Number}
+         * @author Roman Eichenberger, Philipp Christen
+         */
+		$scope.setGender = function(gender) {
+            $scope.user.gender = gender;
 		};
-		
-		$scope.changeLanguage = function(lang){
-			$("#language-button-" + $scope.user.lang).removeClass("language-selected");
+
+        /**
+         * Changes the language of the to-be-registered user
+         * 
+         * @param  {Number}
+         * @author Roman Eichenberger, Philipp Christen
+         */
+		$scope.changeLanguage = function(lang) {
 			$scope.user.lang = lang;
-			$("#language-button-" + $scope.user.lang).addClass("language-selected");
 		};
 		
-		$scope.cancelClick = function(){
+        /**
+         * [cancelClick description]
+         * @author Roman Eichenberger
+         */
+		$scope.cancelClick = function() {
 			$location.url('/');
 		};
 		
-		$scope.registerClick = function(){
+        /**
+         * [registerClick description]
+         * @return {[type]}
+         * @author Roman Eichenberger
+         */
+		$scope.registerClick = function() {
 			$scope.user.lang = 1;
 			UserService.createUser(
 				$scope.user,
-				function(data){
+				function( data ) {
 					alert("success");
 					$location.url('/');
 				},
-				function(error){
-					alert(error)
+				function( error ) {
+					alert( error )
 				}
 			);
 		};
@@ -151,11 +172,10 @@
 	pocketdocControllers.controller('mainController', [ '$scope', '$location', '$http', '$translate', 'UserService', function( $scope, $location, $http, $translate, UserService ) {
 
 		var currentUser = UserService.getCurrentUser();
-		if (currentUser.id !== -1){
+		if ( currentUser.id !== -1 ) {
 			$scope.userName = currentUser.name;
 			$scope.loggedIn = true;
-		}
-		else{
+		} else {
 			currentUser = undefined;
 		}
 		
@@ -163,13 +183,13 @@
 		  $location.url('/run');
 		};
 		
-		$scope.$on("login", function(event, data){
+		$scope.$on( "login", function( event, data ) {
 			$scope.userName = data.name;
-			console.log(data);
+			console.log( data );
 			$scope.loggedIn = true;
 		});
 		
-		$scope.$on("logout", function(event, data){
+		$scope.$on( "logout", function( event, data ) {
 			$scope.loggedIn = false;
 		})
 	}]);
@@ -182,14 +202,15 @@
 			
 			$scope.loggedIn = UserService.getCurrentUser().id !== -1;
             
-            $scope.openLanguageBar = function($event) {
+            $scope.openLanguageBar = function( $event ) {
                 $event.stopPropagation();
                 $scope.languageBarOpen = !$scope.languageBarOpen;
             };
+
             $scope.changeLanguage = function( lang ) {
                 $scope.languageBarOpen = false;
                 $scope.language = lang;
-                $translate.use( lang ).then(function (lang) {
+                $translate.use( lang ).then(function ( lang ) {
                     console.log("Sprache zu " + lang + " gewechselt.");
                 }, function ( lang ) {
                     console.log("Irgendwas lief schief.");
@@ -201,9 +222,9 @@
              * Build handler to open/close a SideNav; when animation finishes
              * report completion in console
              */
-            function buildToggler(navID) {
+            function buildToggler( navID ) {
                 return function() {
-                    return $mdSidenav(navID).toggle()
+                    return $mdSidenav( navID ).toggle()
                         .then(function () {
                             $log.debug("toggle " + navID + " is done");
                         });
@@ -219,42 +240,44 @@
 
             $scope.profile = function() {
                 $scope.notImplementedYet("Profil");
-            }
+            };
+
             $scope.logout = function() {
                 UserService.logoutUser(
-					{					
-					},
-					function(data){
+					{},
+					function( data ) {
 						$scope.close();
 						$scope.loggedIn = false;
 						$scope.$root.$broadcast("logout", data);
 					},
-					function(error){
-						alert(error);
+					function( error ) {
+						alert( error );
 					}
 				);
-            }
+            };
+
             $scope.login = function() {
-				UserService.loginUser(
+            	UserService.loginUser(
 					{
 						email : $scope.user.email,
 						password : $scope.user.password 
 					},
-					function(data){
+					function( data ) {
 						$scope.close();
 						$scope.loggedIn = true;
 						$scope.user = {};
 						$scope.$root.$broadcast("login", data);
 					},
-					function(error){
-						alert(error);
+					function( error ) {
+						alert( error );
 					}
 				);
-            }
+            };
+
             $scope.register = function() {
 				$scope.close();
                 $location.url("/registration");
-            }
+            };
 
             $scope.notImplementedYet = function( functionality ) {
                 $mdDialog.show(

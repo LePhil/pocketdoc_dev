@@ -1,28 +1,23 @@
-
-#logo
-{
+#logo {
 	height: 250px;
 	width:	250px;
 	margin:	auto;
 }
 
-md-toolbar h1
-{
+md-toolbar h1 {
   font-size: 1.250em;
   font-weight: 400;
   margin: auto;
 }
 
-md-list{
+md-list {
 	padding : 0;
 }
 
-.md-tile-content
-{
+.md-tile-content {
 	width: 100%;
 }
-.answer-button
-{
+.answer-button {
 	margin: 3px;
 }
 
@@ -84,3 +79,4 @@ h1{
 .registration-button{
 	margin: 0 5px;
 }
+

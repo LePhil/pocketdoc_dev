@@ -142,6 +142,17 @@
 			);
 		};
 		
+		var isInUse = function(data, success, error){
+			var users = JSON.parse(localStorage.getItem("users"));
+			
+			var user = $.grep(users, function(e){ return e.email == data.email; });
+			
+			if (user.length == 0)
+				success({inUse: false});
+			else
+				success({inUse: true});
+		};
+		
 		return {
 			createUser : create,
 			getUser : get,
@@ -151,7 +162,8 @@
 			logoutUser : logout,
 			checkUserData : checkData,
 			getCurrentUser : getCurrent,
-			updateLanguage : updateLang
+			updateLanguage : updateLang,
+			checkEmailInUse : isInUse
 		};
 		
 	}]);

@@ -10,6 +10,7 @@ var pocketdocApp = angular.module('pocketdocApp', [
   "ngRoute",
   "ngCookies",
   "ngResource",
+  "ngMessages",
   "pascalprecht.translate"
 ]).config(['$routeProvider', '$locationProvider', '$httpProvider', '$mdThemingProvider', '$translateProvider',
 	function($routeProvider, $locationProvider, $httpProvider, $mdThemingProvider, $translateProvider) {

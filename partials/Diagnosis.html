@@ -1,13 +1,11 @@
 ﻿<div layout="column">
     <div class="diagnosis">
-        <md-card layout="column" layout-align="center center" flex class="md-tile-content">
+        <md-card layout="column" layout-align="start center" flex class="md-tile-content">
 	        <md-card-content>
-	            <h2>Diagnose:</h2>
-	            <div>{{diagnosis.short_desc}}</div>
-	            <div>{{diagnosis.description}}</div>
-	            <div></div>
-	            <div>Handlungsempfehlung:</div>
-	            <div>{{actionSuggestion.description}}</div>
+	            <h2>Diagnose: {{diagnosis.short_desc}}</h2>
+	            <p>{{diagnosis.description}}</p>
+	            <h3>Handlungsempfehlung</h3>
+	            <p>{{actionSuggestion.description}}</p>
 	        </md-card-content>
         </md-card>
         <div layout="row" flex>
@@ -16,7 +14,7 @@
     </div>
 
     <div class="follow-up">
-        <md-card layout="column" layout-align="center center" flex class="md-tile-content">
+        <md-card layout="column" layout-align="start center" flex class="md-tile-content">
 	        <md-card-content>
     	        <h2>Follow-Up</h2>
     	        <p>Sie können zu einem späterem Zeitpunkt ein Follow-Up zu dieser Diagnose durchführen. Dadurch können Sie mit einem weiteren Durchlauf die Diagnose bestätigen.</p>

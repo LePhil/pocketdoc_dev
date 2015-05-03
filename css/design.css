@@ -25,15 +25,7 @@ html {
 	background-image: url("../images/agsquare.png");
 }
 
-body {
-}
-
-#currentQuestion,
-.answeredQuestion,
-.diagnosis,
-#contentContainer,
-#headerbar,
-#languagebar {
+#app {
 	width: 100%;
 	max-width: 960px;
 	margin: 0 auto;

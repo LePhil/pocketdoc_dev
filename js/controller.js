@@ -119,6 +119,24 @@
 		
 		$scope.user = UserService.getCurrentUser();
 		
+		$scope.checkEmail = function(){
+			UserService.checkEmailInUse(
+				{
+					email: email.value
+				},
+				function(data){
+					$scope.registrationForm.email.$setValidity('used', !data.inUse);
+					// if (typeof(email.$error) === "undefined")
+						// email.$error = {used: data.inUse};
+					// else
+						// email.$error.used = data.inUse;
+				},
+				function(error){
+					
+				}
+			);
+		};
+		
         /**
          * Sets the gender of the to-be-registered user.
          * 

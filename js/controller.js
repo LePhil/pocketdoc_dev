@@ -95,6 +95,18 @@
 				$scope.loading = false;
                 $scope.hidden = false;
             };
+
+            /**
+             * Used clicked on a question that they already answered to answer
+             * it again.
+             * 
+             * @param  {Object} question
+             * @param  {jQuery.Event} $event
+             * @author Philipp Christen
+             */
+            $scope.reviseQuestion = function( question, $event ) {
+                //TODO
+            };
 	}]);
 	
 	pocketdocControllers.controller('diagnosisController', ['$scope', '$location', 'DiagnosisData', 'UserService', function($scope, $location, DiagnosisData, UserService) {

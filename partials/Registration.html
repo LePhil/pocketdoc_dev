@@ -50,21 +50,31 @@
 		<div flex layout="column">
 			<div class="profile-subtitle" >Sprache:</div>
 			<div layout="row">
-				<md-button id="language-button-de" class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage(0)" ng-class="{'md-primary md-raised': user.lang == 0}">
+				<md-button id="language-button-de" class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage('de')" ng-class="{'md-primary md-raised': user.lang == 'de'}">
 					<md-icon md-svg-icon="images/icons/de.svg" class="s36"></md-icon>
 				</md-button>
-				<md-button id="language-button-en" class="md-icon-button" aria-label="English" ng-click="changeLanguage(1)" ng-class="{'md-primary md-raised': user.lang == 1}">
+				<md-button id="language-button-en" class="md-icon-button" aria-label="English" ng-click="changeLanguage('en')" ng-class="{'md-primary md-raised': user.lang == 'en'}">
 					<md-icon md-svg-icon="images/icons/en.svg" class="s36"></md-icon>
 				</md-button>
-				<md-button id="language-button-fr" class="md-icon-button" aria-label="Français" ng-click="changeLanguage(2)" ng-class="{'md-primary md-raised': user.lang == 2}">
+				<md-button id="language-button-fr" class="md-icon-button" aria-label="Français" ng-click="changeLanguage('fr')" ng-class="{'md-primary md-raised': user.lang == 'fr'}">
 					<md-icon md-svg-icon="images/icons/fr.svg" class="s36"></md-icon>
 				</md-button>
 			</div>
 		</div>
-
-		<div flex layout="row" layout-align="center center">
+		
+		<div flex layout="column" layout-align="center center" ng-show="isProfile">
+			<md-button class="md-raised md-primary registration-button" ng-click="showHistory()" flex>History ansehen</md-button>
+			<md-button class="md-raised md-warn registration-button" ng-click="deleteClick()" flex>Profil l&ouml;schen</md-button>
+		</div>
+		
+		<div flex layout="row" layout-align="center center" ng-hide="isProfile">
 			<md-button ng-click="cancelClick()" class="registration-button" flex>Abbrechen</md-button>
 			<md-button class="md-raised md-primary registration-button" ng-click="registerClick()" flex>Registrieren</md-button>
+		</div>
+		
+		<div flex layout="row" layout-align="center center" ng-show="isProfile">
+			<md-button ng-click="cancelClick()" class="registration-button" flex>Zur&uuml;ck</md-button>
+			<md-button class="md-raised md-primary registration-button" ng-click="saveClick()" flex>Speichern</md-button>
 		</div>
 				
 	</md-content>

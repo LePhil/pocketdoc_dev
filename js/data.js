@@ -891,28 +891,10 @@
 				return [
 					{
 						"id": 0,
-						"desc": [
-							{
-								"lang": 0,
-								"text": "Deutsch"
-							}, {
-								"lang": 1,
-								"text": "German"
-							}
-						],
-						"image": "german.png"
+						"locale": "de"
 					}, {
-						"id": 0,
-						"desc": [
-							{
-								"lang": 0,
-								"text": "Englisch"
-							}, {
-								"lang": 1,
-								"text": "English"
-							}
-						],
-						"image": "english.png"
+						"id": 1,
+						"locale": "en"
 					}
 				];
 			}

@@ -36,6 +36,10 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			templateUrl: 'partials/Registration.html',
 			controller: 'registrationController'
 		})
+		.when('/profile', {
+			templateUrl: 'partials/Registration.html',
+			controller: 'registrationController'
+		})
 		.otherwise({
 			redirectTo: '/'
 		});

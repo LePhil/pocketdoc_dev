@@ -41,9 +41,10 @@
   	<div ng-controller="HeaderController">
 		<md-toolbar>
 			<div id="headerbar" class="md-toolbar-tools">
-				<md-button class="md-icon-button" aria-label="Sprache" ng-click="openLanguageBar($event)">
+				<!--<md-button class="md-icon-button" aria-label="Sprache" ng-click="openLanguageBar($event)">
 					<md-icon md-svg-icon="images/icons/{{language}}.svg" class="s36"></md-icon>
 				</md-button>
+				-->
 				<span flex></span>
 				<h2>
 					<span>PocketDoc</span>
@@ -54,7 +55,8 @@
 				</md-button>
 			</div>
 		</md-toolbar>
-
+		
+		<!--
 		<md-subheader id="languagebar" ng-show="languageBarOpen" class="md-primary">
 			<md-content layout="row" flex>
 				<md-button class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage('de')">
@@ -68,6 +70,7 @@
 				</md-button>
 			</md-content>
 		</md-subheader>
+		-->
 	</div>
 
 	<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
@@ -91,6 +94,17 @@
 				<md-button ng-click="login()" class="md-primary">Login</md-button>
 				<md-button ng-click="register()" class="md-primary">Registrieren</md-button>
 				<md-button ng-click="close()" class="md-primary">Schliessen</md-button>
+			</div>
+			<div layout="row" flex>
+				<md-button class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage('de')" ng-class="{'md-primary md-raised': lang == 'de'}">
+					<md-icon md-svg-icon="images/icons/de.svg" class="s36"></md-icon>
+				</md-button>
+				<md-button class="md-icon-button" aria-label="English" ng-click="changeLanguage('en')" ng-class="{'md-primary md-raised': lang == 'en'}">
+					<md-icon md-svg-icon="images/icons/en.svg" class="s36"></md-icon>
+				</md-button>
+				<md-button class="md-icon-button" aria-label="Français" ng-click="changeLanguage('fr')" ng-class="{'md-primary md-raised': lang == 'fr'}">
+					<md-icon md-svg-icon="images/icons/fr.svg" class="s36"></md-icon>
+				</md-button>
 			</div>
 		</div>
 		<div ng-show="loggedIn">

@@ -6,7 +6,7 @@
 		
 		var currentUser = {
 				id : -1,
-				lang : 0
+				lang : 'de'
 		};
 		
 		var create = function(data, success, error){
@@ -35,7 +35,7 @@
 		
 		var get = function(data, success, error){
 				
-			var users = localStorage.getItem("users");
+			var users = JSON.parse(localStorage.getItem("users"));
 			
 			var user = $.grep(users, function(e){ return e.id == data.id; });
 			
@@ -47,11 +47,47 @@
 		};
 		
 		var update = function(data, success, error){
+			var users = JSON.parse(localStorage.getItem("users"));
+			var user = $.grep(users, function(e){ return e.id == data.id; })[0];
+			
+			if (data.password !== user.password)
+				data.password = user.password;
+			
+			users = $.grep(users, function(e){ return e.id != data.id; });
+			users.push(data);
+			
+			localStorage.setItem( "users", angular.toJson(users) );
+			
+			currentUser = data;
+			delete currentUser.password;
+			
+			success({
+				name: data.name,
+				lang: data.lang
+			});
 			
 		};
 		
 		var del = function(data, success, error){
+			var name = currentUser.name;
+			var users = JSON.parse(localStorage.getItem("users"));
+			var leftUsers = $.grep(users, function(e){ return e.id != currentUser.id; });
 			
+			if ((users.length - 1) === leftUsers.length)
+			{
+				localStorage.setItem( "users", angular.toJson(leftUsers) );
+				
+				currentUser = {
+					id: -1,
+					lang: currentUser.lang
+				}
+				
+				success({
+					name
+				});
+			}
+			else
+				error("Fehler beim löschen des Benutzers!");
 		};
 		
 		var login = function(data, success, error){
@@ -97,6 +133,15 @@
 			return currentUser;
 		};
 		
+		var updateLang = function(data, success, error){
+			currentUser.lang = data.lang;
+			success(
+				{
+					lang: currentUser.lang
+				}
+			);
+		};
+		
 		return {
 			createUser : create,
 			getUser : get,
@@ -105,7 +150,8 @@
 			loginUser : login,
 			logoutUser : logout,
 			checkUserData : checkData,
-			getCurrentUser : getCurrent
+			getCurrentUser : getCurrent,
+			updateLanguage : updateLang
 		};
 		
 	}]);
@@ -176,13 +222,14 @@
 			questionResult.type = firstQuestion.type;
 			
 			// Set Question Text 
-			var questionText = UtilService.getCurrentLanguageObject(UserService.getCurrentUser().lang, firstQuestion.description);
+			var langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
+			var questionText = UtilService.getCurrentLanguageObject(langId, firstQuestion.description);
 			questionResult.description = questionText.text;
 			
 			// Set Answer Texts
 			for(var i = 0; i < firstQuestion.answers.length; i++)
 			{
-				var desc = UtilService.getCurrentLanguageObject(UserService.getCurrentUser().lang, firstQuestion.answers[i].desc);
+				var desc = UtilService.getCurrentLanguageObject(langId, firstQuestion.answers[i].desc);
 				answerTexts.push(
 					{
 						id : firstQuestion.answers[i].id,
@@ -200,8 +247,8 @@
 				var diagnoses = DataService.diagnoses();
 				var diagnosis = UtilService.getElementById(firstQuestion.diagnosis, diagnoses);
 				questionResult.diagnosis = {
-					short_desc : UtilService.getCurrentLanguageObject(UserService.getCurrentUser().lang, diagnosis.short_desc).text,
-					description : UtilService.getCurrentLanguageObject(UserService.getCurrentUser().lang, diagnosis.description).text
+					short_desc : UtilService.getCurrentLanguageObject(langId, diagnosis.short_desc).text,
+					description : UtilService.getCurrentLanguageObject(langId, diagnosis.description).text
 				};
 			}
 			
@@ -211,7 +258,7 @@
 				var action_suggestions = DataService.actionSuggestions();
 				var action_suggestion = UtilService.getElementById(firstQuestion.action_suggestion, action_suggestions);
 				questionResult.action_suggestion = {
-					description : UtilService.getCurrentLanguageObject(UserService.getCurrentUser().lang, action_suggestion.description).text
+					description : UtilService.getCurrentLanguageObject(langId, action_suggestion.description).text
 				};
 			}
 			
@@ -278,6 +325,16 @@
 			getCurrentLanguageObject : function(langId, dataArray){
 				var obj = $.grep(dataArray, function(e){ return e.lang == langId; });
 				return obj[0];
+			},
+			
+			getLocaleById : function(langId, dataArray){
+				var obj = $.grep(dataArray, function(e){ return e.id == langId; });
+				return obj[0].locale;
+			},
+			
+			getIdByLocale : function(localeId, dataArray){
+				var obj = $.grep(dataArray, function(e){ return e.locale == localeId; });
+				return obj[0].id;
 			}
 			
 		};

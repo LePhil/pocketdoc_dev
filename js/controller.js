@@ -5,7 +5,7 @@
 	pocketdocControllers.controller('questionController',
 		['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog',
 		function( $scope, $location, RunService, DiagnosisData, $mdDialog ) {
-
+	
             $scope.loading = true;
 			$scope.hidden = true;
 			
@@ -97,7 +97,8 @@
             };
 	}]);
 	
-	pocketdocControllers.controller('diagnosisController', ['$scope', '$location', 'DiagnosisData', function($scope, $location, DiagnosisData) {
+	pocketdocControllers.controller('diagnosisController', ['$scope', '$location', 'DiagnosisData', 'UserService', function($scope, $location, DiagnosisData, UserService) {
+		
 		$scope.diagnosis = DiagnosisData.diagnosis;
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
 
@@ -112,13 +113,11 @@
      * @return {[type]}
      * @author Roman Eichenberger, Philipp Christen
      */
-	pocketdocControllers.controller('registrationController', ['$scope', '$location', 'UserService', function($scope, $location, UserService) {
+	pocketdocControllers.controller('registrationController', ['$scope', '$location', '$translate', 'UserService', function($scope, $location, $translate, UserService) {
 		
-		$scope.user = {};
+		$scope.isProfile = UserService.getCurrentUser().id >= 0;
 		
-		$scope.user.lang = UserService.getCurrentUser().lang;
-
-		$("#language-button-" + $scope.user.lang).addClass("language-selected");
+		$scope.user = UserService.getCurrentUser();
 		
         /**
          * Sets the gender of the to-be-registered user.
@@ -154,24 +153,53 @@
          * @author Roman Eichenberger
          */
 		$scope.registerClick = function() {
-			$scope.user.lang = 1;
 			UserService.createUser(
 				$scope.user,
 				function( data ) {
 					alert("success");
+					$scope.$root.$broadcast("login", data);
 					$location.url('/');
 				},
 				function( error ) {
-					alert( error )
+					alert( error );
 				}
 			);
 		};
+		
+		$scope.saveClick = function(){
+			UserService.updateUser(
+				$scope.user,
+				function( data ){
+					$translate.use( $scope.user.lang );
+					alert("success");
+				},
+				function( error ){
+					alert( error );
+				}
+			);
+		};
+		
+		$scope.deleteClick = function(){
+			UserService.deleteUser(
+				undefined,
+				function( data ){
+					$scope.$root.$broadcast("logout", data);
+					$location.url('/');
+				},
+				function( error ){
+					alert( error );
+				}
+			);
+		}
 		
 	}]);
 	
 	pocketdocControllers.controller('mainController', [ '$scope', '$location', '$http', '$translate', 'UserService', function( $scope, $location, $http, $translate, UserService ) {
 
 		var currentUser = UserService.getCurrentUser();
+		
+		$translate.use( currentUser.lang );
+		
 		if ( currentUser.id !== -1 ) {
 			$scope.userName = currentUser.name;
 			$scope.loggedIn = true;
@@ -191,30 +219,50 @@
 		
 		$scope.$on( "logout", function( event, data ) {
 			$scope.loggedIn = false;
-		})
+		});
 	}]);
 
     pocketdocControllers.controller('HeaderController',
         ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService',
         function( $scope, $mdDialog, $timeout, $mdSidenav, $log, $translate, $location, UserService ) {
-            $scope.languageBarOpen = false;
-            $scope.language = "de";
+            // $scope.languageBarOpen = false;
+			$scope.lang = UserService.getCurrentUser().lang;
 			
-			$scope.loggedIn = UserService.getCurrentUser().id !== -1;
-            
-            $scope.openLanguageBar = function( $event ) {
-                $event.stopPropagation();
-                $scope.languageBarOpen = !$scope.languageBarOpen;
-            };
+			$scope.$on( "login", function( event, data ) {
+				$scope.loggedIn = true;
+				$scope.lang = UserService.getCurrentUser().lang;
+				$translate.use( $scope.lang );
+			});
+			
+			$scope.$on( "logout", function( event, data ) {
+				$scope.loggedIn = false;
+				$scope.lang = UserService.getCurrentUser().lang;
+				$translate.use( $scope.lang );
+			})
+			
+            // $scope.openLanguageBar = function( $event ) {
+                // $event.stopPropagation();
+                // $scope.languageBarOpen = !$scope.languageBarOpen;
+            // };
 
             $scope.changeLanguage = function( lang ) {
-                $scope.languageBarOpen = false;
                 $scope.language = lang;
-                $translate.use( lang ).then(function ( lang ) {
-                    console.log("Sprache zu " + lang + " gewechselt.");
-                }, function ( lang ) {
-                    console.log("Irgendwas lief schief.");
-                });
+				UserService.updateLanguage(
+					{
+						lang: lang
+					},
+					function(data){
+						$scope.lang = data.lang;
+						$translate.use( data.lang ).then(function ( lang ) {
+							console.log("Sprache zu " + lang + " gewechselt.");
+						}, function ( lang ) {
+							console.log("Irgendwas lief schief.");
+						});
+					},
+					function(error){
+						alert(error);
+					}
+				);
             };
 
             $scope.toggleRight = buildToggler('right');
@@ -224,7 +272,7 @@
              */
             function buildToggler( navID ) {
                 return function() {
-                    return $mdSidenav( navID ).toggle()
+					return $mdSidenav( navID ).toggle()
                         .then(function () {
                             $log.debug("toggle " + navID + " is done");
                         });
@@ -239,7 +287,8 @@
             };
 
             $scope.profile = function() {
-                $scope.notImplementedYet("Profil");
+                $scope.close();
+                $location.url("/profile");
             };
 
             $scope.logout = function() {

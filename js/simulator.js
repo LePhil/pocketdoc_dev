@@ -83,7 +83,7 @@
 				}
 				
 				success({
-					name
+					name : name
 				});
 			}
 			else

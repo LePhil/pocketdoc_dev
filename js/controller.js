@@ -305,6 +305,7 @@
         function( $scope, $mdDialog, $timeout, $mdSidenav, $log, $translate, $location, UserService ) {
             // $scope.languageBarOpen = false;
 			$scope.lang = UserService.getCurrentUser().lang;
+			$scope.location = $location;
 			
 			$scope.$on( "login", function( event, data ) {
 				$scope.loggedIn = true;

@@ -75,25 +75,25 @@
 
 	<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
       <md-toolbar class="md-theme-light">
-        <h1 class="md-toolbar-tools">Account</h1>
+        <h1 class="md-toolbar-tools">{{ 'header_account' | translate }}</h1>
       </md-toolbar>
       <md-content ng-controller="HeaderController" layout-padding>
         <div ng-hide="loggedIn">
 			<form novalidate>
 			  <md-input-container>
-				<label for="testInput">E-Mail</label>
+				<label for="testInput">{{ 'header_login_email' | translate }}</label>
 				<input type="text" id="testInput" ng-model="user.email" md-sidenav-focus required >
 			  </md-input-container>
 			  <md-input-container>
-				<label for="password">Passwort</label>
+				<label for="password">{{ 'header_login_password' | translate }}</label>
 				<input type="password" id="password" ng-model="user.password" required>
 			  </md-input-container>
 			</form>
 
 			<div layout="column" flex>
-				<md-button ng-click="login()" class="md-primary">Login</md-button>
-				<md-button ng-click="register()" class="md-primary">Registrieren</md-button>
-				<md-button ng-click="close()" class="md-primary">Schliessen</md-button>
+				<md-button ng-click="login()" class="md-primary">{{ 'header_login' | translate }}</md-button>
+				<md-button ng-click="register()" class="md-primary">{{ 'header_register' | translate }}</md-button>
+				<md-button ng-click="close()" class="md-primary">{{ 'header_close' | translate }}</md-button>
 			</div>
 			<div layout="row" flex>
 				<md-button class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage('de')" ng-class="{'md-primary md-raised': lang == 'de'}">
@@ -109,9 +109,9 @@
 		</div>
 		<div ng-show="loggedIn">
 			<div layout="column" flex>
-				<md-button ng-click="logout()" class="md-primary">Logout</md-button>
-				<md-button ng-click="profile()" class="md-primary">Profil</md-button>
-				<md-button ng-click="close()" class="md-primary">Schliessen</md-button>
+				<md-button ng-click="logout()" class="md-primary">{{ 'header_logout' | translate }}</md-button>
+				<md-button ng-click="profile()" class="md-primary">{{ 'header_profile' | translate }}</md-button>
+				<md-button ng-click="close()" class="md-primary">{{ 'header_close' | translate }}</md-button>
 			</div>
 		</div>
 		

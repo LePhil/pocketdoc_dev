@@ -1,5 +1,5 @@
 ﻿
-
+<!DOCTYPE html>
 <html lang="en" ng-app="pocketdocApp">
   <head>
 	<meta charset="utf-8">
@@ -41,10 +41,6 @@
   	<div ng-controller="HeaderController">
 		<md-toolbar>
 			<div id="headerbar" class="md-toolbar-tools">
-				<!--<md-button class="md-icon-button" aria-label="Sprache" ng-click="openLanguageBar($event)">
-					<md-icon md-svg-icon="images/icons/{{language}}.svg" class="s36"></md-icon>
-				</md-button>
-				-->
 				<span flex></span>
 				<h2>
 					<span>PocketDoc</span>
@@ -55,22 +51,6 @@
 				</md-button>
 			</div>
 		</md-toolbar>
-		
-		<!--
-		<md-subheader id="languagebar" ng-show="languageBarOpen" class="md-primary">
-			<md-content layout="row" flex>
-				<md-button class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage('de')">
-					<md-icon md-svg-icon="images/icons/de.svg" class="s36"></md-icon>
-				</md-button>
-				<md-button class="md-icon-button" aria-label="English" ng-click="changeLanguage('en')">
-					<md-icon md-svg-icon="images/icons/en.svg" class="s36"></md-icon>
-				</md-button>
-				<md-button class="md-icon-button" aria-label="Français" ng-click="changeLanguage('fr')">
-					<md-icon md-svg-icon="images/icons/fr.svg" class="s36"></md-icon>
-				</md-button>
-			</md-content>
-		</md-subheader>
-		-->
 	</div>
 
 	<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
@@ -82,11 +62,11 @@
 			<form novalidate>
 			  <md-input-container>
 				<label for="testInput">{{ 'header_login_email' | translate }}</label>
-				<input type="text" id="testInput" ng-model="user.email" md-sidenav-focus required >
+				<input type="text" id="testInput" ng-model="user.email" md-sidenav-focus>
 			  </md-input-container>
 			  <md-input-container>
 				<label for="password">{{ 'header_login_password' | translate }}</label>
-				<input type="password" id="password" ng-model="user.password" required>
+				<input type="password" id="password" ng-model="user.password">
 			  </md-input-container>
 			</form>
 

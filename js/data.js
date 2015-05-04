@@ -118,9 +118,7 @@
 								],
 								"next_questions": [1]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 1,
 						"type": "yesnomaybe",
@@ -161,9 +159,7 @@
 								"style": "md-warn",
 								"next_questions": [3]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 2,
 						"type": "yesnomaybe",
@@ -204,9 +200,7 @@
 								"style": "md-warn",
 								"next_questions": [3]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 3,
 						"type": "yesnomaybe",
@@ -245,11 +239,9 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [12]
+								"next_questions": [15]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 4,
 						"type": "list",
@@ -292,27 +284,15 @@
 								"desc": [
 									{
 										"lang": 0,
-										"text": "Mittel"
-									}, {
-										"lang": 1,
-										"text": "Medium"
-									}
-								],
-								"next_questions": [7]
-							}, {
-								"id": 3,
-								"desc": [
-									{
-										"lang": 0,
 										"text": "Stark"
 									}, {
 										"lang": 1,
 										"text": "Strong"
 									}
 								],
-								"next_questions": [7]
+								"next_questions": [8]
 							}, {
-								"id": 4,
+								"id": 3,
 								"desc": [
 									{
 										"lang": 0,
@@ -324,9 +304,7 @@
 								],
 								"next_questions": [7]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 5,
 						"type": "yesnomaybe",
@@ -367,9 +345,7 @@
 								"style": "md-warn",
 								"next_questions": [6]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 6,
 						"type": "yesnomaybe",
@@ -395,7 +371,9 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [7]
+								"next_questions": [9],
+								"diagnosis": 0,
+								"action_suggestion": 3
 							}, {
 								"id": 1,
 								"desc": [
@@ -408,7 +386,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [7]
+								"next_questions": [9]
 							}
 						],
 						"diagnosis": 0,
@@ -438,7 +416,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [8]
+								"next_questions": [15]
 							}, {
 								"id": 1,
 								"desc": [
@@ -451,13 +429,93 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [12]
+								"next_questions": [15]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 8,
+						"type": "yesnomaybe",
+						"description": [
+							{
+								"lang": 0,
+								"text": "Sind die Schmerzen stetig und ununterbrochen da?"
+							}, {
+								"lang": 1,
+								"text": "Is the pain static and always there?"
+							}
+						],
+						"answers": [
+							{
+								"id": 0,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Ja"
+									}, {
+										"lang": 1,
+										"text": "Yes"
+									}
+								],
+								"style": "md-accent",
+								"next_questions": [10]
+							}, {
+								"id": 1,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Nein"
+									}, {
+										"lang": 1,
+										"text": "No"
+									}
+								],
+								"style": "md-warn",
+								"next_questions": [15]
+							}
+						]
+					}, {
+						"id": 9,
+						"type": "yesnomaybe",
+						"description": [
+							{
+								"lang": 0,
+								"text": "Sind die Schmerzen stetig und ununterbrochen da?"
+							}, {
+								"lang": 1,
+								"text": "Is the pain static and always there?"
+							}
+						],
+						"answers": [
+							{
+								"id": 0,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Ja"
+									}, {
+										"lang": 1,
+										"text": "Yes"
+									}
+								],
+								"style": "md-accent",
+								"next_questions": [11]
+							}, {
+								"id": 1,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Nein"
+									}, {
+										"lang": 1,
+										"text": "No"
+									}
+								],
+								"style": "md-warn",
+								"next_questions": [15]
+							}
+						]
+					}, {
+						"id": 10,
 						"type": "yesnomaybe",
 						"description": [
 							{
@@ -481,7 +539,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [9]
+								"next_questions": [13]
 							}, {
 								"id": 1,
 								"desc": [
@@ -494,13 +552,52 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [9]
+								"next_questions": [13]
+							}
+						]
+					}, {
+						"id": 11,
+						"type": "yesnomaybe",
+						"description": [
+							{
+								"lang": 0,
+								"text": "Gibt es etwas, was die Schmerzen viel schlimmer werden lässt?"
+							}, {
+								"lang": 1,
+								"text": "Is there anything that makes the pain worse?"
 							}
 						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						"answers": [
+							{
+								"id": 0,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Ja"
+									}, {
+										"lang": 1,
+										"text": "Yes"
+									}
+								],
+								"style": "md-accent",
+								"next_questions": [12]
+							}, {
+								"id": 1,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Nein"
+									}, {
+										"lang": 1,
+										"text": "No"
+									}
+								],
+								"style": "md-warn",
+								"next_questions": [12]
+							}
+						]
 					}, {
-						"id": 9,
+						"id": 12,
 						"type": "yesnomaybe",
 						"description": [
 							{
@@ -524,7 +621,9 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [10]
+								"next_questions": [13],
+								"diagnosis": 2,
+								"action_suggestion": 2
 							}, {
 								"id": 1,
 								"desc": [
@@ -537,13 +636,11 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [10]
+								"next_questions": [13]
 							}
-						],
-						"diagnosis": 2,
-						"action_suggestion": 2
+						]
 					}, {
-						"id": 10,
+						"id": 13,
 						"type": "yesnomaybe",
 						"description": [
 							{
@@ -567,7 +664,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [11]
+								"next_questions": [14]
 							}, {
 								"id": 1,
 								"desc": [
@@ -580,13 +677,11 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [11]
+								"next_questions": [14]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
-						"id": 11,
+						"id": 14,
 						"type": "yesnomaybe",
 						"description": [
 							{
@@ -610,7 +705,9 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [12]
+								"next_questions": [15],
+								"diagnosis": 1,
+								"action_suggestion": 1
 							}, {
 								"id": 1,
 								"desc": [
@@ -623,13 +720,11 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [12]
+								"next_questions": [15]
 							}
-						],
-						"diagnosis": 1,
-						"action_suggestion": 1
+						]
 					}, {
-						"id": 12,
+						"id": 15,
 						"type": "yesnomaybe",
 						"description": [
 							{
@@ -653,7 +748,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [13]
+								"next_questions": [16]
 							}, {
 								"id": 1,
 								"desc": [
@@ -666,13 +761,11 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [13]
+								"next_questions": [16]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
-						"id": 13,
+						"id": 16,
 						"type": "yesnomaybe",
 						"description": [
 							{
@@ -696,7 +789,9 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [13]
+								"next_questions": [16],
+								"diagnosis": 1,
+								"action_suggestion": 1
 							}, {
 								"id": 1,
 								"desc": [
@@ -709,11 +804,11 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [13]
+								"next_questions": [16],
+								"diagnosis": 1,
+								"action_suggestion": 1
 							}
-						],
-						"diagnosis": 1,
-						"action_suggestion": 1
+						]
 					}
 				];
 			},

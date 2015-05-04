@@ -24,7 +24,7 @@
 
 				<!-- TYPE: LIST -->
 				<div ng-show="currentQuestion.type == 'list'" layout="column" layout-align="center center">
-					<md-button flex="50" class="md-raised answer-button" ng-click="answerQuestion(answer)" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-button>
+					<md-button class="md-raised answer-button" ng-click="answerQuestion(answer)" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-button>
 				</div>
 			</div>
 

@@ -159,7 +159,7 @@
 			else{
 				UserService.isEmailInUse(
 					{
-						email: email.value
+						email: $scope.user.email
 					},
 					function(data){
 						$scope.registrationForm.email.$setValidity('used', !data.inUse);
@@ -173,7 +173,9 @@
 		
 		$scope.checkPassword = function(){
 			if ($scope.isProfile){
-				var valid = oldPassword.value !== "" || (newPassword.value === "" && email.value === oldEmail);
+				var oldPw = $scope.user.oldPassword;
+				var newPw = $scope.user.newPassword;
+				var valid = (typeof(oldPw) !== "undefined" && oldPw !== "") || ((typeof(newPw) === "undefined" || newPw === "") && $scope.user.email === oldEmail);
 				$scope.registrationForm.oldPassword.$setValidity('req', valid);
 			}
 			else{

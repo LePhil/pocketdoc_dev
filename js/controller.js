@@ -3,8 +3,8 @@
 	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices', 'ngMessages']);
     
 	pocketdocControllers.controller('questionController',
-		['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog',
-		function( $scope, $location, RunService, DiagnosisData, $mdDialog ) {
+		['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DataService', 'DiagnosisService',
+		function( $scope, $location, RunService, DiagnosisData, $mdDialog, DataService, DiagnosisService ) {
 	
             $scope.loading = true;
 			$scope.hidden = true;
@@ -41,16 +41,29 @@
 								answer: givenAnswer
 							}
 						);
-						
+
 						// Show new question
 						$scope.currentQuestion = questionData;
-						$scope.givenAnswer = undefined;
-						$scope.loading = false;
-						
-                        // If diagnosis exists, show it
-						if (typeof(questionData.diagnosis) !== "undefined") {
-							$scope.showDiagnosis(questionData.diagnosis, questionData.action_suggestion);
-						} else {
+
+                        if ( typeof(givenAnswer.diagnosis) !== "undefined" &&
+                             typeof(givenAnswer.action_suggestion) !== "undefined" ) {
+
+                            DiagnosisService.getByID(
+                                givenAnswer.diagnosis,
+                                givenAnswer.action_suggestion,
+                                function( diag ) {
+                                    $scope.showDiagnosis(
+                                        diag.diagnosis,
+                                        diag.action_suggestion
+                                    );
+                                },
+                                function( error ) {
+                                    alert( error );
+                                }
+                            );
+
+                        } else {
+                            $scope.givenAnswer = undefined;
                             $scope.showNewQuestion();
                         }
 					},
@@ -69,6 +82,7 @@
                     .cancel('Nein, weitere Fragen beantworten.')
                     .clickOutsideToClose(false);
 
+                $scope.loading = false;
                 $mdDialog.show( confirm ).then(
                     function() {
                         RunService.acceptDiagnosis(

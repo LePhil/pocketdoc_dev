@@ -118,9 +118,7 @@
 								],
 								"next_questions": [1]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 1,
 						"type": "yesnomaybe",
@@ -161,9 +159,7 @@
 								"style": "md-warn",
 								"next_questions": [3]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 2,
 						"type": "yesnomaybe",
@@ -204,9 +200,7 @@
 								"style": "md-warn",
 								"next_questions": [3]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 3,
 						"type": "yesnomaybe",
@@ -247,9 +241,7 @@
 								"style": "md-warn",
 								"next_questions": [15]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 4,
 						"type": "list",
@@ -312,9 +304,7 @@
 								],
 								"next_questions": [7]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 5,
 						"type": "yesnomaybe",
@@ -355,9 +345,7 @@
 								"style": "md-warn",
 								"next_questions": [6]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 6,
 						"type": "yesnomaybe",
@@ -383,7 +371,9 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [9]
+								"next_questions": [9],
+								"diagnosis": 0,
+								"action_suggestion": 3
 							}, {
 								"id": 1,
 								"desc": [
@@ -441,9 +431,7 @@
 								"style": "md-warn",
 								"next_questions": [15]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 8,
 						"type": "yesnomaybe",
@@ -484,9 +472,7 @@
 								"style": "md-warn",
 								"next_questions": [15]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 9,
 						"type": "yesnomaybe",
@@ -527,9 +513,7 @@
 								"style": "md-warn",
 								"next_questions": [15]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 10,
 						"type": "yesnomaybe",
@@ -570,9 +554,7 @@
 								"style": "md-warn",
 								"next_questions": [13]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 11,
 						"type": "yesnomaybe",
@@ -613,9 +595,7 @@
 								"style": "md-warn",
 								"next_questions": [12]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 12,
 						"type": "yesnomaybe",
@@ -641,7 +621,9 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [13]
+								"next_questions": [13],
+								"diagnosis": 2,
+								"action_suggestion": 2
 							}, {
 								"id": 1,
 								"desc": [
@@ -656,9 +638,7 @@
 								"style": "md-warn",
 								"next_questions": [13]
 							}
-						],
-						"diagnosis": 2,
-						"action_suggestion": 2
+						]
 					}, {
 						"id": 13,
 						"type": "yesnomaybe",
@@ -699,9 +679,7 @@
 								"style": "md-warn",
 								"next_questions": [14]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 14,
 						"type": "yesnomaybe",
@@ -727,7 +705,9 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [15]
+								"next_questions": [15],
+								"diagnosis": 1,
+								"action_suggestion": 1
 							}, {
 								"id": 1,
 								"desc": [
@@ -742,9 +722,7 @@
 								"style": "md-warn",
 								"next_questions": [15]
 							}
-						],
-						"diagnosis": 1,
-						"action_suggestion": 1
+						]
 					}, {
 						"id": 15,
 						"type": "yesnomaybe",
@@ -785,9 +763,7 @@
 								"style": "md-warn",
 								"next_questions": [16]
 							}
-						],
-						"diagnosis": -1,
-						"action_suggestion": -1
+						]
 					}, {
 						"id": 16,
 						"type": "yesnomaybe",
@@ -813,7 +789,9 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [16]
+								"next_questions": [16],
+								"diagnosis": 1,
+								"action_suggestion": 1
 							}, {
 								"id": 1,
 								"desc": [
@@ -826,11 +804,11 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [16]
+								"next_questions": [16],
+								"diagnosis": 1,
+								"action_suggestion": 1
 							}
-						],
-						"diagnosis": 1,
-						"action_suggestion": 1
+						]
 					}
 				];
 			},

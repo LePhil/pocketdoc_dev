@@ -5,22 +5,21 @@
 	backend.factory('UserService', ['DataService', function(DataService){
 		
 		var currentUser = {
-				id : -1,
-				lang : 'de'
+			id : -1,
+			lang : 'de'
 		};
 		
 		var create = function(data, success, error){
 			if (currentUser.id !== -1) {
 				error("Ein Benutzer ist aktuell eingeloggt. Bitte zuerst ausloggen.");
-			}
-			{
+			} else {
 				var users = JSON.parse(localStorage.getItem("users"));
 
 				if ( users != null && users.length > 0 ) {
 					data.id = _.max(users, function(user){ return user.id; }).id + 1;	//get highest ID and add 1.
 				} else {
 					users = [];
-					data.id = 1;	//neat, first user!
+					data.id = 0;	//neat, first user!
 				}
 				
 				users.push(data);
@@ -39,10 +38,11 @@
 			
 			var user = $.grep(users, function(e){ return e.id == data.id; });
 			
-			if (user.length == 0)
+			if (user.length == 0) {
 				error("Id ist ungültig");
-			else
+			} else {
 				success(user[0]);
+			}
 			
 		};
 		
@@ -73,8 +73,7 @@
 			var users = JSON.parse(localStorage.getItem("users"));
 			var leftUsers = $.grep(users, function(e){ return e.id != currentUser.id; });
 			
-			if ((users.length - 1) === leftUsers.length)
-			{
+			if ((users.length - 1) === leftUsers.length) {
 				localStorage.setItem( "users", angular.toJson(leftUsers) );
 				
 				currentUser = {
@@ -85,9 +84,9 @@
 				success({
 					name : name
 				});
+			} else {
+				error("Fehler beim Löschen des Benutzers!");
 			}
-			else
-				error("Fehler beim löschen des Benutzers!");
 		};
 		
 		var login = function(data, success, error){
@@ -147,10 +146,11 @@
 			
 			var user = $.grep(users, function(e){ return e.email == data.email; });
 			
-			if (user.length == 0)
+			if (user.length == 0) {
 				success({inUse: false});
-			else
+			} else {
 				success({inUse: true});
+			}
 		};
 		
 		return {
@@ -246,13 +246,16 @@
 					{
 						id : firstQuestion.answers[i].id,
 						desc : desc.text,
-						style: firstQuestion.answers[i].style || ""
+						style: firstQuestion.answers[i].style || "",
+						diagnosis: firstQuestion.answers[i].diagnosis,
+						action_suggestion: firstQuestion.answers[i].action_suggestion
 					}
 				);
 			}
 
 			questionResult.answers = answerTexts;
 			
+			/*
 			// Set Diagnosis
 			if (firstQuestion.diagnosis >= 0)
 			{
@@ -273,6 +276,7 @@
 					description : UtilService.getCurrentLanguageObject(langId, action_suggestion.description).text
 				};
 			}
+			*/
 			
 			success(questionResult);
 			
@@ -294,6 +298,44 @@
 			getQuestionData : getQ,
 			changeAnswer : change,
 			acceptDiagnosis : acceptDiag
+		};
+		
+	}]);
+
+	backend.factory('DiagnosisService', ['DataService', 'UtilService', 'UserService', function( DataService, UtilService, UserService ){
+
+		var langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
+				
+		var getAll = function(success, error){
+			// TODO?
+		};
+
+		var getByID = function( diagID, actionID, success, error ) {
+			var diagnosisData = {};
+
+			// Set diagnosis
+			var diagnosis = UtilService.getElementById( diagID, DataService.diagnoses() );
+			diagnosisData.diagnosis = {
+				short_desc : UtilService.getCurrentLanguageObject( langId, diagnosis.short_desc).text,
+				description : UtilService.getCurrentLanguageObject( langId, diagnosis.description).text
+			};
+			
+			// Set Action suggestion
+			var action_suggestion = UtilService.getElementById( actionID, DataService.actionSuggestions() );
+			diagnosisData.action_suggestion = {
+				description : UtilService.getCurrentLanguageObject( langId, action_suggestion.description).text
+			};
+
+			if ( diagnosisData.diagnosis && diagnosisData.action_suggestion ) {
+				success( diagnosisData );
+			} else {
+				error( "Something went wrong while getting the Diagnosis!");
+			}
+		};
+		
+		return {
+			getAll : getAll,
+			getByID : getByID
 		};
 		
 	}]);

@@ -318,11 +318,6 @@
 				$scope.lang = UserService.getCurrentUser().lang;
 				$translate.use( $scope.lang );
 			})
-			
-            // $scope.openLanguageBar = function( $event ) {
-                // $event.stopPropagation();
-                // $scope.languageBarOpen = !$scope.languageBarOpen;
-            // };
 
             $scope.changeLanguage = function( lang ) {
                 $scope.language = lang;
@@ -415,6 +410,15 @@
                         .ariaLabel('Noch nicht implementiert')
                         .ok('OK')
                 );
+            };
+
+            /**
+             * Navigates back to the main page.
+             * 
+             * @author Philipp Christen
+             */
+            $scope.goToMain = function () {
+                $location.url("/");
             };
     }]);
 })();

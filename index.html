@@ -41,12 +41,13 @@
   	<div ng-controller="HeaderController">
 		<md-toolbar>
 			<div id="headerbar" class="md-toolbar-tools">
+				<md-button class="md-icon-button white" aria-label="{{ 'header_back' | translate }}" ng-click="goToMain()" ng-show="location.url() != '/'">
+					<md-icon md-svg-icon="images/icons/back.svg" class="s36"></md-icon>
+				</md-button>
 				<span flex></span>
-				<h2>
-					<span>PocketDoc</span>
-				</h2>
+				<h2><span>PocketDoc</span></h2>
 				<span flex></span>
-				<md-button class="md-icon-button" aria-label="Einstellungen" ng-click="toggleRight()" ng-show="location.url() == '/'">
+				<md-button class="md-icon-button white" aria-label="{{ 'header_settings' | translate }}" ng-click="toggleRight()" ng-show="location.url() == '/'">
 					<md-icon md-svg-icon="images/icons/settings.svg" class="s36"></md-icon>
 				</md-button>
 			</div>
@@ -54,8 +55,14 @@
 	</div>
 
 	<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-      <md-toolbar class="md-theme-light">
-        <h1 class="md-toolbar-tools">{{ 'header_account' | translate }}</h1>
+      <md-toolbar class="md-theme-light" ng-controller="HeaderController">
+      	<div class="md-toolbar-tools">
+	        <h1><span>{{ 'header_account' | translate }}</span></h1>
+	        <span flex></span>
+	        <md-button class="md-icon-button white" aria-label="{{ 'header_close' | translate }}" ng-click="close()">
+				<md-icon md-svg-icon="images/icons/close.svg" class="s36"></md-icon>
+			</md-button>
+      	</div>
       </md-toolbar>
       <md-content ng-controller="HeaderController" layout-padding>
         <div ng-hide="loggedIn">

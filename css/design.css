@@ -4,6 +4,10 @@
 	margin:	auto;
 }
 
+.white md-icon.md-default-theme {
+	color: white;
+}
+
 md-toolbar h1 {
   font-size: 1.250em;
   font-weight: 400;

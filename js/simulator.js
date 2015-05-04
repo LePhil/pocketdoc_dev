@@ -28,6 +28,7 @@
 				localStorage.setItem( "users", angular.toJson(users) );
 				
 				currentUser = data;
+				delete currentUser.password;
 				
 				success(data);
 			}
@@ -42,7 +43,10 @@
 			if (user.length == 0)
 				error("Id ist ungültig");
 			else
+			{
+				delete user[0].password
 				success(user[0]);
+			}
 			
 		};
 		
@@ -50,8 +54,20 @@
 			var users = JSON.parse(localStorage.getItem("users"));
 			var user = $.grep(users, function(e){ return e.id == data.id; })[0];
 			
-			if (data.password !== user.password)
+			if ((typeof(data.oldPassword) !== "undefined" && data.oldPassword !== "") && data.oldPassword !== user.password)
+			{
+				error("Das eingegebene Passwort ist fehlerhaft!");
+				return;
+			}
+			
+			if (typeof(data.newPassword) !== "undefined" && data.newPassword !== ""){
+				data.password = data.newPassword;
+				delete data.newPassword;
+				delete data.oldPassword;
+			}
+			else{
 				data.password = user.password;
+			}
 			
 			users = $.grep(users, function(e){ return e.id != data.id; });
 			users.push(data);
@@ -145,12 +161,16 @@
 		var isInUse = function(data, success, error){
 			var users = JSON.parse(localStorage.getItem("users"));
 			
-			var user = $.grep(users, function(e){ return e.email == data.email; });
-			
-			if (user.length == 0)
+			if (users == null)
 				success({inUse: false});
-			else
-				success({inUse: true});
+			else{
+				var user = $.grep(users, function(e){ return e.email == data.email; });
+			
+				if (user.length == 0)
+					success({inUse: false});
+				else
+					success({inUse: true});
+			}
 		};
 		
 		return {
@@ -163,7 +183,7 @@
 			checkUserData : checkData,
 			getCurrentUser : getCurrent,
 			updateLanguage : updateLang,
-			checkEmailInUse : isInUse
+			isEmailInUse : isInUse
 		};
 		
 	}]);

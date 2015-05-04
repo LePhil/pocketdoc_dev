@@ -130,23 +130,41 @@
 		$scope.isProfile = UserService.getCurrentUser().id >= 0;
 		
 		$scope.user = UserService.getCurrentUser();
+		var oldEmail = $scope.user.email;
+		
+		if ($scope.isProfile)
+			$scope.user.password = " ";
 		
 		$scope.checkEmail = function(){
-			UserService.checkEmailInUse(
-				{
-					email: email.value
-				},
-				function(data){
-					$scope.registrationForm.email.$setValidity('used', !data.inUse);
-					// if (typeof(email.$error) === "undefined")
-						// email.$error = {used: data.inUse};
-					// else
-						// email.$error.used = data.inUse;
-				},
-				function(error){
-					
-				}
-			);
+			if ($scope.isProfile)
+				$scope.checkPassword();
+			
+			if ($scope.isProfile && oldEmail === $scope.user.email){
+				$scope.registrationForm.email.$setValidity('used', true);
+			}
+			else{
+				UserService.isEmailInUse(
+					{
+						email: email.value
+					},
+					function(data){
+						$scope.registrationForm.email.$setValidity('used', !data.inUse);
+					},
+					function(error){
+						
+					}
+				);
+			}
+		};
+		
+		$scope.checkPassword = function(){
+			if ($scope.isProfile){
+				var valid = oldPassword.value !== "" || (newPassword.value === "" && email.value === oldEmail);
+				$scope.registrationForm.oldPassword.$setValidity('req', valid);
+			}
+			else{
+				$scope.registrationForm.password.$setValidity('req', password.value !== "");
+			}
 		};
 		
         /**
@@ -202,6 +220,7 @@
 				function( data ){
 					$translate.use( $scope.user.lang );
 					alert("success");
+					$location.url('/');
 				},
 				function( error ){
 					alert( error );

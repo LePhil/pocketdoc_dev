@@ -13,20 +13,33 @@
 				</div>
 			</md-input-container>
 
-			<md-input-container flex>
+			<md-input-container flex ng-hide="isProfile">
 				<label for="password">Passwort: </label>
 				<input required ng-model="user.password" type="password" id="password" name="password">
 				<div ng-messages="registrationForm.password.$error">
 					<div ng-message="required">Pflichtfeld!</div>
 				</div>
 			</md-input-container>
-			<md-input-container flex>
-				<label for="name">Name: </label>
-				<input ng-model="user.name" id="name">
+			
+			<md-input-container flex ng-show="isProfile">
+				<label for="oldPassword">Aktuelles Passwort: </label>
+				<input ng-model="user.oldPassword" type="password" id="oldPassword" name="oldPassword" ng-blur="checkPassword()">
+				<div ng-messages="registrationForm.oldPassword.$error">
+					<div ng-message="req">Pflichtfeld!</div>
+				</div>
 			</md-input-container>
-
+			
+			<md-input-container flex ng-show="isProfile">
+				<label for="newPassword">Neues Passwort: </label>
+				<input ng-model="user.newPassword" type="password" id="newPassword" name="newPassword" ng-blur="checkPassword()">
+			</md-input-container>
+			
 			<div class="profile-title" flex>Pers&ouml;nliche Angaben:</div>
 			<div flex layout="column">
+				<md-input-container flex>
+					<label for="name">Name: </label>
+					<input ng-model="user.name" id="name">
+				</md-input-container>
 				<div class="profile-subtitle">Geschlecht:</div>
 				<div layout="row" class="gender-row">
 
@@ -63,7 +76,7 @@
 					</md-button>
 				</div>
 			</div>
-			
+			 
 			<div flex layout="column" layout-align="center center" ng-show="isProfile">
 				<md-button class="md-raised md-primary registration-button" ng-click="showHistory()" flex>History ansehen</md-button>
 				<md-button class="md-raised md-warn registration-button" ng-click="deleteClick()" flex>Profil l&ouml;schen</md-button>
@@ -76,7 +89,7 @@
 			
 			<div flex layout="row" layout-align="center center" ng-show="isProfile">
 				<md-button ng-click="cancelClick()" class="registration-button" flex>Zur&uuml;ck</md-button>
-				<md-button class="md-raised md-primary registration-button" ng-click="saveClick()" flex>Speichern</md-button>
+				<md-button class="md-raised md-primary registration-button" ng-click="saveClick()" flex ng-disabled="registrationForm.$invalid">Speichern</md-button>
 			</div>
 		</form>		
 	</md-content>

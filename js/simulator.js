@@ -169,7 +169,6 @@
 				else
 					success({inUse: true});
 			}
-			}
 		};
 		
 		return {

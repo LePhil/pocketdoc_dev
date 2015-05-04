@@ -42,7 +42,6 @@
 			if (user.length == 0) {
 				error("Id ist ungültig");
 			} else {
-			{
 				delete user[0].password
 				success(user[0]);
 			}

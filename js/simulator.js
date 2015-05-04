@@ -61,12 +61,13 @@
 			
 			if (typeof(data.newPassword) !== "undefined" && data.newPassword !== ""){
 				data.password = data.newPassword;
-				delete data.newPassword;
-				delete data.oldPassword;
 			}
 			else{
 				data.password = user.password;
 			}
+			
+			delete data.newPassword;
+			delete data.oldPassword;
 			
 			users = $.grep(users, function(e){ return e.id != data.id; });
 			users.push(data);

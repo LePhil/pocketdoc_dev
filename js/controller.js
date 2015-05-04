@@ -139,7 +139,7 @@
      * @return {[type]}
      * @author Roman Eichenberger, Philipp Christen
      */
-	pocketdocControllers.controller('registrationController', ['$scope', '$location', '$translate', 'UserService', function($scope, $location, $translate, UserService) {
+	pocketdocControllers.controller('registrationController', ['$scope', '$location', '$translate', '$mdDialog', 'UserService', function($scope, $location, $translate, $mdDialog, UserService) {
 		
 		$scope.isProfile = UserService.getCurrentUser().id >= 0;
 		
@@ -218,7 +218,6 @@
 			UserService.createUser(
 				$scope.user,
 				function( data ) {
-					alert("success");
 					$scope.$root.$broadcast("login", data);
 					$location.url('/');
 				},
@@ -233,7 +232,6 @@
 				$scope.user,
 				function( data ){
 					$translate.use( $scope.user.lang );
-					alert("success");
 					$location.url('/');
 				},
 				function( error ){
@@ -243,17 +241,32 @@
 		};
 		
 		$scope.deleteClick = function(){
-			UserService.deleteUser(
-				undefined,
-				function( data ){
-					$scope.$root.$broadcast("logout", data);
-					$location.url('/');
+			
+			var confirm = $mdDialog.confirm()
+				.title('Account löschen')
+				.content( 'Sie sind im Begriff, den Account unwiederruflich zu löschen. Möchten sie fortfahren?' )
+				.ariaLabel('Lucky day')
+				.ok('Ja, Account löschen')
+				.cancel('Nein, Account behalten')
+				.clickOutsideToClose(false);
+
+			$mdDialog.show( confirm ).then(
+				function() {
+					UserService.deleteUser(
+						undefined,
+						function( data ){
+							$scope.$root.$broadcast("logout", data);
+							$location.url('/');
+						},
+						function( error ){
+							alert( error );
+						}
+					);
 				},
-				function( error ){
-					alert( error );
+				function() {
 				}
 			);
-		}
+		};
 		
 	}]);
 	

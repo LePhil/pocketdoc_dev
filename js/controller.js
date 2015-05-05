@@ -34,9 +34,11 @@
 						answerId : givenAnswer.id
 					},
 					function( questionData ) {
-						// Success: Add previous question to the list
+                        // Success: Add previous question to the list
+                        //  "position" is used for getting the position in the list
 						$scope.answeredQuestions.push(
 							{
+                                position: $scope.answeredQuestions.length,
 								question: $scope.currentQuestion,
 								answer: givenAnswer
 							}
@@ -118,8 +120,12 @@
              * @param  {jQuery.Event} $event
              * @author Philipp Christen
              */
-            $scope.reviseQuestion = function( question, $event ) {
-                //TODO
+            $scope.reviseQuestion = function( qData, $event ) {
+                var pos = qData.position;
+                $scope.answeredQuestions.splice( pos, $scope.answeredQuestions.length-pos+1 );
+
+                // TODO: answers still get counted for the old currentQuestion...
+                $scope.currentQuestion = qData.question;
             };
 	}]);
 	

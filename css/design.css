@@ -73,3 +73,9 @@ h1{
 	margin: 0 5px;
 }
 
+#answeredQuestions .answeredQuestion button h3 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-right: 5px;
+}

@@ -249,9 +249,6 @@
 			
 			currentQuestion = firstQuestion;
 			
-			// Set type
-			questionResult.type = firstQuestion.type;
-			
 			// Set Question Text 
 			var langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
 			var questionText = UtilService.getCurrentLanguageObject(langId, firstQuestion.description);

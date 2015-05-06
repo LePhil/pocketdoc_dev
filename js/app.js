@@ -64,7 +64,10 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			diag_action: "Handlungsempfehlung",
 			diag_followup: "Follow-Up",
 			diag_followup_notnow: "Lieber nicht",
-			diag_followup_enterfollowup: "Follow-Up eintragen"
+			diag_followup_enterfollowup: "Follow-Up eintragen",
+			run_diagnosis_found: "Diagnose gefunden",
+			run_diagnosis_found_no: "Nein, weitere Fragen beantworten",
+			run_diagnosis_found_yes: "Ja, Details einsehen"
 		});
 		$translateProvider.translations('en', {
 			main_startDiagnosis: 'Start Diagnosis now!',
@@ -83,7 +86,10 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			diag_action: "Recommended Action",
 			diag_followup: "Followup",
 			diag_followup_notnow: "Not now",
-			diag_followup_enterfollowup: "Yes, register followup"
+			diag_followup_enterfollowup: "Yes, register followup",
+			run_diagnosis_found: "Diagnosis found",
+			run_diagnosis_found_no: "No, answer further questions",
+			run_diagnosis_found_yes: "Yes, view details"
 		});
 
 		$translateProvider.preferredLanguage('de');

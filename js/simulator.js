@@ -231,11 +231,11 @@
 			
 			nextQuestions.push(answerObj.next_questions);
 			
-			if (nextQuestions.length == 0)
+			if ( nextQuestions.length == 0 ) {
 				error("Ups, uns sind die Fragen ausgegangen.");
-			
-			getQ(nextQuestions.pop(), success, error);
-			
+			} else {
+				getQ(nextQuestions.pop(), success, error);
+			}
 		};
 		
 		var getQ = function(questionId, success, error){
@@ -270,29 +270,6 @@
 			}
 
 			questionResult.answers = answerTexts;
-			
-			/*
-			// Set Diagnosis
-			if (firstQuestion.diagnosis >= 0)
-			{
-				var diagnoses = DataService.diagnoses();
-				var diagnosis = UtilService.getElementById(firstQuestion.diagnosis, diagnoses);
-				questionResult.diagnosis = {
-					short_desc : UtilService.getCurrentLanguageObject(langId, diagnosis.short_desc).text,
-					description : UtilService.getCurrentLanguageObject(langId, diagnosis.description).text
-				};
-			}
-			
-			// Set Action suggestion
-			if (firstQuestion.action_suggestion >= 0)
-			{
-				var action_suggestions = DataService.actionSuggestions();
-				var action_suggestion = UtilService.getElementById(firstQuestion.action_suggestion, action_suggestions);
-				questionResult.action_suggestion = {
-					description : UtilService.getCurrentLanguageObject(langId, action_suggestion.description).text
-				};
-			}
-			*/
 			
 			success(questionResult);
 			

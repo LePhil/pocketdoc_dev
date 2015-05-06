@@ -1,7 +1,7 @@
 (function() {
 
 	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices', 'ngMessages']);
-    
+
 	pocketdocControllers.controller('questionController',
 		['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DataService', 'DiagnosisService',
 		function( $scope, $location, RunService, DiagnosisData, $mdDialog, DataService, DiagnosisService ) {
@@ -54,7 +54,7 @@
                                 givenAnswer.diagnosis,
                                 givenAnswer.action_suggestion,
                                 function( diag ) {
-                                    $scope.showDiagnosis(
+                                    $scope.showDialog(
                                         diag.diagnosis,
                                         diag.action_suggestion
                                     );
@@ -74,38 +74,60 @@
 					}
 				);
 			};
-			
-			$scope.showDiagnosis = function(diagnosis, actionSuggestion) {
-                var confirm = $mdDialog.confirm()
-                    .title('Diagnose Gefunden')
-                    .content( diagnosis.description )
-                    .ariaLabel('Lucky day')
-                    .ok('Ja, Details einsehen')
-                    .cancel('Nein, weitere Fragen beantworten.')
-                    .clickOutsideToClose(false);
 
-                $scope.loading = false;
-                $mdDialog.show( confirm ).then(
-                    function() {
-                        RunService.acceptDiagnosis(
-                            undefined,
-                            function() {
-                                $location.url("/diagnosis");
-                                DiagnosisData.diagnosis = diagnosis;
-                                DiagnosisData.actionSuggestion = actionSuggestion;
-                            },
-                            function( error ) {
-                                alert( error );
-                            }
-                        );
-                        
-                    },
-                    function() {
-                        $scope.showNewQuestion();
-                        console.log( "No, continue" );
+            /**
+             * Mini-Controller for Custom Dialog, provides some simple methods
+             * and makes the passed data available in the template.
+             * 
+             * @param {[type]} $scope           [description]
+             * @param {[type]} $mdDialog        [description]
+             * @param {[type]} diagnosis        [description]
+             * @param {[type]} actionSuggestion [description]
+             * @author Philipp Christen
+             */
+            var DialogController = function($scope, $mdDialog, diagnosis, actionSuggestion) {
+                $scope.diagnosis = diagnosis;
+                $scope.actionSuggestion = actionSuggestion;
+
+                $scope.cancel = function() { $mdDialog.cancel(); };
+                $scope.accept = function() { $mdDialog.hide(); };
+            };
+
+            /**
+             * Shows the "diagnosis found" dialog.
+             * 
+             * @param  {[type]} diagnosis        [description]
+             * @param  {[type]} actionSuggestion [description]
+             * @param  {jQuery.Event} ev [description]
+             * @author Philipp Christen, Roman Eichenberger
+             */
+            $scope.showDialog = function( diagnosis, actionSuggestion, ev ) {
+                $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: '../partials/diagDialog.html',
+                    targetEvent: ev,
+                    resolve: {
+                        diagnosis: function(){ return diagnosis; },
+                        actionSuggestion: function(){ return actionSuggestion; }
                     }
-                );
-			};
+                })
+                .then( function() {
+                    RunService.acceptDiagnosis(
+                        undefined,
+                        function() {
+                            $location.url("/diagnosis");
+                            DiagnosisData.diagnosis = diagnosis;
+                            DiagnosisData.actionSuggestion = actionSuggestion;
+                        },
+                        function( error ) {
+                            alert( error );
+                        }
+                    );
+                }, function() {
+                    $scope.showNewQuestion();
+                    console.log( "No, continue" );
+                });
+            };
 
             $scope.showNewQuestion = function() {
 				$scope.loading = false;
@@ -125,6 +147,7 @@
                 $scope.answeredQuestions.splice( pos, $scope.answeredQuestions.length-pos+1 );
 
                 // TODO: answers still get counted for the old currentQuestion...
+                // Fix in the simulator, don't just get the next question...
                 $scope.currentQuestion = qData.question;
             };
 	}]);
@@ -427,4 +450,5 @@
                 $location.url("/");
             };
     }]);
+
 })();

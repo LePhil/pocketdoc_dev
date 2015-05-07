@@ -3,8 +3,8 @@
 	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices', 'ngMessages']);
 
 	pocketdocControllers.controller('questionController',
-		['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DataService', 'DiagnosisService',
-		function( $scope, $location, RunService, DiagnosisData, $mdDialog, DataService, DiagnosisService ) {
+		        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DataService', 'DiagnosisService',
+		function( $scope,   $location,   RunService,   DiagnosisData,   $mdDialog,   DataService,   DiagnosisService ) {
 	
             $scope.loading = true;
 			$scope.hidden = true;
@@ -13,7 +13,6 @@
 				"",
 				function( questionData ) {
 					// Success
-					console.log( questionData );
 					$scope.currentQuestion = questionData;
 					$scope.answeredQuestions = [];
                     $scope.loading = false;
@@ -28,14 +27,13 @@
                 $scope.loading = true;
 				$scope.hidden = true;
 				
-				console.log("Given answer:", givenAnswer);
 				RunService.answerQuestion(
 					{
 						answerId : givenAnswer.id
 					},
 					function( questionData ) {
                         // Success: Add previous question to the list
-                        //  "position" is used for getting the position in the list
+                        // "position" is used for getting the position in the list
 						$scope.answeredQuestions.push(
 							{
                                 position: $scope.answeredQuestions.length,
@@ -125,7 +123,6 @@
                     );
                 }, function() {
                     $scope.showNewQuestion();
-                    console.log( "No, continue" );
                 });
             };
 
@@ -385,29 +382,15 @@
          *
          * Idea: Save active followUp on the user, then check if there's an
          * active followUp when the run gets started (qController) and act
-         * accordingly.
+         * accordingly.<-- TODO
          *
          * @name   startFollowUp
-         * @param  {[type]} followUp [description]
-         * @param  {[type]} $event   [description]
+         * @param  {Object} followUp
+         * @param  {jQuery.event} $event
          * @author Philipp Christen
          */
         $scope.startFollowUp = function ( followUp, $event ) {
-            console.log( "start followUp", followUp );
-
-            /*
-            FollowupService.deleteFollowup(
-                followUp.id,
-                function( removedID ){
-                    $scope.followUps = _.reject( $scope.followUps, function(fUp){ return fUp.id === removedID; });
-                },
-                function( error ){
-                    alert( error );
-                }
-            );
-            */
-
-            //$rootScope <.. save on rootscope? globally available :)
+            FollowupService.startFollowup( followUp.id );
             $location.url( '/run' );
         };
 
@@ -488,9 +471,8 @@
 					function(data){
 						$scope.lang = data.lang;
 						$translate.use( data.lang ).then(function ( lang ) {
-							console.log("Sprache zu " + lang + " gewechselt.");
 						}, function ( lang ) {
-							console.log("Irgendwas lief schief.");
+							console.log("Error occured while changing language");
 						});
 					},
 					function(error){
@@ -500,16 +482,12 @@
             };
 
             $scope.toggleRight = buildToggler('right');
-            /**
-             * Build handler to open/close a SideNav; when animation finishes
-             * report completion in console
-             */
+            
+            // Build handler to open/close a SideNav
             function buildToggler( navID ) {
                 return function() {
 					return $mdSidenav( navID ).toggle()
-                        .then(function () {
-                            $log.debug("toggle " + navID + " is done");
-                        });
+                        .then(function () { /* done */ });
                 }
             }
 

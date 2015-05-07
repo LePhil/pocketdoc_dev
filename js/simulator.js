@@ -55,20 +55,20 @@
 			
 		};
 		
+		// TODO: refactor (e.g. only grep once)
 		var update = function(data, success, error){
 			var users = JSON.parse(localStorage.getItem("users"));
 			var user = $.grep(users, function(e){ return e.id == data.id; })[0];
 			
-			if ((typeof(data.oldPassword) !== "undefined" && data.oldPassword !== "") && data.oldPassword !== user.password)
-			{
+			if ( ( typeof(data.oldPassword) !== "undefined" && data.oldPassword !== "")
+				 && data.oldPassword !== user.password ) {
 				error("Das eingegebene Passwort ist fehlerhaft!");
 				return;
 			}
 			
 			if (typeof(data.newPassword) !== "undefined" && data.newPassword !== ""){
 				data.password = data.newPassword;
-			}
-			else{
+			} else {
 				data.password = user.password;
 			}
 			
@@ -113,6 +113,7 @@
 			}
 		};
 		
+		// TODO: refactor
 		var login = function(data, success, error){
 			var users = JSON.parse( localStorage.getItem("users") ) || {},
 				user = $.grep( users, function( e ){
@@ -220,14 +221,22 @@
 				
 	});
 	
-	backend.factory('RunService', ['UserService', 'DataService', 'UtilService', function(UserService, DataService, UtilService){
+	backend.factory('RunService', [
+				 'UserService', 'DataService', 'UtilService', 
+		function( UserService,   DataService,   UtilService ){
 		
-		var nextQuestions = [];
-		var currentQuestion;
+		var nextQuestions = [],
+		    currentQuestion,
+			followUp = null;
 		
 		
 		var start = function(data, success, error){
-			getQ(0, success, error);
+			var startQ = 0;
+
+			if ( followUp !== null ) {
+				startQ = followUp.startQuestion;
+			}
+			getQ( startQ, success, error );
 		};
 		
 		var answerQ = function(data, success, error){
@@ -282,13 +291,23 @@
 		};
 		
 		var change = function(data, success, error){
+			// TODO
 		};
 		
 		var acceptDiag = function(data, success, error){
-			
 			// Aktueller Run aufräumen und beenden
 			delete nextQuestions;
 			success();
+		};
+
+		/**
+		 * If a followUp is active, it overrides some settings, like the
+		 * first question of the run.
+		 *  
+		 * @param  {[type]} followUp [description]
+		 */
+		var setFollowUp = function ( newFollowUp ) {
+			followUp = newFollowUp;
 		};
 		
 		return {
@@ -296,7 +315,8 @@
 			answerQuestion : answerQ,
 			getQuestionData : getQ,
 			changeAnswer : change,
-			acceptDiagnosis : acceptDiag
+			acceptDiagnosis : acceptDiag,
+			setFollowUp: setFollowUp
 		};
 		
 	}]);
@@ -338,11 +358,10 @@
 			getAll : getAll,
 			getByID : getByID
 		};
-		
 	}]);
 	
-	backend.factory('FollowupService', [ '_', 'DataService', 'UtilService', 'UserService',
-							   function(  _ ,  DataService ,  UtilService ,  UserService ){
+	backend.factory('FollowupService', [ '_', 'DataService', 'UtilService', 'UserService', 'RunService',
+							   function(  _ ,  DataService ,  UtilService ,  UserService ,  RunService ){
 
 		var save = function ( followUps ) {
 			localStorage.setItem( "followUps", angular.toJson( followUps ) );
@@ -365,8 +384,15 @@
 			save( followUps );
 		};
 		
-		var start = function(data, success, error){
-			// TODO
+		/**
+		 * Marks a followUp as "active"
+		 * 
+		 * @name start
+		 * @param  {Number} followUpID
+		 * @author Philipp Christen
+		 */
+		var start = function( followUpID ){
+			RunService.setFollowUp( getByID( followUpID ) );
 		};
 		
 		/**
@@ -404,6 +430,17 @@
 		};
 
 		/**
+		 * Returns a single follow up.
+		 * 
+		 * @param  {[type]} id id of the follow up
+		 * @return {Object}    followUp with the passed id
+		 * @author Philipp Christen
+		 */
+		var getByID = function( id ) {
+			return _.find( getAll(), function(fUp) { return fUp.id === id; });
+		};
+
+		/**
 		 * Gets all followUps for a single user.
 		 *
 		 * @name   getByUserID
@@ -412,10 +449,19 @@
 		 * @author Philipp Christen
 		 */
 		var getByUserID = function( userID ) {
-			var followUps = _.filter( getAll() , function( fUp ){
+			var followUps = _.filter( getAll(), function( fUp ){
 				return fUp.user === userID;
 			});
 			return followUps;
+		};
+
+		/**
+		 * [getStartQuestion description]
+		 * @param  {[type]} followUpID [description]
+		 * @return {[type]}            [description]
+		 */
+		var getStartQuestion = function( followUpID ) {
+			return getByID( followUpID ).startQuestion;
 		};
 
 
@@ -430,7 +476,8 @@
 			startFollowup : start,
 			deleteFollowup : del,
 			getFollowupsForUser : getByUserID,
-			getAll: getAll
+			getAll: getAll,
+			getByID: getByID
 		};
 		
 	}]);

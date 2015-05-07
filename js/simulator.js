@@ -47,8 +47,7 @@
 			
 			if ( user.length == 0) {
 				error("Id ist ungültig");
-			}
-			else{
+			} else {
 				delete user[0].password
 				success(user[0]);
 			}
@@ -169,13 +168,10 @@
 			
 			if (users == null)
 				success({inUse: false});
-			else{
+			else {
 				var user = $.grep(users, function(e){ return e.email == data.email; });
 			
-				if (user.length == 0)
-					success({inUse: false});
-				else
-					success({inUse: true});
+				success({ inUse: user.length !== 0 });
 			}
 		};
 		
@@ -414,7 +410,6 @@
 			
 			save( followUps );
 
-			//TODO? : check if deletion was successfull
 			success( followUpID );
 		};
 		

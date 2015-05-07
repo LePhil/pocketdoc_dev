@@ -2,15 +2,22 @@
 
 	var backend = angular.module('pocketdocBackend', ['pocketdocData']);
 	
-	backend.factory('UserService', ['DataService', function(DataService){
-		
+	backend.factory('UserService', [
+					 '_', 'DataService',
+			function( _ ,  DataService){
+
+		// on startup, save the fake data to the localstorage 
+		if ( !localStorage.getItem("users") ) {
+			localStorage.setItem( "users", angular.toJson( DataService.users() ) );
+		}
+
 		var currentUser = {
 			id : -1,
 			lang : 'de'
 		};
 		
-		var create = function(data, success, error){
-			if (currentUser.id !== -1) {
+		var create = function( data, success, error ) {
+			if ( currentUser.id !== -1 ) {
 				error("Ein Benutzer ist aktuell eingeloggt. Bitte zuerst ausloggen.");
 			} else {
 				var users = JSON.parse(localStorage.getItem("users"));
@@ -24,22 +31,21 @@
 				
 				users.push(data);
 				
-				localStorage.setItem( "users", angular.toJson(users) );
+				localStorage.setItem( "users", angular.toJson( users ) );
 				
 				currentUser = data;
 				delete currentUser.password;
 				
-				success(data);
+				success( data );
 			}
 		};
 		
 		var get = function(data, success, error){
-				
-			var users = JSON.parse(localStorage.getItem("users"));
 			
-			var user = $.grep(users, function(e){ return e.id == data.id; });
+			var users = JSON.parse(localStorage.getItem("users")),
+				user = $.grep(users, function(e){ return e.id == data.id; });
 			
-			if (user.length == 0) {
+			if ( user.length == 0) {
 				error("Id ist ungültig");
 			}
 			else{
@@ -106,20 +112,18 @@
 		};
 		
 		var login = function(data, success, error){
-			var users = JSON.parse( localStorage.getItem("users") ),
+			var users = JSON.parse( localStorage.getItem("users") ) || {},
 				user = $.grep( users, function( e ){
 					// check if user exists by comparing the emails.
 					return e.email == data.email;
 				} );
-			
-			if (user.length === 1){
+
+			if (!user || user.length === 1){
 				if (data.password === user[0].password){
 					currentUser = user[0];
 					delete currentUser.password;
 					
-					success({
-						name : currentUser.name
-					});
+					success( currentUser );
 				} else {
 					error("Falsches Passwort!");
 				}
@@ -309,6 +313,7 @@
 			// Set diagnosis
 			var diagnosis = UtilService.getElementById( diagID, DataService.diagnoses() );
 			diagnosisData.diagnosis = {
+				id: diagID,
 				short_desc : UtilService.getCurrentLanguageObject( langId, diagnosis.short_desc).text,
 				description : UtilService.getCurrentLanguageObject( langId, diagnosis.description).text
 			};
@@ -316,6 +321,7 @@
 			// Set Action suggestion
 			var action_suggestion = UtilService.getElementById( actionID, DataService.actionSuggestions() );
 			diagnosisData.action_suggestion = {
+				id: actionID,
 				description : UtilService.getCurrentLanguageObject( langId, action_suggestion.description).text
 			};
 
@@ -333,10 +339,28 @@
 		
 	}]);
 	
-	backend.factory('FollowupService', function(){
-		
-		var register = function(data, success, error){
+	backend.factory('FollowupService', [ '_', 'DataService', 'UtilService', 'UserService',
+							   function(  _ ,  DataService ,  UtilService ,  UserService ){
+
+		var save = function ( followUps ) {
+			localStorage.setItem( "followUps", angular.toJson( followUps ) );
+		};
+
+		var register = function ( data ) {
+			var followUps = JSON.parse( localStorage.getItem("followUps") );
+
+			// check if other followUps already exist
+			if ( followUps != null && followUps.length > 0 ) {
+				//if so, get highest ID and add 1.
+				data.id = _.max(followUps, function(fUp){ return fUp.id; }).id + 1;
+			} else {
+				followUps = [];
+				data.id = 0;	//else: first followUp!
+			}
+
+			followUps.push( data );
 			
+			save( followUps );
 		};
 		
 		var start = function(data, success, error){
@@ -350,15 +374,38 @@
 		var get = function(data, success, error){
 			
 		};
+
+		/**
+		 * Gets all followUps for a single user.
+		 * 
+		 * @param  {[type]} data    [description]
+		 * @param  {[type]} success [description]
+		 * @param  {[type]} error   [description]
+		 * @return {[type]}         [description]
+		 * @author Philipp Christen
+		 */
+		var getAll = function( userID, success, error ) {
+			var followUps = _.filter( JSON.parse( localStorage.getItem("followUps") ), function( fUp ){
+				return fUp.user === userID;
+			});
+			return followUps;
+		};
+
+
+		// on startup, save the fake data to the localstorage 
+		if ( !localStorage.getItem("followUps") ) {
+			save( DataService.followUps() );
+		}
 		
 		return {
 			registerFollowup : register,
 			startFollowup : start,
 			deleteFollowup : del,
-			getFollowups : get
+			getFollowupsForUser : getAll,
+			getSingleFollowUp: get
 		};
 		
-	});
+	}]);
 	
 	backend.factory('UtilService', function(){
 		

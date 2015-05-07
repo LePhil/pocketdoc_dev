@@ -16,14 +16,51 @@
 	</div>
 	<div layout="column" ng-show="loggedIn">
 		<h1>Willkommen zur&uuml;ck, {{userName}}.</h1>
-		<h2>Offene durchg&auml;nge:</h2>
-		<div>
-			Noch keine!
-		</div>
-		<h2>Ausstehende Followups:</h2>
-		<div>
-			Noch keine!
-		</div>
+		
+		<md-content>
+			<section>
+				<md-subheader class="md-primary">Offene Durchgänge</md-subheader>
+				<md-list layout-padding id="openRunsList">
+					<md-list-item class="followUp" ng-repeat="run in openRuns">
+						<md-button class="md-icon-button" ng-click="deleteRun($event)" aria-label="Delete">
+							<md-icon class="s36" md-svg-src="images/icons/delete.svg"></md-icon>
+						</md-button>
+
+						<div flex class="md-list-item-text followUpDesc">
+							<p>{{ run.id }}: {{ run.timeAdded | date:'dd.MM.yyyy HH:mm' }}</p>
+						</div>
+
+						<md-button class="md-icon-button" ng-click="continueRun($event, run)" aria-label="Start Run">
+							<md-icon class="s36" md-svg-src="images/icons/play.svg"></md-icon>
+						</md-button>
+					</md-list-item>
+
+					<md-list-item ng-hide="openRuns.length > 0">Noch keine!</md-list-item>
+				</md-list>
+			</section>
+			<section>
+				<md-subheader class="md-primary">Ausstehende FollowUps</md-subheader>
+				<md-list layout="column" layout-padding id="followUpList">
+					<md-list-item class="followUp" ng-repeat="followup in followUps">
+						<md-button class="md-icon-button" ng-click="deleteFollowUp($event)" aria-label="Delete">
+							<md-icon class="s36" md-svg-src="images/icons/delete.svg"></md-icon>
+						</md-button>
+
+						<div flex class="md-list-item-text followUpDesc">
+							<p>{{ followup.id }}: {{ followup.timeAdded | date:'dd.MM.yyyy HH:mm' }}</p>
+							<h4>Diagnose: {{ followUp.oldDiagnosis }}</h4>
+						</div>
+
+						<md-button class="md-icon-button" ng-click="startFollowUp($event)" aria-label="Start FollowUp">
+							<md-icon class="s36" md-svg-src="images/icons/play.svg"></md-icon>
+						</md-button>
+					</md-list-item>
+
+					<md-list-item ng-hide="followUps.length > 0">Noch keine!</md-list-item>
+				</md-list>
+			</section>
+		</md-content>
+
 	</div>
 	<div id="mainRun" layout="row" layout-align="end center">
         <md-button class="md-primary" ng-click="run()">{{ 'main_startDiagnosis' | translate }}</md-button>

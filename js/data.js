@@ -938,7 +938,7 @@
 						"password": "abcdefg",
 						"gender": 0,
 						"age_category": 3,
-						"lang": 0
+						"lang": "de"
 					}, {
 						"id": 1,
 						"name": "Alfred",
@@ -946,7 +946,7 @@
 						"password": "batsbatsbats",
 						"gender": 0,
 						"age_category": 6,
-						"lang": 0
+						"lang": "de"
 					}
 				];
 			},
@@ -978,6 +978,35 @@
 								"id": 0
 							}
 						]
+					}
+				];
+			},
+
+			followUps: function(){
+				return [
+					{
+						"id": 0,
+						"user": 0,
+						"oldDiagnosis": 1,
+						"oldActionSuggestion": 1,
+						"startQuestion": 1,
+						"timeAdded": 1430985246414
+					},
+					{
+						"id": 1,
+						"user": 1,
+						"oldDiagnosis": 1,
+						"oldActionSuggestion": 1,
+						"startQuestion": 1,
+						"timeAdded": 1430985236314
+					},
+					{
+						"id": 2,
+						"user": 2,
+						"oldDiagnosis": 1,
+						"oldActionSuggestion": 1,
+						"startQuestion": 1,
+						"timeAdded": 1430985356414
 					}
 				];
 			},

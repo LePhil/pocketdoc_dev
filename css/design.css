@@ -79,3 +79,17 @@ h1{
   white-space: nowrap;
   margin-right: 5px;
 }
+
+#followUpList {
+	max-height: 500px;
+}
+.followUp {
+	margin: 10px 0;
+	border-bottom: 1px solid #DDD;
+}
+
+.followUpDesc p,
+.followUpDesc h4 {
+	padding: 0;
+	margin: 0;
+}

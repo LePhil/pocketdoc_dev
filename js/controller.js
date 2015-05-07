@@ -152,13 +152,42 @@
             };
 	}]);
 	
-	pocketdocControllers.controller('diagnosisController', ['$scope', '$location', 'DiagnosisData', 'UserService', function($scope, $location, DiagnosisData, UserService) {
+	pocketdocControllers.controller('diagnosisController',
+                ['$scope', '$location', 'DiagnosisData', 'UserService', 'FollowupService',
+        function( $scope ,  $location ,  DiagnosisData ,  UserService ,  FollowupService ) {
 		
 		$scope.diagnosis = DiagnosisData.diagnosis;
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
 
         $scope.goToMain = function() { $location.url('/'); };
-        $scope.addFollowUp = function() { $location.url('/'); };
+
+        /**
+         * add a follow-up to the existing ones for the current user.
+         * Only registered and logged in users can do that, though.
+         * A follow-up contains the old diagnosis and action suggestion,
+         * as well as the owner (user) and the question where it should start.
+         * Additionally, the current time will be saved, too.
+         *
+         * @name addFollowUp
+         * @author Philipp Christen
+         */
+        $scope.addFollowUp = function() {
+            // only save follow-up when logged in!
+            var userID = UserService.getCurrentUser().id;
+
+            if ( userID > -1 ) {
+                var followUpData = {
+                    "user": userID,
+                    "oldDiagnosis": $scope.diagnosis.id,
+                    "oldActionSuggestion": $scope.actionSuggestion.id,
+                    "startQuestion": 1,  // TODO get correct q,
+                    "timeAdded": Date.now()
+                };
+
+                FollowupService.registerFollowup( followUpData );
+                $location.url('/');
+            }
+        };
 	}]);
 	
     /**
@@ -275,7 +304,7 @@
 			
 			var confirm = $mdDialog.confirm()
 				.title('Account löschen')
-				.content( 'Sie sind im Begriff, den Account unwiederruflich zu löschen. Möchten sie fortfahren?' )
+				.content( 'Sie sind im Begriff, den Account unwiderruflich zu löschen. Möchten Sie fortfahren?' )
 				.ariaLabel('Lucky day')
 				.ok('Ja, Account löschen')
 				.cancel('Nein, Account behalten')
@@ -301,39 +330,52 @@
 		
 	}]);
 	
-	pocketdocControllers.controller('mainController', [ '$scope', '$location', '$http', '$translate', 'UserService', function( $scope, $location, $http, $translate, UserService ) {
-
-		var currentUser = UserService.getCurrentUser();
-		
-		$translate.use( currentUser.lang );
-		
-		if ( currentUser.id !== -1 ) {
-			$scope.userName = currentUser.name;
-			$scope.loggedIn = true;
-		} else {
-			currentUser = undefined;
-		}
+	pocketdocControllers.controller('mainController',
+               [ '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', 
+        function( $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ) {
 		
         $scope.run = function() {
 		  $location.url('/run');
 		};
 		
 		$scope.$on( "login", function( event, data ) {
-			$scope.userName = data.name;
-			console.log( data );
-			$scope.loggedIn = true;
+            $scope.handleLogin( data );
 		});
 		
 		$scope.$on( "logout", function( event, data ) {
-			$scope.loggedIn = false;
+			$scope.handleLogout();
 		});
+
+        $scope.handleLogin = function ( user ) {
+            $scope.userName = user.name;
+            $scope.loggedIn = true;
+            $scope.followUps = FollowupService.getFollowupsForUser( user.id );
+            currentUser = user;
+        };
+
+        $scope.handleLogout = function () {
+            $scope.userName = "";
+            $scope.loggedIn = false;
+            $scope.followUps = [];
+            currentUser = undefined;
+        };
+        
+        var currentUser = UserService.getCurrentUser();
+
+        $translate.use( currentUser.lang );
+        
+        if ( currentUser.id !== -1 ) {
+            $scope.handleLogin( currentUser );
+        } else {
+            $scope.handleLogout();
+        }
 	}]);
 
     pocketdocControllers.controller('HeaderController',
         ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService',
         function( $scope, $mdDialog, $timeout, $mdSidenav, $log, $translate, $location, UserService ) {
-            // $scope.languageBarOpen = false;
-			$scope.lang = UserService.getCurrentUser().lang;
+			
+            $scope.lang = UserService.getCurrentUser().lang;
 			$scope.location = $location;
 			
 			$scope.$on( "login", function( event, data ) {

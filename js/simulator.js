@@ -98,6 +98,8 @@
 			if ((users.length - 1) === leftUsers.length) {
 				localStorage.setItem( "users", angular.toJson(leftUsers) );
 				
+				// TODO: remove all openRuns, history, followUps from this user!
+
 				currentUser = {
 					id: -1,
 					lang: currentUser.lang

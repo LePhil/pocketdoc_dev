@@ -381,13 +381,34 @@
         };
 
         /**
-         * [startFollowUp description]
+         * Starts a followUp.
+         *
+         * Idea: Save active followUp on the user, then check if there's an
+         * active followUp when the run gets started (qController) and act
+         * accordingly.
+         *
+         * @name   startFollowUp
          * @param  {[type]} followUp [description]
          * @param  {[type]} $event   [description]
          * @author Philipp Christen
          */
         $scope.startFollowUp = function ( followUp, $event ) {
             console.log( "start followUp", followUp );
+
+            /*
+            FollowupService.deleteFollowup(
+                followUp.id,
+                function( removedID ){
+                    $scope.followUps = _.reject( $scope.followUps, function(fUp){ return fUp.id === removedID; });
+                },
+                function( error ){
+                    alert( error );
+                }
+            );
+            */
+
+            //$rootScope <.. save on rootscope? globally available :)
+            $location.url( '/run' );
         };
 
         /**
@@ -417,6 +438,16 @@
             $scope.followUps = [];
             currentUser = undefined;
         };
+
+        /*
+        
+        if followUp is "locked", count down. for that we need to poke angular
+        every second...
+
+        $interval(function(){
+            // nothing is required here, interval triggers digest automaticaly
+        },1000)
+         */
         
         var currentUser = UserService.getCurrentUser();
 

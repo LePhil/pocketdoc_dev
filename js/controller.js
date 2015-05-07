@@ -331,9 +331,12 @@
 	}]);
 	
 	pocketdocControllers.controller('mainController',
-               [ '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', 
-        function( $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ) {
+               [ '_', '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', '$mdDialog', 
+        function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ) {
 		
+        $scope.followUps = [];
+        $scope.openRuns = [];
+
         $scope.run = function() {
 		  $location.url('/run');
 		};
@@ -346,6 +349,55 @@
 			$scope.handleLogout();
 		});
 
+        /**
+         * [deleteFollowUp description]
+         * @param  {[type]} followUp [description]
+         * @param  {[type]} $event   [description]
+         * @author Philipp Christen
+         */
+        $scope.deleteFollowUp = function ( followUp, $event ) {
+            var confirm = $mdDialog.confirm()
+                .title('FollowUp entfernen?')
+                .content( 'Wollen Sie diesen FollowUp wirklich löschen?' )
+                .ariaLabel('Wirklich löschen?')
+                .ok('Ja')
+                .cancel('Nein')
+                .clickOutsideToClose(false);
+
+            $mdDialog.show( confirm ).then(
+                function() {
+                    FollowupService.deleteFollowup(
+                        followUp.id,
+                        function( removedID ){
+                            $scope.followUps = _.reject( $scope.followUps, function(fUp){ return fUp.id === removedID; });
+                        },
+                        function( error ){
+                            alert( error );
+                        }
+                    );
+                },
+                function() { /* wasn't successfull */ }
+            );
+        };
+
+        /**
+         * [startFollowUp description]
+         * @param  {[type]} followUp [description]
+         * @param  {[type]} $event   [description]
+         * @author Philipp Christen
+         */
+        $scope.startFollowUp = function ( followUp, $event ) {
+            console.log( "start followUp", followUp );
+        };
+
+        /**
+         * Gets called upon login. Sets certain values that are provided by the
+         * logged in user, e.g. their name.
+         *
+         * @name   handleLogin
+         * @param  {Object} user
+         * @author Philipp Christen
+         */
         $scope.handleLogin = function ( user ) {
             $scope.userName = user.name;
             $scope.loggedIn = true;
@@ -353,6 +405,12 @@
             currentUser = user;
         };
 
+        /**
+         * Gets called when a user logged out. Resets user-related settings.
+         *
+         * @name   handleLogout
+         * @author Philipp Christen
+         */
         $scope.handleLogout = function () {
             $scope.userName = "";
             $scope.loggedIn = false;

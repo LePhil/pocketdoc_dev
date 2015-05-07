@@ -347,7 +347,7 @@
 		};
 
 		var register = function ( data ) {
-			var followUps = JSON.parse( localStorage.getItem("followUps") );
+			var followUps = getAll();
 
 			// check if other followUps already exist
 			if ( followUps != null && followUps.length > 0 ) {
@@ -364,35 +364,61 @@
 		};
 		
 		var start = function(data, success, error){
-			
+			// TODO
 		};
 		
-		var del = function(data, success, error){
+		/**
+		 * Removes one followUp from the pile.
+		 *
+		 * @name   del
+		 * @param  {Number} followUpID
+		 * @param  {Function} success
+		 * @param  {Function} error
+		 * @author Philipp Christen
+		 */
+		var del = function(followUpID, success, error){
+			var followUps = getAll();
+
+			// removes the followUp with the passed ID
+			followUps = _.reject( followUps, function(fUp){
+				return fUp.id === followUpID;
+			});
 			
+			save( followUps );
+
+			//TODO? : check if deletion was successfull
+			success( followUpID );
 		};
 		
-		var get = function(data, success, error){
-			
+		/**
+		 * Returns all followUps
+		 *
+		 * @name   getAll
+		 * @return {Array}
+		 * @author Philipp Christen
+		 */
+		var getAll = function(){
+			return JSON.parse( localStorage.getItem("followUps") );
 		};
 
 		/**
 		 * Gets all followUps for a single user.
-		 * 
-		 * @param  {[type]} data    [description]
-		 * @param  {[type]} success [description]
-		 * @param  {[type]} error   [description]
-		 * @return {[type]}         [description]
+		 *
+		 * @name   getByUserID
+		 * @param  {Number} userID
+		 * @return {Array}
 		 * @author Philipp Christen
 		 */
-		var getAll = function( userID, success, error ) {
-			var followUps = _.filter( JSON.parse( localStorage.getItem("followUps") ), function( fUp ){
+		var getByUserID = function( userID ) {
+			var followUps = _.filter( getAll() , function( fUp ){
 				return fUp.user === userID;
 			});
 			return followUps;
 		};
 
 
-		// on startup, save the fake data to the localstorage 
+		// on startup, save the fake data to the localstorage if that hasn't
+		// happened already
 		if ( !localStorage.getItem("followUps") ) {
 			save( DataService.followUps() );
 		}
@@ -401,8 +427,8 @@
 			registerFollowup : register,
 			startFollowup : start,
 			deleteFollowup : del,
-			getFollowupsForUser : getAll,
-			getSingleFollowUp: get
+			getFollowupsForUser : getByUserID,
+			getAll: getAll
 		};
 		
 	}]);

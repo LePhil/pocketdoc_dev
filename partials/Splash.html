@@ -42,7 +42,7 @@
 				<md-subheader class="md-primary">Ausstehende FollowUps</md-subheader>
 				<md-list layout="column" layout-padding id="followUpList">
 					<md-list-item class="followUp" ng-repeat="followup in followUps">
-						<md-button class="md-icon-button" ng-click="deleteFollowUp($event)" aria-label="Delete">
+						<md-button class="md-icon-button" ng-click="deleteFollowUp(followup, $event)" aria-label="Delete">
 							<md-icon class="s36" md-svg-src="images/icons/delete.svg"></md-icon>
 						</md-button>
 
@@ -51,7 +51,7 @@
 							<h4>Diagnose: {{ followUp.oldDiagnosis }}</h4>
 						</div>
 
-						<md-button class="md-icon-button" ng-click="startFollowUp($event)" aria-label="Start FollowUp">
+						<md-button class="md-icon-button" ng-click="startFollowUp(followup, $event)" aria-label="Start FollowUp">
 							<md-icon class="s36" md-svg-src="images/icons/play.svg"></md-icon>
 						</md-button>
 					</md-list-item>

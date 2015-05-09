@@ -49,7 +49,7 @@ var pocketdocApp = angular.module('pocketdocApp', [
 		$translateProvider.translations('de', {
 			main_startDiagnosis: 'Diagnose jetzt starten!',
 			main_welcome: 'Willkommen!',
-			main_welcomeBack: "Willkommen zurück",
+			main_welcomeBack: "Willkommen",
 			main_intro_salutation: "Liebe Testuserin, lieber Testuser",
 			main_intro_short: "PocketDok ist ein neuartiges, elektronisches Patienten-Empowerment Programm. Es hilft erkrankten Menschen über einen natürlichen Dialog eine erste Diagnose zu erhalten und gibt ihnen eine Entscheidungsgrundlage für die weitere Behandlung. PocketDok empfiehlt Hausmittel, erkundigt sich nach dem Verlauf der Krankheit oder rät bei Bedarf zum Aufsuchen eines Arztes. PocketDok kann als mobile App und Website betrieben oder in eine bestehende Anwendung integriert werden.",
 			main_intro_tutorial_header: "Anleitung Prototyp",
@@ -114,7 +114,7 @@ var pocketdocApp = angular.module('pocketdocApp', [
 		$translateProvider.translations('en', {
 			main_startDiagnosis: 'Start Diagnosis now!',
 			main_welcome: 'Welcome!',
-			main_welcomeBack: "Welcome back",
+			main_welcomeBack: "Welcome",
 			main_intro_salutation: "Dear test user",
 			main_intro_short: "PocketDoc is a new, electronic patient empowerment application. It helps sick people through a natural dialogue to find a first diagnosis and provides suggestions for further actions.",
 			main_intro_tutorial_header: "How it works",

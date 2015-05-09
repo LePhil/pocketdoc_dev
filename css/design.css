@@ -93,3 +93,7 @@ h1{
 	padding: 0;
 	margin: 0;
 }
+
+.notReady {
+	color: rgb(210, 210, 210);
+}

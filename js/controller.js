@@ -335,8 +335,8 @@
 	}]);
 	
 	pocketdocControllers.controller('mainController',
-               [ '_', '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', '$mdDialog', 'DiagnosisService', 
-        function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ,  DiagnosisService ) {
+               [ '_', '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', '$mdDialog', 'DiagnosisService', '$interval', 
+        function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ,  DiagnosisService ,  $interval ) {
 		
         $scope.followUps = [];
         $scope.openRuns = [];
@@ -435,15 +435,30 @@
             currentUser = undefined;
         };
 
+        /**
+         * Calculates the age of the followUp and returns true if it's less
+         * than 4 hours.
+         * 
+         * @param  {Timestamp}  timeAdded
+         * @return {Boolean}
+         * @author Philipp Christen
+         */
+        $scope.isFollowUpReady = function( timeAdded ) {
+            return new Date() - timeAdded > 4*60*60 *1000;
+        }
+
+        $scope.getRemainingTime = function( timeAdded ) {
+            return timeAdded + 4*60*60*1000 - new Date();
+        }
+
         /*
         
         if followUp is "locked", count down. for that we need to poke angular
         every second...
-
+        */
         $interval(function(){
             // nothing is required here, interval triggers digest automaticaly
         },1000)
-         */
         
         var currentUser = UserService.getCurrentUser();
 

@@ -82,6 +82,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			diag_followup: "Follow-Up",
 			diag_followup_notnow: "Lieber nicht",
 			diag_followup_enterfollowup: "Follow-Up eintragen",
+			diag_followup_register: "Registrieren",
+			diag_followup_onlyForUsers: "Diese Funktion steht nur für eingeloggte User zur Verfügung.",
 			run_diagnosis_found: "Diagnose gefunden",
 			run_diagnosis_found_no: "Nein, weitere Fragen beantworten",
 			run_diagnosis_found_yes: "Ja, Details einsehen"
@@ -122,6 +124,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			diag_followup: "Followup",
 			diag_followup_notnow: "Not now",
 			diag_followup_enterfollowup: "Yes, register followup",
+			diag_followup_register: "Register",
+			diag_followup_onlyForUsers: "This function is only available for logged in users",
 			run_diagnosis_found: "Diagnosis found",
 			run_diagnosis_found_no: "No, answer further questions",
 			run_diagnosis_found_yes: "Yes, view details"

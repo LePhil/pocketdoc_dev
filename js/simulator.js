@@ -15,6 +15,10 @@
 			id : -1,
 			lang : 'de'
 		};
+
+		var isLoggedIn = function() {
+			return currentUser.id !== -1;
+		};
 		
 		var create = function( data, success, error ) {
 			if ( currentUser.id !== -1 ) {
@@ -185,7 +189,8 @@
 			checkUserData : checkData,
 			getCurrentUser : getCurrent,
 			updateLanguage : updateLang,
-			isEmailInUse : isInUse
+			isEmailInUse : isInUse,
+			isLoggedIn: isLoggedIn
 		};
 		
 	}]);

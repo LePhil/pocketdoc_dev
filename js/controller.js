@@ -168,6 +168,7 @@
         $scope.followUp = RunService.getFollowUp();
         $scope.isFollowUp = $scope.followUp != null;
         $scope.isSameDiag = false;
+        $scope.isLoggedIn = UserService.isLoggedIn();
 
         if ( $scope.isFollowUp ) {
             $scope.isSameDiag = $scope.diagnosis.id === $scope.followUp.oldDiagnosis;
@@ -201,6 +202,15 @@
                 FollowupService.registerFollowup( followUpData );
                 $location.url('/');
             }
+        };
+
+        /**
+         * TODO !
+         * [registerForFollowUp description]
+         * @return {[type]} [description]
+         */
+        $scope.registerForFollowUp = function() {
+            // $location.url("/registration");
         };
 	}]);
 	

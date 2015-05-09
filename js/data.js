@@ -1090,10 +1090,10 @@
 						"description": [
 							{
 								"lang": 0,
-								"text": "Suchen Sie einen Arzt auf."
+								"text": "Suchen Sie sofort einen Arzt auf."
 							}, {
 								"lang": 1,
-								"text": "Go visit a doctor."
+								"text": "Go visit a doctor immediately."
 							}
 						]
 					}, {

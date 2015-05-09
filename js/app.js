@@ -50,6 +50,11 @@ var pocketdocApp = angular.module('pocketdocApp', [
 		$translateProvider.translations('de', {
 			main_startDiagnosis: 'Diagnose jetzt starten!',
 			main_welcome: 'Willkommen!',
+			main_intro_salutation: "Liebe Testuserin, lieber Testuser",
+			main_intro_short: "PocketDok ist ein neuartiges, elektronisches Patienten-Empowerment Programm. Es hilft erkrankten Menschen über einen natürlichen Dialog eine erste Diagnose zu erhalten und gibt ihnen eine Entscheidungsgrundlage für die weitere Behandlung. PocketDok empfiehlt Hausmittel, erkundigt sich nach dem Verlauf der Krankheit oder rät bei Bedarf zum Aufsuchen eines Arztes. PocketDok kann als mobile App und Website betrieben oder in eine bestehende Anwendung integriert werden.",
+			main_intro_tutorial_header: "Anleitung Prototyp",
+			main_intro_tutorial: "Sie sehen hier einen einfachen Prototyp von PocketDok. Dieser diagnostiziert zurzeit 43 Krankheiten, indem er Ihnen Fragen stellt, die Sie einfach nur mit ja oder nein beantworten müssen. Die Fragen müssen natürlich \"richtig\" beantwortet werden, damit PocketDok die Krankheit auch herausfinden kann. Das heisst, Sie sollten die Symptome der Krankheit, die Sie testen wollen, wirklich gut kennen und die Fragen entsprechend beantworten, wenn Sie ein richtiges Resultat erhalten möchten. Der PocketDok-Prototyp funktioniert mit Karteikärtchen. Diese werden in zwei Spalten angezeigt. In der linken Spalte erscheinen die Kärtchen mit den Fragen. Klicken Sie hier in das zutreffende Kästchen und die nächste Frage wird angezeigt. Bitte lassen Sie sich genug Zeit beim Antworten, da Sie keine Korrekturen vornehmen können. Wenn Sie einmal versehentlich falsch geantwortet haben, müssen Sie wieder von vorne beginnen. Wenn Sie in die rechte Spalte klicken, werden drei Kärtchen mit möglichen Diagnosen angezeigt. Manchmal ist es so, dass PocketDok bereits nach zehn Fragen die richtige Diagnose kennt, manchmal werden die Fragen, welche zur korrekten Diagnose führen aber erst ganz zum Schluss gestellt. Um sicher zu gehen, dass PocketDok genügend Informationen für eine korrekte Diagnose gesammelt hat, sollten Sie alle Fragen durchgehen und beantworten. Dieses Vorgehen ist natürlich nicht so effizient - aber eben: dies ist ein Prototyp. Das fertige Produkt wird selbständig erkennen, wann eine Diagnose gefunden worden ist und die Fragerunde beendet werden kann.",
+			main_intro_tryNow: "Probieren Sie's aus!",
 			header_account: "Account",
 			header_login_email: "E-Mail",
 			header_login_password: "Passwort",
@@ -76,6 +81,11 @@ var pocketdocApp = angular.module('pocketdocApp', [
 		$translateProvider.translations('en', {
 			main_startDiagnosis: 'Start Diagnosis now!',
 			main_welcome: 'Welcome!',
+			main_intro_salutation: "Dear test user",
+			main_intro_short: "PocketDoc is a new, electronic patient empowerment application. It helps sick people through a natural dialogue to find a first diagnosis and provides suggestions for further actions.",
+			main_intro_tutorial_header: "How it works",
+			main_intro_tutorial: "Press Start below or register, then start a diagnosis. You'll answer some questions regarding your situation and soon PocketDoc will have a diagnosis for you.",
+			main_intro_tryNow: "Try it out now!",
 			header_account: "Account",
 			header_login_email: "E-Mail",
 			header_login_password: "Password",

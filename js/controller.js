@@ -135,7 +135,7 @@
 				
 					$('#contentContainer').animate({ 
 					   scrollTop: $('#partialContent').outerHeight(true)}, 
-					   500
+					   1000
 					);
 				}, 500);
 				

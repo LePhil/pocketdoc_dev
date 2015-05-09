@@ -33,7 +33,9 @@ html {
 }
 
 #mainRun {
-	margin-bottom: 10px;
+	margin: 0 auto;
+	max-width: 960px;
+	width: 100%;
 }
 
 .md-icon-button .s36 {

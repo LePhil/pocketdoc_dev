@@ -108,7 +108,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_cancel: "Abbrechen",
 			reg_register: "Registrieren",
 			reg_back: "Zurück",
-			reg_save: "Speichern"
+			reg_save: "Speichern",
+			header_reset: "Reset"
 		});
 		$translateProvider.translations('en', {
 			main_startDiagnosis: 'Start Diagnosis now!',
@@ -172,7 +173,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_cancel: "Cancel",
 			reg_register: "Register",
 			reg_back: "Back",
-			reg_save: "Save"
+			reg_save: "Save",
+			header_reset: "Reset"
 		});
 
 		$translateProvider.preferredLanguage('de');

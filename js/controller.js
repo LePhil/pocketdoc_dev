@@ -622,6 +622,16 @@
             $scope.goToMain = function () {
                 $location.url("/");
             };
+
+            /**
+             * TODO: RESET ALL LOCALSTORAGE FOR DEMONSTRATION PURPOSES!
+             * [resetForDemo description]
+             * @return {[type]} [description]
+             * @author Philipp Christen
+             */
+            $scope.resetForDemo = function() {
+                //TODO:
+            };
     }]);
 
 })();

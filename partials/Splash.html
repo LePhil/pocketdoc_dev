@@ -21,11 +21,11 @@
 					<md-subheader class="md-primary">{{ 'main_followUp_open' | translate }}</md-subheader>
 					<md-list layout="column" layout-padding id="followUpList">
 						<md-list-item class="followUp" ng-repeat="followup in followUps">
-						<md-button class="md-icon-button" ng-click="deleteFollowUp(followup, $event)" aria-label="{{ 'main_followUp_delete' | translate }}">
+							<md-button class="md-icon-button" ng-click="deleteFollowUp(followup, $event)" aria-label="{{ 'main_followUp_delete' | translate }}">
 								<md-icon class="s36" md-svg-src="images/icons/delete.svg"></md-icon>
 							</md-button>
 
-						<div flex class="md-list-item-text followUpDesc" ng-class="{'notReady': !isFollowUpReady( followup.timeAdded ) }">
+							<div flex class="md-list-item-text followUpDesc" ng-class="{'notReady': !isFollowUpReady( followup.timeAdded ) }">
 							<p>
 								<span ng-show="isFollowUpReady( followup.timeAdded)">{{ followup.timeAdded | date:'dd.MM.yyyy HH:mm' }}</span>
 								<span ng-show="!isFollowUpReady( followup.timeAdded)">{{ 'main_followUp_remaining' | translate }} {{ getRemainingTime( followup.timeAdded ) | date:'HH:mm:ss' }}</span>

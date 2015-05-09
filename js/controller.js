@@ -129,6 +129,16 @@
             $scope.showNewQuestion = function() {
 				$scope.loading = false;
                 $scope.hidden = false;
+				
+				setTimeout(function(){
+					$scope.$root.$broadcast("resize");
+				
+					$('#contentContainer').animate({ 
+					   scrollTop: $('#partialContent').outerHeight(true)}, 
+					   1000
+					);
+				}, 500);
+				
             };
 
             /**
@@ -498,7 +508,11 @@
 				$scope.loggedIn = false;
 				$scope.lang = UserService.getCurrentUser().lang;
 				$translate.use( $scope.lang );
-			})
+			});
+			
+			$scope.$on("resize", function(event, data){
+				$scope.resize();
+			});
 
             $scope.changeLanguage = function( lang ) {
                 $scope.language = lang;

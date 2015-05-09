@@ -1,69 +1,73 @@
 ﻿<div class="start ng-scope" layout-align="center">
-	<div layout="row">
-		<img id="logo" src="images/PocketDocMaskottchen.jpg">
+	<div id="partialContent">
+		<div layout="row">
+			<img id="logo" src="images/PocketDocMaskottchen.jpg">
+		</div>
+		<div layout="column" ng-hide="loggedIn">
+			<h2>{{ 'main_welcome' | translate }}</h2>
+			<h3>{{ 'main_intro_salutation' | translate }}</h3>
+			<p>{{ 'main_intro_short' | translate }}</p>
+			
+			<h3>{{ 'main_intro_tutorial_header' | translate }}</h3>
+			<p>{{ 'main_intro_tutorial' | translate }}</p>
+			
+			<h3>{{ 'main_intro_tryNow' | translate }}</h3>
+		</div>
+		<div layout="column" ng-show="loggedIn">
+			<h1>{{ 'main_welcomeBack' | translate }}, {{userName}}.</h1>
+			
+			<md-content>
+				<section>
+					<md-subheader class="md-primary">{{ 'main_openRuns' | translate }}</md-subheader>
+					<md-list layout-padding id="openRunsList">
+						<md-list-item class="followUp" ng-repeat="run in openRuns">
+							<md-button class="md-icon-button" ng-click="deleteRun($event)" aria-label="Delete">
+								<md-icon class="s36" md-svg-src="images/icons/delete.svg"></md-icon>
+							</md-button>
+
+							<div flex class="md-list-item-text followUpDesc">
+								<p>{{ run.id }}: {{ run.timeAdded | date:'dd.MM.yyyy HH:mm' }}</p>
+							</div>
+
+							<md-button class="md-icon-button" ng-click="continueRun($event, run)" aria-label="Start Run">
+								<md-icon class="s36" md-svg-src="images/icons/play.svg"></md-icon>
+							</md-button>
+						</md-list-item>
+
+						<md-list-item ng-hide="openRuns.length > 0">{{ 'main_noneYet' | translate }}</md-list-item>
+					</md-list>
+				</section>
+				<section>
+					<md-subheader class="md-primary">{{ 'main_followUp_open' | translate }}</md-subheader>
+					<md-list layout="column" layout-padding id="followUpList">
+						<md-list-item class="followUp" ng-repeat="followup in followUps">
+							<md-button class="md-icon-button" ng-click="deleteFollowUp(followup, $event)" aria-label="Delete">
+								<md-icon class="s36" md-svg-src="images/icons/delete.svg"></md-icon>
+							</md-button>
+
+							<div flex class="md-list-item-text followUpDesc">
+								<p>{{ followup.id }}: {{ followup.timeAdded | date:'dd.MM.yyyy HH:mm' }}</p>
+								<h4>Diagnose: {{ getDiagnosis( followup ) }}</h4>
+							</div>
+
+							<md-button class="md-icon-button" ng-click="startFollowUp(followup, $event)" aria-label="Start FollowUp">
+								<md-icon class="s36" md-svg-src="images/icons/play.svg"></md-icon>
+							</md-button>
+						</md-list-item>
+
+						<md-list-item ng-hide="followUps.length > 0">{{ 'main_noneYet' | translate }}</md-list-item>
+					</md-list>
+				</section>
+			</md-content>
+
+		</div>
 	</div>
-	<div layout="column" ng-hide="loggedIn">
-		<h2>{{ 'main_welcome' | translate }}</h2>
-		<h3>{{ 'main_intro_salutation' | translate }}</h3>
-		<p>{{ 'main_intro_short' | translate }}</p>
-		
-		<h3>{{ 'main_intro_tutorial_header' | translate }}</h3>
-		<p>{{ 'main_intro_tutorial' | translate }}</p>
-		
-		<h3>{{ 'main_intro_tryNow' | translate }}</h3>
-	</div>
-	<div layout="column" ng-show="loggedIn">
-		<h1>{{ 'main_welcomeBack' | translate }}, {{userName}}.</h1>
-		
-		<md-content>
-			<section>
-				<md-subheader class="md-primary">{{ 'main_openRuns' | translate }}</md-subheader>
-				<md-list layout-padding id="openRunsList">
-					<md-list-item class="followUp" ng-repeat="run in openRuns">
-						<md-button class="md-icon-button" ng-click="deleteRun($event)" aria-label="Delete">
-							<md-icon class="s36" md-svg-src="images/icons/delete.svg"></md-icon>
-						</md-button>
-
-						<div flex class="md-list-item-text followUpDesc">
-							<p>{{ run.id }}: {{ run.timeAdded | date:'dd.MM.yyyy HH:mm' }}</p>
-						</div>
-
-						<md-button class="md-icon-button" ng-click="continueRun($event, run)" aria-label="Start Run">
-							<md-icon class="s36" md-svg-src="images/icons/play.svg"></md-icon>
-						</md-button>
-					</md-list-item>
-
-					<md-list-item ng-hide="openRuns.length > 0">{{ 'main_noneYet' | translate }}</md-list-item>
-				</md-list>
-			</section>
-			<section>
-				<md-subheader class="md-primary">{{ 'main_followUp_open' | translate }}</md-subheader>
-				<md-list layout="column" layout-padding id="followUpList">
-					<md-list-item class="followUp" ng-repeat="followup in followUps">
-						<md-button class="md-icon-button" ng-click="deleteFollowUp(followup, $event)" aria-label="Delete">
-							<md-icon class="s36" md-svg-src="images/icons/delete.svg"></md-icon>
-						</md-button>
-
-						<div flex class="md-list-item-text followUpDesc">
-							<p>{{ followup.id }}: {{ followup.timeAdded | date:'dd.MM.yyyy HH:mm' }}</p>
-							<h4>Diagnose: {{ getDiagnosis( followup ) }}</h4>
-						</div>
-
-						<md-button class="md-icon-button" ng-click="startFollowUp(followup, $event)" aria-label="Start FollowUp">
-							<md-icon class="s36" md-svg-src="images/icons/play.svg"></md-icon>
-						</md-button>
-					</md-list-item>
-
-					<md-list-item ng-hide="followUps.length > 0">{{ 'main_noneYet' | translate }}</md-list-item>
-				</md-list>
-			</section>
-		</md-content>
-
-	</div>
-	<div id="mainRun" layout="row" layout-align="end center">
-        <md-button class="md-primary" ng-click="run()">{{ 'main_startDiagnosis' | translate }}</md-button>
-		<md-button class="md-fab md-primary" ng-click="run()" aria-label="Diagnose jetzt starten!">
-			<md-icon md-svg-src="images/icons/play.svg" style="color: white;"></md-icon>
-		</md-button>
+	<div id="footer">
+		<div id="mainRun" layout="row" layout-align="end center">
+			<md-button class="md-primary" ng-click="run()">{{ 'main_startDiagnosis' | translate }}</md-button>
+			<md-button class="md-fab md-primary" ng-click="run()" aria-label="Diagnose jetzt starten!">
+				<md-icon md-svg-src="images/icons/play.svg" style="color: white;"></md-icon>
+			</md-button>
+		</div>
 	</div>
 </div>

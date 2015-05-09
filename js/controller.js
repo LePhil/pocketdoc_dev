@@ -463,6 +463,16 @@
             $scope.lang = UserService.getCurrentUser().lang;
 			$scope.location = $location;
 			
+			// Resize handler to calculate layout
+			$scope.resize = function(){
+				var height = window.innerHeight;
+				var footerHeight = $('#footer').height();
+				var headerHeight = $('#header').height();
+				$('#partialContent').css('marginBottom', footerHeight);
+			}
+			
+			window.onresize = $scope.resize();
+			
 			$scope.$on( "login", function( event, data ) {
 				$scope.loggedIn = true;
 				$scope.lang = UserService.getCurrentUser().lang;

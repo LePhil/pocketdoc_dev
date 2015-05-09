@@ -93,3 +93,15 @@ h1{
 	padding: 0;
 	margin: 0;
 }
+
+#partialContent{
+
+}
+
+#footer{
+	background: white;
+	position: fixed;
+	bottom: 0;
+	right: 15px;
+	left: 0px;
+}

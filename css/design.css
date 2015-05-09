@@ -94,6 +94,8 @@ h1{
 	margin: 0;
 }
 
+.notReady {
+	color: rgb(210, 210, 210);
 #partialContent{
 
 }

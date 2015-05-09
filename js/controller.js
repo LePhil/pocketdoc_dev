@@ -184,7 +184,7 @@
                     "user": userID,
                     "oldDiagnosis": $scope.diagnosis.id,
                     "oldActionSuggestion": $scope.actionSuggestion.id,
-                    "startQuestion": 1,  // TODO get correct q,
+                    "startQuestion": 5,  // TODO get correct q,
                     "timeAdded": Date.now()
                 };
 

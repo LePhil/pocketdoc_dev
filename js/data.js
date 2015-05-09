@@ -10,125 +10,14 @@
 				return [
 					{
 						"id": 0,
-						"type": "list",
-						"description": [
-							{
-								"lang": 0,
-								"text": "Wann hat das Problem angefangen?"
-							}, {
-								"lang": 1,
-								"text": "Since when do you have the problem?"
-							}
-						],
-						"answers": [
-							{
-								"id": 0,
-								"desc": [
-									{
-										"lang": 0,
-										"text": "In den letzten 2 Stunden"
-									}, {
-										"lang": 1,
-										"text": "In the last 2 hours"
-									}
-								], 
-								"next_questions": [1]
-							}, {
-								"id": 1,
-								"desc": [
-									{
-										"lang": 0,
-										"text": "In den letzten 4 Stunden"
-									}, {
-										"lang": 1,
-										"text": "In the last 4 hours"
-									}
-								],
-								"next_questions": [1]
-							}, {
-								"id": 2,
-								"desc": [
-									{
-										"lang": 0,
-										"text": "In den letzten 8 Stunden"
-									}, {
-										"lang": 1,
-										"text": "In the last 8 hours"
-									}
-								],
-								"next_questions": [1]
-							}, {
-								"id": 3,
-								"desc": [
-									{
-										"lang": 0,
-										"text": "Innerhalb des letzten Tages"
-									}, {
-										"lang": 1,
-										"text": "During the last day"
-									}
-								],
-								"next_questions": [1]
-							}, {
-								"id": 4,
-								"desc": [
-									{
-										"lang": 0,
-										"text": "In den letzten 3 Tagen"
-									}, {
-										"lang": 1,
-										"text": "In the last 3 days"
-									}
-								],
-								"next_questions": [1]
-							}, {
-								"id": 5,
-								"desc": [
-									{
-										"lang": 0,
-										"text": "In der letzten Woche"
-									}, {
-										"lang": 1,
-										"text": "In the last week"
-									}
-								],
-								"next_questions": [1]
-							}, {
-								"id": 6,
-								"desc": [
-									{
-										"lang": 0,
-										"text": "In den letzten 2 Wochen"
-									}, {
-										"lang": 1,
-										"text": "In the last 2 weeks"
-									}
-								],
-								"next_questions": [1]
-							}, {
-								"id": 7,
-								"desc": [
-									{
-										"lang": 0,
-										"text": "Vor mehr als 2 Wochen"
-									}, {
-										"lang": 1,
-										"text": "More than 2 weeks ago"
-									}
-								],
-								"next_questions": [1]
-							}
-						]
-					}, {
-						"id": 1,
 						"type": "yesnomaybe",
 						"description": [
 							{
 								"lang": 0,
-								"text": "Haben Sie Fieber?"
+								"text": "Hat das Problem innerhalb der letzten 24 Stunden angefangen?"
 							}, {
 								"lang": 1,
-								"text": "Do you have a temperature?"
+								"text": "Did the problem start in the last 24 hours?"
 							}
 						],
 						"answers": [
@@ -144,32 +33,32 @@
 									}
 								],
 								"style": "md-accent",
+								"next_questions": [1]
+							}, {
+								"id": 1,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Nein"
+									}, {
+										"lang": 1,
+										"text": "No"
+									}
+								],
+								"style": "md-warn",
 								"next_questions": [2]
-							}, {
-								"id": 1,
-								"desc": [
-									{
-										"lang": 0,
-										"text": "Nein"
-									}, {
-										"lang": 1,
-										"text": "No"
-									}
-								],
-								"style": "md-warn",
-								"next_questions": [3]
 							}
 						]
 					}, {
-						"id": 2,
+					"id": 1,
 						"type": "yesnomaybe",
 						"description": [
 							{
 								"lang": 0,
-								"text": "Hohes Fieber?"
+								"text": "Hat das Problem innerhalb der letzten 4 Stunden angefangen?"
 							}, {
 								"lang": 1,
-								"text": "High Temperature?"
+								"text": "Did the problem start in the last 4 hours?"
 							}
 						],
 						"answers": [
@@ -185,7 +74,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [3]
+								"next_questions": [5]
 							}, {
 								"id": 1,
 								"desc": [
@@ -202,15 +91,15 @@
 							}
 						]
 					}, {
-						"id": 3,
+					"id": 2,
 						"type": "yesnomaybe",
 						"description": [
 							{
 								"lang": 0,
-								"text": "Haben Sie Schmerzen?"
+								"text": "Hat das Problem innerhalb der letzten 2 Wochen angefangen?"
 							}, {
 								"lang": 1,
-								"text": "Do you have pain?"
+								"text": "Did the problem start in the last 2 weeks?"
 							}
 						],
 						"answers": [
@@ -239,19 +128,19 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [15]
+								"next_questions": [5]
 							}
 						]
 					}, {
-						"id": 4,
-						"type": "list",
+					"id": 3,
+						"type": "yesnomaybe",
 						"description": [
 							{
 								"lang": 0,
-								"text": "Wie stark sind die Schmerzen?"
+								"text": "Hat das Problem innerhalb der letzten 8 Stunden angefangen?"
 							}, {
 								"lang": 1,
-								"text": "How strong is the pain?"
+								"text": "Did the problem start in the last 8 hours?"
 							}
 						],
 						"answers": [
@@ -260,49 +149,68 @@
 								"desc": [
 									{
 										"lang": 0,
-										"text": "Sehr schwach"
+										"text": "Ja"
 									}, {
 										"lang": 1,
-										"text": "Very weak"
+										"text": "Yes"
 									}
 								],
+								"style": "md-accent",
 								"next_questions": [5]
 							}, {
 								"id": 1,
 								"desc": [
 									{
 										"lang": 0,
-										"text": "Schwach"
+										"text": "Nein"
 									}, {
 										"lang": 1,
-										"text": "Weak"
+										"text": "No"
 									}
 								],
+								"style": "md-warn",
+								"next_questions": [5]
+							}
+						]
+					}, {
+					"id": 4,
+						"type": "yesnomaybe",
+						"description": [
+							{
+								"lang": 0,
+								"text": "Hat das Problem innerhalb der letzten Woche angefangen?"
+							}, {
+								"lang": 1,
+								"text": "Did the problem start in the last week?"
+							}
+						],
+						"answers": [
+							{
+								"id": 0,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Ja"
+									}, {
+										"lang": 1,
+										"text": "Yes"
+									}
+								],
+								"style": "md-accent",
 								"next_questions": [5]
 							}, {
-								"id": 2,
+								"id": 1,
 								"desc": [
 									{
 										"lang": 0,
-										"text": "Stark"
+										"text": "Nein"
 									}, {
 										"lang": 1,
-										"text": "Strong"
+										"text": "No"
 									}
 								],
-								"next_questions": [8]
-							}, {
-								"id": 3,
-								"desc": [
-									{
-										"lang": 0,
-										"text": "Sehr stark"
-									}, {
-										"lang": 1,
-										"text": "Very strong"
-									}
-								],
-								"next_questions": [7]
+								"style": "md-warn",
+								"next_questions": [5]
 							}
 						]
 					}, {
@@ -311,10 +219,10 @@
 						"description": [
 							{
 								"lang": 0,
-								"text": "Haben Sie Sodbrennen?"
+								"text": "Haben Sie Fieber?"
 							}, {
 								"lang": 1,
-								"text": "Do you experience heartburn?"
+								"text": "Do you have a temperature?"
 							}
 						],
 						"answers": [
@@ -343,7 +251,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [6]
+								"next_questions": [7]
 							}
 						]
 					}, {
@@ -352,10 +260,10 @@
 						"description": [
 							{
 								"lang": 0,
-								"text": "Handelt es sich um Kopfschmerzen?"
+								"text": "Hohes Fieber?"
 							}, {
 								"lang": 1,
-								"text": "Are you experiencing headaches?"
+								"text": "High Temperature?"
 							}
 						],
 						"answers": [
@@ -371,9 +279,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [9],
-								"diagnosis": 0,
-								"action_suggestion": 3
+								"next_questions": [7]
 							}, {
 								"id": 1,
 								"desc": [
@@ -386,21 +292,19 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [9]
+								"next_questions": [7]
 							}
-						],
-						"diagnosis": 0,
-						"action_suggestion": 3
+						]
 					}, {
 						"id": 7,
 						"type": "yesnomaybe",
 						"description": [
 							{
 								"lang": 0,
-								"text": "Sind die Schmerzen stetig und ununterbrochen da?"
+								"text": "Haben Sie Schmerzen?"
 							}, {
 								"lang": 1,
-								"text": "Is the pain static and always there?"
+								"text": "Do you have pain?"
 							}
 						],
 						"answers": [
@@ -416,7 +320,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [15]
+								"next_questions": [8]
 							}, {
 								"id": 1,
 								"desc": [
@@ -429,7 +333,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [15]
+								"next_questions": [22]
 							}
 						]
 					}, {
@@ -438,10 +342,10 @@
 						"description": [
 							{
 								"lang": 0,
-								"text": "Sind die Schmerzen stetig und ununterbrochen da?"
+								"text": "Sind die Schmerzen leicht?"
 							}, {
 								"lang": 1,
-								"text": "Is the pain static and always there?"
+								"text": "Is the pain weak?"
 							}
 						],
 						"answers": [
@@ -470,7 +374,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [15]
+								"next_questions": [9]
 							}
 						]
 					}, {
@@ -479,10 +383,10 @@
 						"description": [
 							{
 								"lang": 0,
-								"text": "Sind die Schmerzen stetig und ununterbrochen da?"
+								"text": "Sind die Schmerzen stark?"
 							}, {
 								"lang": 1,
-								"text": "Is the pain static and always there?"
+								"text": "Is the pain strong?"
 							}
 						],
 						"answers": [
@@ -511,7 +415,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [15]
+								"next_questions": [12]
 							}
 						]
 					}, {
@@ -520,10 +424,10 @@
 						"description": [
 							{
 								"lang": 0,
-								"text": "Gibt es etwas, was die Schmerzen viel schlimmer werden lässt?"
+								"text": "Sind die Schmerzen sehr leicht?"
 							}, {
 								"lang": 1,
-								"text": "Is there anything that makes the pain worse?"
+								"text": "Is the pain very weak?"
 							}
 						],
 						"answers": [
@@ -539,7 +443,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [13]
+								"next_questions": [12]
 							}, {
 								"id": 1,
 								"desc": [
@@ -552,7 +456,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [13]
+								"next_questions": [12]
 							}
 						]
 					}, {
@@ -561,10 +465,10 @@
 						"description": [
 							{
 								"lang": 0,
-								"text": "Gibt es etwas, was die Schmerzen viel schlimmer werden lässt?"
+								"text": "Sind die Schmerzen sehr stark?"
 							}, {
 								"lang": 1,
-								"text": "Is there anything that makes the pain worse?"
+								"text": "Is the pain very strong?"
 							}
 						],
 						"answers": [
@@ -580,7 +484,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [12]
+								"next_questions": [17]
 							}, {
 								"id": 1,
 								"desc": [
@@ -593,7 +497,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [12]
+								"next_questions": [18]
 							}
 						]
 					}, {
@@ -602,10 +506,10 @@
 						"description": [
 							{
 								"lang": 0,
-								"text": "Leiden Sie unter Nackenschmerzen?"
+								"text": "Haben Sie Sodbrennen?"
 							}, {
 								"lang": 1,
-								"text": "Do you suffer from neck pain?"
+								"text": "Do you experience heartburn?"
 							}
 						],
 						"answers": [
@@ -621,9 +525,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [13],
-								"diagnosis": 2,
-								"action_suggestion": 2
+								"next_questions": [13]
 							}, {
 								"id": 1,
 								"desc": [
@@ -645,10 +547,10 @@
 						"description": [
 							{
 								"lang": 0,
-								"text": "Haben Sie Husten?"
+								"text": "Handelt es sich um Kopfschmerzen?"
 							}, {
 								"lang": 1,
-								"text": "Do you have a cough?"
+								"text": "Are you experiencing headaches?"
 							}
 						],
 						"answers": [
@@ -664,7 +566,9 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [14]
+								"next_questions": [14],
+								"diagnosis": 0,
+								"action_suggestion": 3
 							}, {
 								"id": 1,
 								"desc": [
@@ -686,10 +590,10 @@
 						"description": [
 							{
 								"lang": 0,
-								"text": "Haben Sie Brustschmerzen?"
+								"text": "Sind die Schmerzen stetig und ununterbrochen da?"
 							}, {
 								"lang": 1,
-								"text": "Do you have chest pain?"
+								"text": "Is the pain static and always there?"
 							}
 						],
 						"answers": [
@@ -705,9 +609,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [15],
-								"diagnosis": 1,
-								"action_suggestion": 1
+								"next_questions": [15]
 							}, {
 								"id": 1,
 								"desc": [
@@ -720,7 +622,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [15]
+								"next_questions": [22]
 							}
 						]
 					}, {
@@ -729,10 +631,10 @@
 						"description": [
 							{
 								"lang": 0,
-								"text": "Haben Sie Auswurf?"
+								"text": "Gibt es etwas, was die Schmerzen viel schlimmer werden lässt?"
 							}, {
 								"lang": 1,
-								"text": "Are you having sputum?"
+								"text": "Is there anything that makes the pain worse?"
 							}
 						],
 						"answers": [
@@ -770,6 +672,297 @@
 						"description": [
 							{
 								"lang": 0,
+								"text": "Leiden Sie unter Nackenschmerzen?"
+							}, {
+								"lang": 1,
+								"text": "Do you suffer from neck pain?"
+							}
+						],
+						"answers": [
+							{
+								"id": 0,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Ja"
+									}, {
+										"lang": 1,
+										"text": "Yes"
+									}
+								],
+								"style": "md-accent",
+								"next_questions": [20],
+								"diagnosis": 2,
+								"action_suggestion": 2
+							}, {
+								"id": 1,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Nein"
+									}, {
+										"lang": 1,
+										"text": "No"
+									}
+								],
+								"style": "md-warn",
+								"next_questions": [20]
+							}
+						]
+					}, {
+						"id": 17,
+						"type": "yesnomaybe",
+						"description": [
+							{
+								"lang": 0,
+								"text": "Sind die Schmerzen stetig und ununterbrochen da?"
+							}, {
+								"lang": 1,
+								"text": "Is the pain static and always there?"
+							}
+						],
+						"answers": [
+							{
+								"id": 0,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Ja"
+									}, {
+										"lang": 1,
+										"text": "Yes"
+									}
+								],
+								"style": "md-accent",
+								"next_questions": [22]
+							}, {
+								"id": 1,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Nein"
+									}, {
+										"lang": 1,
+										"text": "No"
+									}
+								],
+								"style": "md-warn",
+								"next_questions": [22]
+							}
+						]
+					}, {
+						"id": 18,
+						"type": "yesnomaybe",
+						"description": [
+							{
+								"lang": 0,
+								"text": "Sind die Schmerzen stetig und ununterbrochen da?"
+							}, {
+								"lang": 1,
+								"text": "Is the pain static and always there?"
+							}
+						],
+						"answers": [
+							{
+								"id": 0,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Ja"
+									}, {
+										"lang": 1,
+										"text": "Yes"
+									}
+								],
+								"style": "md-accent",
+								"next_questions": [19]
+							}, {
+								"id": 1,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Nein"
+									}, {
+										"lang": 1,
+										"text": "No"
+									}
+								],
+								"style": "md-warn",
+								"next_questions": [22]
+							}
+						]
+					}, {
+						"id": 19,
+						"type": "yesnomaybe",
+						"description": [
+							{
+								"lang": 0,
+								"text": "Gibt es etwas, was die Schmerzen viel schlimmer werden lässt?"
+							}, {
+								"lang": 1,
+								"text": "Is there anything that makes the pain worse?"
+							}
+						],
+						"answers": [
+							{
+								"id": 0,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Ja"
+									}, {
+										"lang": 1,
+										"text": "Yes"
+									}
+								],
+								"style": "md-accent",
+								"next_questions": [20]
+							}, {
+								"id": 1,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Nein"
+									}, {
+										"lang": 1,
+										"text": "No"
+									}
+								],
+								"style": "md-warn",
+								"next_questions": [20]
+							}
+						]
+					}, {
+						"id": 20,
+						"type": "yesnomaybe",
+						"description": [
+							{
+								"lang": 0,
+								"text": "Haben Sie Husten?"
+							}, {
+								"lang": 1,
+								"text": "Do you have a cough?"
+							}
+						],
+						"answers": [
+							{
+								"id": 0,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Ja"
+									}, {
+										"lang": 1,
+										"text": "Yes"
+									}
+								],
+								"style": "md-accent",
+								"next_questions": [21]
+							}, {
+								"id": 1,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Nein"
+									}, {
+										"lang": 1,
+										"text": "No"
+									}
+								],
+								"style": "md-warn",
+								"next_questions": [21]
+							}
+						]
+					}, {
+						"id": 21,
+						"type": "yesnomaybe",
+						"description": [
+							{
+								"lang": 0,
+								"text": "Haben Sie Brustschmerzen?"
+							}, {
+								"lang": 1,
+								"text": "Do you have chest pain?"
+							}
+						],
+						"answers": [
+							{
+								"id": 0,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Ja"
+									}, {
+										"lang": 1,
+										"text": "Yes"
+									}
+								],
+								"style": "md-accent",
+								"next_questions": [22],
+								"diagnosis": 1,
+								"action_suggestion": 1
+							}, {
+								"id": 1,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Nein"
+									}, {
+										"lang": 1,
+										"text": "No"
+									}
+								],
+								"style": "md-warn",
+								"next_questions": [22]
+							}
+						]
+					}, {
+						"id": 22,
+						"type": "yesnomaybe",
+						"description": [
+							{
+								"lang": 0,
+								"text": "Haben Sie Auswurf?"
+							}, {
+								"lang": 1,
+								"text": "Are you having sputum?"
+							}
+						],
+						"answers": [
+							{
+								"id": 0,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Ja"
+									}, {
+										"lang": 1,
+										"text": "Yes"
+									}
+								],
+								"style": "md-accent",
+								"next_questions": [23]
+							}, {
+								"id": 1,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Nein"
+									}, {
+										"lang": 1,
+										"text": "No"
+									}
+								],
+								"style": "md-warn",
+								"next_questions": [23]
+							}
+						]
+					}, {
+						"id": 23,
+						"type": "yesnomaybe",
+						"description": [
+							{
+								"lang": 0,
 								"text": "Haben Sie viel Auswurf?"
 							}, {
 								"lang": 1,
@@ -789,7 +982,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [16],
+								"next_questions": [23],
 								"diagnosis": 1,
 								"action_suggestion": 1
 							}, {
@@ -804,7 +997,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [16],
+								"next_questions": [23],
 								"diagnosis": 1,
 								"action_suggestion": 1
 							}
@@ -989,7 +1182,7 @@
 						"user": 0,
 						"oldDiagnosis": 1,
 						"oldActionSuggestion": 1,
-						"startQuestion": 1,
+						"startQuestion": 5,
 						"timeAdded": 1430985246414
 					},
 					{
@@ -997,7 +1190,7 @@
 						"user": 1,
 						"oldDiagnosis": 1,
 						"oldActionSuggestion": 1,
-						"startQuestion": 1,
+						"startQuestion": 5,
 						"timeAdded": 1430985236314
 					},
 					{
@@ -1005,7 +1198,7 @@
 						"user": 2,
 						"oldDiagnosis": 1,
 						"oldActionSuggestion": 1,
-						"startQuestion": 1,
+						"startQuestion": 5,
 						"timeAdded": 1430985356414
 					}
 				];

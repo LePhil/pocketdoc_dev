@@ -360,10 +360,8 @@
         function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ,  DiagnosisService ,  $interval ) {
 		
         $scope.followUps = [];
-        $scope.openRuns = [];
 
         $scope.hasNoFollowUps = function() { return _.isEmpty( $scope.followUps ); }
-        $scope.hasNoOpenRuns = function() { return _.isEmpty( $scope.openRuns ); }
 
         $scope.run = function() {
 		  $location.url('/run');

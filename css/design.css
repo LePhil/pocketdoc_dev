@@ -33,9 +33,6 @@ html {
 }
 
 #mainRun {
-	margin: 0 auto;
-	max-width: 960px;
-	width: 100%;
 }
 
 .md-icon-button .s36 {
@@ -110,4 +107,10 @@ h1{
 	bottom: 0;
 	right: 15px;
 	left: 0px;
+}
+
+#footerContent{
+	margin: 0 auto;
+	max-width: 960px;
+	width: 100%;
 }

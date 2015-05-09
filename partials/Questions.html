@@ -1,35 +1,40 @@
 ﻿<md-content layout="column" layout-align="space-between space-between" >
-	<md-list id="answeredQuestions">
-		<md-list-item class="answeredQuestion" ng-repeat="question in answeredQuestions" ng-click="reviseQuestion(question, $event)">
-			<h3 flex>{{question.question.description}}</h3>
+	<div id="partialContent">
+		<md-list id="answeredQuestions">
+			<md-list-item class="answeredQuestion" ng-repeat="question in answeredQuestions" ng-click="reviseQuestion(question, $event)">
+				<h3 flex>{{question.question.description}}</h3>
 
-			<div ng-show="question.answer.id === 0">
-				<md-icon md-svg-icon="images/icons/yes.svg" class="s36 md-accent"></md-icon>
-			</div>
-			<div ng-show="question.answer.id === 1">
-				<md-icon md-svg-icon="images/icons/no.svg" class="s36 md-warn"></md-icon>
-			</div>
-			<div ng-show="question.answer.id > 1">
-				<md-icon md-svg-icon="images/icons/dontknow.svg" class="s36 md-primary"></md-icon>
-			</div>
-		</md-list-item>
-	</md-list>
-
-	
-    <md-card>
-		<md-card-content>
-			<div ng-show="loading" layout-align="center center" layout="row">
-				<md-progress-circular md-mode="indeterminate" ng-show="loading"></md-progress-circular>
-			</div>
-	
-			<div ng-hide="loading || hidden">
-				<h3><span>{{currentQuestion.description}}</span></h3>
-				
-				<div layout="row" layout-align="center center">
-					<md-button flex="{{100/(currentQuestion.answers.length+1)}}" class="md-raised answer-button" ng-class="answer.style" ng-click="answerQuestion(answer)" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-button>
+				<div ng-show="question.answer.id === 0">
+					<md-icon md-svg-icon="images/icons/yes.svg" class="s36 md-accent"></md-icon>
 				</div>
-			</div>
+				<div ng-show="question.answer.id === 1">
+					<md-icon md-svg-icon="images/icons/no.svg" class="s36 md-warn"></md-icon>
+				</div>
+				<div ng-show="question.answer.id > 1">
+					<md-icon md-svg-icon="images/icons/dontknow.svg" class="s36 md-primary"></md-icon>
+				</div>
+			</md-list-item>
+		</md-list>
+	</div>
 
-		</md-card-content>
-	</md-card>
+	<div id="footer">
+		<div id="footerContent">
+			<md-card>
+				<md-card-content>
+					<div ng-show="loading" layout-align="center center" layout="row">
+						<md-progress-circular md-mode="indeterminate" ng-show="loading"></md-progress-circular>
+					</div>
+			
+					<div ng-hide="loading || hidden">
+						<h3><span>{{currentQuestion.description}}</span></h3>
+						
+						<div layout="row" layout-align="center center">
+							<md-button flex="{{100/(currentQuestion.answers.length+1)}}" class="md-raised answer-button" ng-class="answer.style" ng-click="answerQuestion(answer)" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-button>
+						</div>
+					</div>
+
+				</md-card-content>
+			</md-card>
+		</div>
+	</div>
 </md-content>

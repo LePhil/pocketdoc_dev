@@ -2,10 +2,21 @@
     <div class="diagnosis">
         <md-card>
 	        <md-card-content>
-	            <h2>{{ 'diag_diagnosis' | translate }}: {{diagnosis.short_desc}}</h2>
+	            <div ng-show="isFollowUp">
+	        		<h2>{{ 'diag_followUp_done' | translate }}</h2>
+	            	<p ng-show="isSameDiag">{{ 'diag_followUp_sameDiag' | translate }}: {{diagnosis.short_desc}}</p>
+	            	<p ng-hide="isSameDiag">{{ 'diag_followUp_diffDiag' | translate }}: {{diagnosis.short_desc}}</p>
+	            </div>
+	            
+	            <div ng-hide="isFollowUp">
+		            <h2>{{ 'diag_diagnosis' | translate }}: {{diagnosis.short_desc}}</h2>
+	            </div>
+
 	            <p>{{diagnosis.description}}</p>
+
 	            <h3>{{ 'diag_action' | translate }}</h3>
 	            <p>{{actionSuggestion.description}}</p>
+	        
 	        </md-card-content>
         </md-card>
     </div>
@@ -14,7 +25,7 @@
         <md-card>
 	        <md-card-content>
     	        <h2>{{ 'diag_followup' | translate }}</h2>
-    	        <p>Sie können zu einem späterem Zeitpunkt ein Follow-Up zu dieser Diagnose durchführen. Dadurch können Sie mit einem weiteren Durchlauf die Diagnose bestätigen.</p>
+    	        <p>{{ 'diag_followUp_desc' | translate }}</p>
 	        </md-card-content>
 			<div class="md-actions" layout="row" layout-align="center center">
 	            <md-button flex="20" class="" ng-click="goToMain()">{{ 'diag_followup_notnow' | translate }}</md-button>

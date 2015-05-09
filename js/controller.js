@@ -157,6 +157,11 @@
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
         $scope.followUp = RunService.getFollowUp();
         $scope.isFollowUp = $scope.followUp != null;
+        $scope.isSameDiag = false;
+
+        if ( $scope.isFollowUp ) {
+            $scope.isSameDiag = $scope.diagnosis.id === $scope.followUp.oldDiagnosis;
+        }
 
         $scope.goToMain = function() { $location.url('/'); };
 
@@ -349,7 +354,9 @@
 		});
 
         /**
-         * [deleteFollowUp description]
+         * Delete a followUp from the list on the main page.
+         * Shows a confirmation dialog to the user before deleting it.
+         * 
          * @param  {[type]} followUp [description]
          * @param  {[type]} $event   [description]
          * @author Philipp Christen

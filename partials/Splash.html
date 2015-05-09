@@ -13,11 +13,11 @@
 		<h3>{{ 'main_intro_tryNow' | translate }}</h3>
 	</div>
 	<div layout="column" ng-show="loggedIn">
-		<h1>Willkommen zur&uuml;ck, {{userName}}.</h1>
+		<h1>{{ 'main_welcomeBack' | translate }}, {{userName}}.</h1>
 		
 		<md-content>
 			<section>
-				<md-subheader class="md-primary">Offene Durchgänge</md-subheader>
+				<md-subheader class="md-primary">{{ 'main_openRuns' | translate }}</md-subheader>
 				<md-list layout-padding id="openRunsList">
 					<md-list-item class="followUp" ng-repeat="run in openRuns">
 						<md-button class="md-icon-button" ng-click="deleteRun($event)" aria-label="Delete">
@@ -33,11 +33,11 @@
 						</md-button>
 					</md-list-item>
 
-					<md-list-item ng-hide="openRuns.length > 0">Noch keine!</md-list-item>
+					<md-list-item ng-hide="openRuns.length > 0">{{ 'main_noneYet' | translate }}</md-list-item>
 				</md-list>
 			</section>
 			<section>
-				<md-subheader class="md-primary">Ausstehende FollowUps</md-subheader>
+				<md-subheader class="md-primary">{{ 'main_followUp_open' | translate }}</md-subheader>
 				<md-list layout="column" layout-padding id="followUpList">
 					<md-list-item class="followUp" ng-repeat="followup in followUps">
 						<md-button class="md-icon-button" ng-click="deleteFollowUp(followup, $event)" aria-label="Delete">
@@ -54,7 +54,7 @@
 						</md-button>
 					</md-list-item>
 
-					<md-list-item ng-hide="followUps.length > 0">Noch keine!</md-list-item>
+					<md-list-item ng-hide="followUps.length > 0">{{ 'main_noneYet' | translate }}</md-list-item>
 				</md-list>
 			</section>
 		</md-content>

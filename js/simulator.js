@@ -293,6 +293,12 @@
 		var acceptDiag = function(data, success, error){
 			// Aktueller Run aufräumen und beenden
 			delete nextQuestions;
+
+			// if this was a followUp, delete it now
+			if ( followUp !== null ) {
+				//FollowupService.deleteFollowup( followUp.id );
+				delete followUp;
+			}
 			success();
 		};
 
@@ -305,6 +311,10 @@
 		var setFollowUp = function ( newFollowUp ) {
 			followUp = newFollowUp;
 		};
+
+		var getFollowUp = function() {
+			return followUp;
+		}
 		
 		return {
 			startRun : start,
@@ -312,7 +322,8 @@
 			getQuestionData : getQ,
 			changeAnswer : change,
 			acceptDiagnosis : acceptDiag,
-			setFollowUp: setFollowUp
+			setFollowUp: setFollowUp,
+			getFollowUp: getFollowUp
 		};
 		
 	}]);
@@ -325,16 +336,12 @@
 			// TODO?
 		};
 
+		// TODO!!! REFACTOR THIS, IS WAY TOO COMPLICATED! ALSO: no comments.
 		var getByID = function( diagID, actionID, success, error ) {
 			var diagnosisData = {};
 
 			// Set diagnosis
-			var diagnosis = UtilService.getElementById( diagID, DataService.diagnoses() );
-			diagnosisData.diagnosis = {
-				id: diagID,
-				short_desc : UtilService.getCurrentLanguageObject( langId, diagnosis.short_desc).text,
-				description : UtilService.getCurrentLanguageObject( langId, diagnosis.description).text
-			};
+			diagnosisData.diagnosis = getDiagByID( diagID );
 			
 			// Set Action suggestion
 			var action_suggestion = UtilService.getElementById( actionID, DataService.actionSuggestions() );
@@ -349,10 +356,32 @@
 				error( "Something went wrong while getting the Diagnosis!");
 			}
 		};
+
+		/**
+		 * Returns a single diagnosis by checking the ID.
+		 * 
+		 * @param  {Number} ID
+		 * @return {Object}
+		 * @author Philipp Christen
+		 */
+		var getDiagByID = function( ID ) {
+			var diagnosis = UtilService.getElementById( ID, DataService.diagnoses() );
+			return {
+				id: ID,
+				short_desc : UtilService.getCurrentLanguageObject( langId, diagnosis.short_desc).text,
+				description : UtilService.getCurrentLanguageObject( langId, diagnosis.description).text
+			};
+		};
+
+		var getActionByID = function( ID ) {
+
+		};
 		
 		return {
 			getAll : getAll,
-			getByID : getByID
+			getByID : getByID,
+			getDiagByID: getDiagByID,
+			getActionByID: getActionByID
 		};
 	}]);
 	
@@ -381,7 +410,8 @@
 		};
 		
 		/**
-		 * Marks a followUp as "active"
+		 * Marks a followUp as "active" by passing it to the run.
+		 * It can then be deleted in the followUp-list.
 		 * 
 		 * @name start
 		 * @param  {Number} followUpID
@@ -389,6 +419,7 @@
 		 */
 		var start = function( followUpID ){
 			RunService.setFollowUp( getByID( followUpID ) );
+			del( followUpID, function(){}, function(){} );
 		};
 		
 		/**

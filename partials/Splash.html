@@ -48,7 +48,7 @@
 
 						<div flex class="md-list-item-text followUpDesc">
 							<p>{{ followup.id }}: {{ followup.timeAdded | date:'dd.MM.yyyy HH:mm' }}</p>
-							<h4>Diagnose: {{ followUp.oldDiagnosis }}</h4>
+							<h4>Diagnose: {{ getDiagnosis( followup ) }}</h4>
 						</div>
 
 						<md-button class="md-icon-button" ng-click="startFollowUp(followup, $event)" aria-label="Start FollowUp">

@@ -150,11 +150,13 @@
 	}]);
 	
 	pocketdocControllers.controller('diagnosisController',
-                ['$scope', '$location', 'DiagnosisData', 'UserService', 'FollowupService',
-        function( $scope ,  $location ,  DiagnosisData ,  UserService ,  FollowupService ) {
+                ['$scope', '$location', 'DiagnosisData', 'UserService', 'FollowupService', 'RunService',
+        function( $scope ,  $location ,  DiagnosisData ,  UserService ,  FollowupService ,  RunService ) {
 		
 		$scope.diagnosis = DiagnosisData.diagnosis;
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
+        $scope.followUp = RunService.getFollowUp();
+        $scope.isFollowUp = $scope.followUp != null;
 
         $scope.goToMain = function() { $location.url('/'); };
 
@@ -328,8 +330,8 @@
 	}]);
 	
 	pocketdocControllers.controller('mainController',
-               [ '_', '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', '$mdDialog', 
-        function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ) {
+               [ '_', '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', '$mdDialog', 'DiagnosisService', 
+        function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ,  DiagnosisService ) {
 		
         $scope.followUps = [];
         $scope.openRuns = [];
@@ -407,6 +409,10 @@
             $scope.loggedIn = true;
             $scope.followUps = FollowupService.getFollowupsForUser( user.id );
             currentUser = user;
+        };
+
+        $scope.getDiagnosis = function( followUp ) {
+            return DiagnosisService.getDiagByID( followUp.oldDiagnosis ).short_desc;
         };
 
         /**

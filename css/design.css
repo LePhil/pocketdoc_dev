@@ -105,8 +105,15 @@ h1{
 	background: white;
 	position: fixed;
 	bottom: 0;
-	right: 15px;
+	right: 8px;
 	left: 0px;
+	z-index: 1;
+}
+
+@media (min-width: 600px){
+	#footer {
+	  right: 16px;
+	}
 }
 
 #footerContent{

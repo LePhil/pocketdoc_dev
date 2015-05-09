@@ -20,7 +20,7 @@
 				<section>
 					<md-subheader class="md-primary">{{ 'main_openRuns' | translate }}</md-subheader>
 					<md-list layout-padding id="openRunsList">
-						<md-list-item class="followUp" ng-repeat="run in openRuns">
+						<md-list-item class="openRun" ng-repeat="run in openRuns">
 						<md-button class="md-icon-button" ng-click="deleteRun($event)" aria-label="{{ 'main_openRuns_delete' | translate }}">
 								<md-icon class="s36" md-svg-src="images/icons/delete.svg"></md-icon>
 							</md-button>

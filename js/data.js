@@ -1136,7 +1136,7 @@
 						"id": 1,
 						"name": "Alfred",
 						"email": "alfred@waynemanor.com",
-						"password": "batsbatsbats",
+						"password": "alfred",
 						"gender": 0,
 						"age_category": 6,
 						"lang": "de"
@@ -1192,14 +1192,6 @@
 						"oldActionSuggestion": 1,
 						"startQuestion": 5,
 						"timeAdded": 1430985236314
-					},
-					{
-						"id": 2,
-						"user": 2,
-						"oldDiagnosis": 1,
-						"oldActionSuggestion": 1,
-						"startQuestion": 5,
-						"timeAdded": 1430985356414
 					}
 				];
 			},

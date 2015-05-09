@@ -2,68 +2,68 @@
 	<md-content layout-padding layout="column" layout-sm="column">
 		<form name="registrationForm">
 		
-			<div class="profile-title" flex>Profil:</div>
+			<div class="profile-title" flex>{{ 'reg_profile' | translate }}:</div>
 
 			<md-input-container flex>
-				<label for="email">E-Mail: </label>
+				<label for="email">{{ 'reg_email' | translate }}:</label>
 				<input required="" ng-model="user.email" type="email" id="email" name="email" ng-blur="checkEmail()" >
 				<div ng-messages="registrationForm.email.$error">
-					<div ng-message="required">Pflichtfeld!</div>
-					<div ng-message="used">Adresse bereits registriert!</div>
+					<div ng-message="required">{{ 'reg_mandatory' | translate }}!</div>
+					<div ng-message="used">{{ 'reg_alreadyRegistered' | translate }}!</div>
 				</div>
 			</md-input-container>
 
 			<md-input-container flex ng-hide="isProfile">
-				<label for="password">Passwort: </label>
+				<label for="password">{{ 'reg_password' | translate }}:</label>
 				<input required ng-model="user.password" type="password" id="password" name="password">
 				<div ng-messages="registrationForm.password.$error">
-					<div ng-message="required">Pflichtfeld!</div>
+					<div ng-message="required">{{ 'reg_mandatory' | translate }}!</div>
 				</div>
 			</md-input-container>
 			
 			<md-input-container flex ng-show="isProfile">
-				<label for="oldPassword">Aktuelles Passwort: </label>
+				<label for="oldPassword">{{ 'reg_password_current' | translate }}</label>
 				<input ng-model="user.oldPassword" type="password" id="oldPassword" name="oldPassword" ng-blur="checkPassword()">
 				<div ng-messages="registrationForm.oldPassword.$error">
-					<div ng-message="req">Pflichtfeld!</div>
+					<div ng-message="req">{{ 'reg_mandatory' | translate }}!</div>
 				</div>
 			</md-input-container>
 			
 			<md-input-container flex ng-show="isProfile">
-				<label for="newPassword">Neues Passwort: </label>
+				<label for="newPassword">{{ 'reg_password_new' | translate }}:</label>
 				<input ng-model="user.newPassword" type="password" id="newPassword" name="newPassword" ng-blur="checkPassword()">
 			</md-input-container>
 			
-			<div class="profile-title" flex>Pers&ouml;nliche Angaben:</div>
+			<div class="profile-title" flex>{{ 'reg_personalInformation' | translate }}:</div>
 			<div flex layout="column">
 				<md-input-container flex>
-					<label for="name">Name: </label>
+					<label for="name">{{ 'reg_name' | translate }}:</label>
 					<input ng-model="user.name" id="name">
 				</md-input-container>
-				<div class="profile-subtitle">Geschlecht:</div>
+				<div class="profile-subtitle">{{ 'reg_sex' | translate }}:</div>
 				<div layout="row" class="gender-row">
 
 					<md-button id="gender-button-male" flex class="md-raised registration-button" ng-click="setGender(0)" ng-class="{'md-primary': user.gender == 0}">
 						<md-icon md-svg-icon="images/icons/gender-male.svg"></md-icon>
-						<span>M&auml;nnlich</span>
+						<span>{{ 'reg_sex_male' | translate }}</span>
 					</md-button>
 
 					<md-button id="gender-button-female" flex class="md-raised registration-button" ng-click="setGender(1)" ng-class="{'md-primary': user.gender == 1}">
 						<md-icon md-svg-icon="images/icons/gender-female.svg"></md-icon>
-						<span>Weiblich</span>
+						<span>{{ 'reg_sex_female' | translate }}</span>
 					</md-button>
 
 				</div>
-				<div class="profile-subtitle">Altersbereich:</div>
-				<md-select placeholder="Bitte ausw&auml;hlen" ng-model="user.age_category" class="age-category">
+				<div class="profile-subtitle">{{ 'reg_ageRange' | translate }}:</div>
+				<md-select placeholder="{{ 'reg_defaultValueSelect' | translate }}" ng-model="user.age_category" class="age-category">
 					<md-option value="1">bis 12 Jahre</md-option>
 					<md-option value="2">12 - 24 Jahre</md-option>
 				</md-select>
 			</div>
 
-			<div class="profile-title" flex>Einstellungen:</div>
+			<div class="profile-title" flex>{{ 'reg_settings' | translate }}:</div>
 			<div flex layout="column">
-				<div class="profile-subtitle" >Sprache:</div>
+				<div class="profile-subtitle" >{{ 'reg_language' | translate }}:</div>
 				<div layout="row">
 					<md-button id="language-button-de" class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage('de')" ng-class="{'md-primary md-raised': user.lang == 'de'}">
 						<md-icon md-svg-icon="images/icons/de.svg" class="s36"></md-icon>
@@ -78,18 +78,18 @@
 			</div>
 			 
 			<div flex layout="column" layout-align="center center" ng-show="isProfile">
-				<md-button class="md-raised md-primary registration-button" ng-click="showHistory()" flex>History ansehen</md-button>
-				<md-button class="md-raised md-warn registration-button" ng-click="deleteClick()" flex>Profil l&ouml;schen</md-button>
+				<md-button class="md-raised md-primary registration-button" ng-click="showHistory()" flex>{{ 'reg_history' | translate }}</md-button>
+				<md-button class="md-raised md-warn registration-button" ng-click="deleteClick()" flex>{{ 'reg_deleteProfile' | translate }}</md-button>
 			</div>
 			
 			<div flex layout="row" layout-align="center center" ng-hide="isProfile">
-				<md-button ng-click="cancelClick()" class="registration-button" flex>Abbrechen</md-button>
-				<md-button class="md-raised md-primary registration-button" ng-click="registerClick()" flex ng-disabled="registrationForm.$invalid">Registrieren</md-button>
+				<md-button ng-click="cancelClick()" class="registration-button" flex>{{ 'reg_cancel' | translate }}</md-button>
+				<md-button class="md-raised md-primary registration-button" ng-click="registerClick()" flex ng-disabled="registrationForm.$invalid">{{ 'reg_register' | translate }}</md-button>
 			</div>
 			
 			<div flex layout="row" layout-align="center center" ng-show="isProfile">
-				<md-button ng-click="cancelClick()" class="registration-button" flex>Zur&uuml;ck</md-button>
-				<md-button class="md-raised md-primary registration-button" ng-click="saveClick()" flex ng-disabled="registrationForm.$invalid">Speichern</md-button>
+				<md-button ng-click="cancelClick()" class="registration-button" flex>{{ 'reg_back' | translate }}</md-button>
+				<md-button class="md-raised md-primary registration-button" ng-click="saveClick()" flex ng-disabled="registrationForm.$invalid">{{ 'reg_save' | translate }}</md-button>
 			</div>
 		</form>		
 	</md-content>

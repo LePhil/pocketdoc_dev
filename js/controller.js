@@ -100,6 +100,7 @@
              * @author Philipp Christen, Roman Eichenberger
              */
             $scope.showDialog = function( diagnosis, actionSuggestion, ev ) {
+                $scope.loading = false;
                 $mdDialog.show({
                     controller: DialogController,
                     templateUrl: '../partials/diagDialog.html',

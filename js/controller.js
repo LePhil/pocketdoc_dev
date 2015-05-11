@@ -129,17 +129,7 @@
 
             $scope.showNewQuestion = function() {
 				$scope.loading = false;
-                $scope.hidden = false;
-				
-				setTimeout(function(){
-					$scope.$root.$broadcast("resize");
-				
-					$('#contentContainer').animate({ 
-					   scrollTop: $('#partialContent').outerHeight(true)}, 
-					   1000
-					);
-				}, 500);
-				
+                $scope.hidden = false;				
             };
 
             /**

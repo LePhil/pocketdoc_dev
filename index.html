@@ -76,6 +76,8 @@
 				<label for="password">{{ 'header_login_password' | translate }}</label>
 				<input type="password" id="password" ng-model="user.password">
 			  </md-input-container>
+
+				<md-button ng-click="forgotPassword()" class="md-primary">{{ 'header_forgotPassword' | translate }}</md-button>
 			</form>
 
 			<div layout="column" flex>

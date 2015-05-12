@@ -14,7 +14,7 @@
 			<h3>{{ 'main_intro_tryNow' | translate }}</h3>
 		</div>
 		<div layout="column" ng-show="loggedIn">
-			<h1>{{ 'main_welcomeBack' | translate }}, {{userName}}.</h1>
+			<h1>{{ 'main_welcomeBack' | translate }}<span ng-hide="isEmpty(userName)">, {{userName}}.</span></h1>
 			
 			<md-content ng-hide="!followUps">
 				<section>

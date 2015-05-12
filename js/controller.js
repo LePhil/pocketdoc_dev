@@ -467,11 +467,22 @@
          */
         $scope.isFollowUpReady = function( timeAdded ) {
             return new Date() - timeAdded > 4*60*60 *1000;
-        }
+        };
 
         $scope.getRemainingTime = function( timeAdded ) {
             return timeAdded + 4*60*60*1000 - new Date();
-        }
+        };
+
+        /**
+         * Checks if a string is empty or not set.
+         * 
+         * @param  {String}  str
+         * @return {Boolean}
+         * @author Philipp Christen
+         */
+        $scope.isEmpty = function( str ) {
+            return !str || str === "";
+        };
 
         /*
         

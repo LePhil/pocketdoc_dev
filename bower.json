@@ -2,7 +2,7 @@
   "name": "PocketDoc",
   "description": "Frontend Web-App for PocketDoc",
   "version": "0.0.1",
-  "homepage": "https://angularplayground.herokuapp.com",
+  "homepage": "https://pokedoc.herokuapp.com",
   "license": "MIT",
   "private": true,
   "dependencies": {
@@ -16,7 +16,7 @@
     "angular-material": "master",
     "angular-cookies": "latest",
     "angular-translate": "latest",
-	"angular-messages" : "latest",
+	  "angular-messages" : "latest",
     "underscore": "latest"
   }
 }

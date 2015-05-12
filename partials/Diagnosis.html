@@ -4,8 +4,7 @@
 	        <md-card-content>
 	            <div ng-show="isFollowUp">
 	        		<h2>{{ 'diag_followUp_done' | translate }}</h2>
-	            	<p ng-show="isSameDiag">{{ 'diag_followUp_sameDiag' | translate }}: {{diagnosis.short_desc}}</p>
-	            	<p ng-hide="isSameDiag">{{ 'diag_followUp_diffDiag' | translate }}: {{diagnosis.short_desc}}</p>
+	            	<p>{{diagnosis.short_desc}}</p>
 	            </div>
 	            
 	            <div ng-hide="isFollowUp">

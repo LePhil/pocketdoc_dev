@@ -352,6 +352,25 @@
 				}
 			);
 		};
+
+        /**
+         * Moved from HeaderController, will be handled here now.
+         * Goes back to the main screen and logs the user out.
+         *
+         * @author Philipp Christen
+         */
+        $scope.logout = function() {
+            UserService.logoutUser(
+                {},
+                function( data ) {
+                    $scope.$root.$broadcast("logout", data);
+                    $location.url('/');
+                },
+                function( error ) {
+                    alert( error );
+                }
+            );
+        };
 		
 	}]);
 	
@@ -576,20 +595,6 @@
             $scope.profile = function() {
                 $scope.close();
                 $location.url("/profile");
-            };
-
-            $scope.logout = function() {
-                UserService.logoutUser(
-					{},
-					function( data ) {
-						$scope.close();
-						$scope.loggedIn = false;
-						$scope.$root.$broadcast("logout", data);
-					},
-					function( error ) {
-						alert( error );
-					}
-				);
             };
 
             $scope.login = function() {

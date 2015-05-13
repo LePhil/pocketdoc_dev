@@ -610,13 +610,19 @@
                 $location.url("/registration");
             };
 
+            /**
+             * Shows dialog if a functionality is not yet implemented.
+             * 
+             * @param  {String} functionality
+             * @author Philipp Christen
+             */
             $scope.notImplementedYet = function( functionality ) {
                 $mdDialog.show(
                     $mdDialog.alert()
-                        .title('Noch nicht implementiert')
-                        .content('Die Funktion "' + functionality + '" wurde noch nicht implementiert.' )
-                        .ariaLabel('Noch nicht implementiert')
-                        .ok('OK')
+                        .title( $translate.instant('common_notImplemented') )
+                        .content( $translate.instant('common_notImplemented', { fkt: functionality } ) )
+                        .ariaLabel( $translate.instant('common_notImplemented') )
+                        .ok( $translate.instant('common_ok') )
                 );
             };
 
@@ -630,13 +636,22 @@
             };
 
             /**
-             * TODO: RESET ALL LOCALSTORAGE FOR DEMONSTRATION PURPOSES!
-             * [resetForDemo description]
-             * @return {[type]} [description]
+             * RESET ALL LOCALSTORAGE FOR DEMONSTRATION PURPOSES!
+             * 
              * @author Philipp Christen
              */
             $scope.resetForDemo = function() {
-                //TODO:
+                var confirm = $mdDialog.confirm()
+                  .title( $translate.instant('header_reset_title') )
+                  .content( $translate.instant('header_reset_content') )
+                  .ariaLabel( $translate.instant('header_reset_title') )
+                  .ok( $translate.instant('common_yes') )
+                  .cancel( $translate.instant('common_no') );
+
+                $mdDialog.show(confirm).then(function() {
+                    localStorage.clear();
+                    window.location.reload();
+                }, function() {});
             };
     }]);
 

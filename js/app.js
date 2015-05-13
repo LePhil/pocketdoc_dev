@@ -110,7 +110,14 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_back: "Zurück",
 			reg_save: "Speichern",
 			header_reset: "Reset",
-			header_forgotPassword: "Passwort vergessen?"
+			header_forgotPassword: "Passwort vergessen?",
+			header_reset_title: "Daten zurücksetzen?",
+			header_reset_content: "Soll der Zustand der App zurückgesetzt werden?",
+			common_yes: "Ja",
+			common_no: "Nein",
+			common_ok: "Ok",
+			common_notImplemented: "Noch nicht implementiert",
+			common_notImplemented_content: "Die Function {{fkt}} wurde noch nicht implementiert."
 		});
 		$translateProvider.translations('en', {
 			main_startDiagnosis: 'Start Diagnosis now!',
@@ -176,7 +183,14 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_back: "Back",
 			reg_save: "Save",
 			header_reset: "Reset",
-			header_forgotPassword: "Forgot Password?"
+			header_forgotPassword: "Forgot Password?",
+			header_reset_title: "Reset Data?",
+			header_reset_content: "Should the state of the application be reset?",
+			common_yes: "Yes",
+			common_no: "No",
+			common_ok: "Ok",
+			common_notImplemented: "Noch nicht implementiert",
+			common_notImplemented_content: "Die Function {{fkt}} wurde noch nicht implementiert."
 		});
 
 		$translateProvider.preferredLanguage('de');

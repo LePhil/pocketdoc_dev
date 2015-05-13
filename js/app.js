@@ -61,6 +61,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			main_openRuns_start: "Starten",
 			main_noneYet: "Noch keine!",
 			main_followUp_delete: "Löschen",
+			main_followUp_delete_title: "FollowUp entfernen?",
+			main_followUp_delete_content: "Soll dieses FollowUp wirklich entfernt werden?",
 			main_followUp_start: "Starten",
 			main_followUp_remaining: "Bereit in ", 
 			header_account: "Account",
@@ -105,6 +107,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_language: "Sprache",
 			reg_history: "History ansehen",
 			reg_deleteProfile: "Profil löschen",
+			reg_deleteProfile_title: "Profil löschen?",
+			reg_deleteProfile_content: "Soll der Account wirklich gelöscht werden? Dies kann nicht rückgängig gemacht werden!",
 			reg_cancel: "Abbrechen",
 			reg_register: "Registrieren",
 			reg_back: "Zurück",
@@ -117,7 +121,7 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			common_no: "Nein",
 			common_ok: "Ok",
 			common_notImplemented: "Noch nicht implementiert",
-			common_notImplemented_content: "Die Function {{fkt}} wurde noch nicht implementiert."
+			common_notImplemented_content: "Die Funktion {{fkt}} wurde noch nicht implementiert."
 		});
 		$translateProvider.translations('en', {
 			main_startDiagnosis: 'Start Diagnosis now!',
@@ -134,6 +138,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			main_openRuns_start: "Start",
 			main_noneYet: "Not yet!",
 			main_followUp_delete: "Delete",
+			main_followUp_delete_title: "Remove FollowUp?",
+			main_followUp_delete_content: "Should this FollowUp be removed?",
 			main_followUp_start: "Start",
 			main_followUp_remaining: "Ready in ", 
 			header_account: "Account",
@@ -178,6 +184,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_language: "Language",
 			reg_history: "History",
 			reg_deleteProfile: "Delete Profile",
+			reg_deleteProfile_title: "Delete Profile?",
+			reg_deleteProfile_content: "Should this account be deleted permanently? This cannot be undone.",
 			reg_cancel: "Cancel",
 			reg_register: "Register",
 			reg_back: "Back",
@@ -189,8 +197,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			common_yes: "Yes",
 			common_no: "No",
 			common_ok: "Ok",
-			common_notImplemented: "Noch nicht implementiert",
-			common_notImplemented_content: "Die Function {{fkt}} wurde noch nicht implementiert."
+			common_notImplemented: "Not yet implemented",
+			common_notImplemented_content: "{{fkt}} has not yet been implemented."
 		});
 
 		$translateProvider.preferredLanguage('de');

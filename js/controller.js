@@ -318,11 +318,11 @@
 		$scope.deleteClick = function(){
 			
 			var confirm = $mdDialog.confirm()
-				.title('Account löschen')
-				.content( 'Sie sind im Begriff, den Account unwiderruflich zu löschen. Möchten Sie fortfahren?' )
-				.ariaLabel('Lucky day')
-				.ok('Ja, Account löschen')
-				.cancel('Nein, Account behalten')
+				.title( $translate.instant('reg_deleteProfile_title') )
+				.content( $translate.instant('reg_deleteProfile_content') )
+				.ariaLabel( $translate.instant('reg_deleteProfile_title') )
+				.ok( $translate.instant('common_yes') )
+				.cancel( $translate.instant('common_no') )
 				.clickOutsideToClose(false);
 
 			$mdDialog.show( confirm ).then(
@@ -394,11 +394,11 @@
          */
         $scope.deleteFollowUp = function ( followUp, $event ) {
             var confirm = $mdDialog.confirm()
-                .title('FollowUp entfernen?')
-                .content( 'Wollen Sie diesen FollowUp wirklich löschen?' )
-                .ariaLabel('Wirklich löschen?')
-                .ok('Ja')
-                .cancel('Nein')
+                .title( $translate.instant('main_followUp_delete_title') )
+                .content( $translate.instant('main_followUp_delete_content') )
+                .ariaLabel( $translate.instant('main_followUp_delete_title') )
+                .ok( $translate.instant('common_yes') )
+                .cancel( $translate.instant('common_no') )
                 .clickOutsideToClose(false);
 
             $mdDialog.show( confirm ).then(
@@ -514,8 +514,8 @@
 	}]);
 
     pocketdocControllers.controller('HeaderController',
-        ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService',
-        function( $scope, $mdDialog, $timeout, $mdSidenav, $log, $translate, $location, UserService ) {
+                ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService',
+        function( $scope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ) {
 			
             $scope.lang = UserService.getCurrentUser().lang;
 			$scope.location = $location;
@@ -620,7 +620,7 @@
                 $mdDialog.show(
                     $mdDialog.alert()
                         .title( $translate.instant('common_notImplemented') )
-                        .content( $translate.instant('common_notImplemented', { fkt: functionality } ) )
+                        .content( $translate.instant('common_notImplemented_content', { fkt: functionality } ) )
                         .ariaLabel( $translate.instant('common_notImplemented') )
                         .ok( $translate.instant('common_ok') )
                 );

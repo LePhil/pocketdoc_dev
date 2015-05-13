@@ -56,8 +56,11 @@
 				</div>
 				<div class="profile-subtitle">{{ 'reg_ageRange' | translate }}:</div>
 				<md-select placeholder="{{ 'reg_defaultValueSelect' | translate }}" ng-model="user.age_category" class="age-category">
-					<md-option value="1">bis 12 Jahre</md-option>
-					<md-option value="2">12 - 24 Jahre</md-option>
+					<md-option
+						ng-repeat="AR in ageRanges"
+						value="{{AR.id}}">
+						{{AR.start}} - {{AR.end}} {{ 'common_years' | translate }}
+					</md-option>
 				</md-select>
 			</div>
 

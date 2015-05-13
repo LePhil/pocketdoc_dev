@@ -218,6 +218,7 @@
 		
 		$scope.isProfile = UserService.getCurrentUser().id >= 0;
         $scope.languages = MetaDataService.getLanguages();
+        $scope.ageRanges = MetaDataService.getAgeRanges();
 		
 		$scope.user = UserService.getCurrentUser();
 		var oldEmail = $scope.user.email;

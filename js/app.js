@@ -103,6 +103,7 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_sex_female: "Weiblich",
 			reg_ageRange: "Altersbereich",
 			reg_defaultValueSelect: "Bitte auswählen",
+			reg_ageRange_option: "{{start}} - {{end}} Jahre",
 			reg_settings: "Einstellungen",
 			reg_language: "Sprache",
 			reg_history: "History ansehen",
@@ -121,7 +122,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			common_no: "Nein",
 			common_ok: "Ok",
 			common_notImplemented: "Noch nicht implementiert",
-			common_notImplemented_content: "Die Funktion {{fkt}} wurde noch nicht implementiert."
+			common_notImplemented_content: "Die Funktion {{fkt}} wurde noch nicht implementiert.",
+			common_years: "Jahre"
 		});
 		$translateProvider.translations('en', {
 			main_startDiagnosis: 'Start Diagnosis now!',
@@ -180,6 +182,7 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_sex_female: "Female",
 			reg_ageRange: "Age Range",
 			reg_defaultValueSelect: "Please choose...",
+			reg_ageRange_option: "{{start}} - {{end}} years",
 			reg_settings: "Settings",
 			reg_language: "Language",
 			reg_history: "History",
@@ -198,7 +201,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			common_no: "No",
 			common_ok: "Ok",
 			common_notImplemented: "Not yet implemented",
-			common_notImplemented_content: "{{fkt}} has not yet been implemented."
+			common_notImplemented_content: "{{fkt}} has not yet been implemented.",
+			common_years: "years"
 		});
 
 		$translateProvider.preferredLanguage('de');

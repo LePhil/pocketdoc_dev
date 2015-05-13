@@ -118,3 +118,18 @@ h1{
 	width: 100%;
 }
 
+.pwContainer {
+	padding-bottom: 0px;
+}
+
+.forgotPassword {
+	text-decoration: underline;
+	font-size: 0.75em;
+}
+
+.additionalActions {
+	position: fixed;
+	bottom: 5px;
+	right: 5px;
+	left: 5px;
+}

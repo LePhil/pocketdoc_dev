@@ -1,12 +1,17 @@
 <md-dialog aria-label="{{ 'run_diagnosis_found' | translate }}">
-  <md-dialog-content layout-padding>
-    <h1>{{ 'run_diagnosis_found' | translate }}</h1>
-    <p>
-      {{diagnosis.description}}
-    </p>
-  </md-dialog-content>
-  <div class="md-actions" layout="row">
-    <md-button ng-click="cancel()" class="md-primary">{{ 'run_diagnosis_found_no' | translate }}</md-button>
-    <md-button ng-click="accept()" class="md-primary">{{ 'run_diagnosis_found_yes' | translate }}</md-button>
-  </div>
+    <md-dialog-content layout-padding>
+        <h2>{{ 'run_diagnosis_found' | translate }}</h2>
+        
+        <div layout="row">
+            <img id="logo" class="smaller" src="images/PocketDocMaskottchen.jpg">
+        </div>
+        
+        <p>{{ diagnosis.description }}</p>
+        <p>{{ 'run_diagnosis_found_question' | translate }}</p>
+    </md-dialog-content>
+
+    <div class="md-actions" layout="row">
+        <md-button ng-click="cancel()" class="md-primary">{{ 'common_no' | translate }}</md-button>
+        <md-button ng-click="accept()" class="md-primary">{{ 'common_yes' | translate }}</md-button>
+    </div>
 </md-dialog>

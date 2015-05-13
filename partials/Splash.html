@@ -1,7 +1,7 @@
 ﻿<div class="start ng-scope" layout-align="center">
 	<div id="partialContent">
 		<div layout="row">
-			<img id="logo" src="images/PocketDocMaskottchen.jpg">
+			<img id="logo" ng-class="{'smaller' : loggedIn }" src="images/PocketDocMaskottchen.jpg">
 		</div>
 		<div layout="column" ng-hide="loggedIn">
 			<h2>{{ 'main_welcome' | translate }}</h2>
@@ -13,6 +13,7 @@
 			
 			<h3>{{ 'main_intro_tryNow' | translate }}</h3>
 		</div>
+
 		<div layout="column" ng-show="loggedIn">
 			<h1>{{ 'main_welcomeBack' | translate }}<span ng-hide="isEmpty(userName)">, {{userName}}.</span></h1>
 			

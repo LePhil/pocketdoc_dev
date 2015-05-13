@@ -121,10 +121,14 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			header_reset_content: "Soll der Zustand der App zurückgesetzt werden?",
 			common_yes: "Ja",
 			common_no: "Nein",
+			common_cancel: "Abbrechen",
 			common_ok: "Ok",
 			common_notImplemented: "Noch nicht implementiert",
 			common_notImplemented_content: "Die Funktion {{fkt}} wurde noch nicht implementiert.",
-			common_years: "Jahre"
+			common_years: "Jahre",
+			common_appname: "PocketDoc",
+			forgotPassword_send: "Absenden",
+			forgotPassword_title: "Passwort vergessen"
 		});
 		$translateProvider.translations('en', {
 			main_startDiagnosis: 'Start Diagnosis now!',
@@ -201,10 +205,14 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			header_reset_content: "Should the state of the application be reset?",
 			common_yes: "Yes",
 			common_no: "No",
+			common_cancel: "Cancel",
 			common_ok: "Ok",
 			common_notImplemented: "Not yet implemented",
 			common_notImplemented_content: "{{fkt}} has not yet been implemented.",
-			common_years: "years"
+			common_years: "years",
+			common_appname: "PocketDoc",
+			forgotPassword_send: "Send",
+			forgotPassword_title: "Forgotten Password"
 		});
 
 		$translateProvider.preferredLanguage('de');

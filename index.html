@@ -45,7 +45,7 @@
 					<md-icon md-svg-icon="images/icons/back.svg" class="s36"></md-icon>
 				</md-button>
 				<span flex></span>
-				<h2><span>PocketDoc</span></h2>
+				<h2><span>{{ 'common_appname' | translate }}</span></h2>
 				<span flex></span>
 				<md-button class="md-icon-button white" aria-label="{{ 'header_settings' | translate }}" ng-click="toggleRight()" ng-show="location.url() == '/'">
 					<md-icon md-svg-icon="images/icons/settings.svg" class="s36"></md-icon>
@@ -103,7 +103,7 @@
 						<md-icon md-svg-icon="images/icons/{{ language.locale }}.svg" class="s36"></md-icon>
 					</md-button>
 				</div>
-				
+
 				<div layout="column" flex>
 					<md-button ng-click="resetForDemo()" class="md-primary">{{ 'header_reset' | translate }}</md-button>
 				</div>

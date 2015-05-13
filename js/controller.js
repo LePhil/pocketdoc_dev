@@ -223,8 +223,9 @@
 		$scope.user = UserService.getCurrentUser();
 		var oldEmail = $scope.user.email;
 		
-		if ($scope.isProfile)
-			$scope.user.password = " ";
+		if ($scope.isProfile) {
+			$scope.user.password = "";
+        }
 		
 		$scope.checkEmail = function(){
 			if ($scope.isProfile)
@@ -516,7 +517,6 @@
         };
 
         /*
-        
         if followUp is "locked", count down. for that we need to poke angular
         every second...
         */
@@ -539,145 +539,178 @@
                 ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService',
         function( $scope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ) {
 			
-            $scope.lang = UserService.getCurrentUser().lang;
-            $scope.languages = MetaDataService.getLanguages();
-			$scope.location = $location;
-			
-			// Resize handler to calculate layout
-			$scope.resize = function(){
-				var height = window.innerHeight;
-				var footerHeight = $('#footer').height();
-				var headerHeight = $('#header').height();
-				$('#partialContent').css('marginBottom', footerHeight);
-			}
-			
-			window.onresize = $scope.resize();
-			
-			$scope.$on( "login", function( event, data ) {
-				$scope.loggedIn = true;
-				$scope.lang = UserService.getCurrentUser().lang;
-				$translate.use( $scope.lang );
-			});
-			
-			$scope.$on( "logout", function( event, data ) {
-				$scope.loggedIn = false;
-				$scope.lang = UserService.getCurrentUser().lang;
-				$translate.use( $scope.lang );
-			});
-			
-			$scope.$on("resize", function(event, data){
-				$scope.resize();
-			});
+        $scope.lang = UserService.getCurrentUser().lang;
+        $scope.languages = MetaDataService.getLanguages();
+		$scope.location = $location;
+		
+		// Resize handler to calculate layout
+		$scope.resize = function(){
+			var height = window.innerHeight;
+			var footerHeight = $('#footer').height();
+			var headerHeight = $('#header').height();
+			$('#partialContent').css('marginBottom', footerHeight);
+		}
+		
+		window.onresize = $scope.resize();
+		
+		$scope.$on( "login", function( event, data ) {
+			$scope.loggedIn = true;
+			$scope.lang = UserService.getCurrentUser().lang;
+			$translate.use( $scope.lang );
+		});
+		
+		$scope.$on( "logout", function( event, data ) {
+			$scope.loggedIn = false;
+			$scope.lang = UserService.getCurrentUser().lang;
+			$translate.use( $scope.lang );
+		});
+		
+		$scope.$on("resize", function(event, data){
+			$scope.resize();
+		});
 
-            $scope.changeLanguage = function( lang ) {
-                UserService.updateLanguage(
-					{
-						lang: lang
-					},
-					function(data){
-                        $translate.use( data.lang ).then(
-                            function ( lang ) {
-						        $scope.lang = data.lang;
-                            },
-                            function ( lang ) {
-    							console.log("Error occured while changing language");
-    						}
-                        );
-					},
-					function(error){
-						alert(error);
-					}
-				);
-            };
+        $scope.changeLanguage = function( lang ) {
+            UserService.updateLanguage(
+				{
+					lang: lang
+				},
+				function(data){
+                    $translate.use( data.lang ).then(
+                        function ( lang ) {
+					        $scope.lang = data.lang;
+                        },
+                        function ( lang ) {
+							console.log("Error occured while changing language");
+						}
+                    );
+				},
+				function(error){
+					alert(error);
+				}
+			);
+        };
 
-            $scope.toggleRight = buildToggler('right');
-            
-            // Build handler to open/close a SideNav
-            function buildToggler( navID ) {
-                return function() {
-					return $mdSidenav( navID ).toggle()
-                        .then(function () { /* done */ });
-                }
+        $scope.toggleRight = buildToggler('right');
+        
+        // Build handler to open/close a SideNav
+        function buildToggler( navID ) {
+            return function() {
+				return $mdSidenav( navID ).toggle()
+                    .then(function () { /* done */ });
             }
+        }
 
-            $scope.close = function () {
-                $mdSidenav('right').close()
-                .then(function () {
-                    $log.debug("close RIGHT is done");
-                });
-            };
+        $scope.close = function () {
+            $mdSidenav('right').close()
+            .then(function () {
+                $log.debug("close RIGHT is done");
+            });
+        };
 
-            $scope.profile = function() {
-                $scope.close();
-                $location.url("/profile");
-            };
+        $scope.profile = function() {
+            $scope.close();
+            $location.url("/profile");
+        };
 
-            $scope.login = function() {
-            	UserService.loginUser(
-					{
-						email : $scope.user.email,
-						password : $scope.user.password 
-					},
-					function( data ) {
-						$scope.close();
-						$scope.loggedIn = true;
-						$scope.user = {};
-						$scope.$root.$broadcast("login", data);
-					},
-					function( error ) {
-						alert( error );
-					}
-				);
-            };
+        $scope.login = function() {
+        	UserService.loginUser(
+				{
+					email : $scope.user.email,
+					password : $scope.user.password 
+				},
+				function( data ) {
+					$scope.close();
+					$scope.loggedIn = true;
+					$scope.user = {};
+					$scope.$root.$broadcast("login", data);
+				},
+				function( error ) {
+					alert( error );
+				}
+			);
+        };
 
-            $scope.register = function() {
-				$scope.close();
-                $location.url("/registration");
-            };
+        $scope.register = function() {
+			$scope.close();
+            $location.url("/registration");
+        };
 
-            /**
-             * Shows dialog if a functionality is not yet implemented.
-             * 
-             * @param  {String} functionality
-             * @author Philipp Christen
-             */
-            $scope.notImplementedYet = function( functionality ) {
-                $mdDialog.show(
-                    $mdDialog.alert()
-                        .title( $translate.instant('common_notImplemented') )
-                        .content( $translate.instant('common_notImplemented_content', { fkt: functionality } ) )
-                        .ariaLabel( $translate.instant('common_notImplemented') )
-                        .ok( $translate.instant('common_ok') )
-                );
-            };
+        /**
+         * Shows dialog if a functionality is not yet implemented.
+         * 
+         * @param  {String} functionality
+         * @author Philipp Christen
+         */
+        $scope.notImplementedYet = function( functionality ) {
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .title( $translate.instant('common_notImplemented') )
+                    .content( $translate.instant('common_notImplemented_content', { fkt: functionality } ) )
+                    .ariaLabel( $translate.instant('common_notImplemented') )
+                    .ok( $translate.instant('common_ok') )
+            );
+        };
 
-            /**
-             * Navigates back to the main page.
-             * 
-             * @author Philipp Christen
-             */
-            $scope.goToMain = function () {
-                $location.url("/");
-            };
+        /**
+         * Navigates back to the main page.
+         * 
+         * @author Philipp Christen
+         */
+        $scope.goToMain = function () {
+            $location.url("/");
+        };
 
-            /**
-             * RESET ALL LOCALSTORAGE FOR DEMONSTRATION PURPOSES!
-             * 
-             * @author Philipp Christen
-             */
-            $scope.resetForDemo = function() {
-                var confirm = $mdDialog.confirm()
-                  .title( $translate.instant('header_reset_title') )
-                  .content( $translate.instant('header_reset_content') )
-                  .ariaLabel( $translate.instant('header_reset_title') )
-                  .ok( $translate.instant('common_yes') )
-                  .cancel( $translate.instant('common_no') );
+        /**
+         * RESET ALL LOCALSTORAGE FOR DEMONSTRATION PURPOSES!
+         * 
+         * @author Philipp Christen
+         */
+        $scope.resetForDemo = function() {
+            var confirm = $mdDialog.confirm()
+              .title( $translate.instant('header_reset_title') )
+              .content( $translate.instant('header_reset_content') )
+              .ariaLabel( $translate.instant('header_reset_title') )
+              .ok( $translate.instant('common_yes') )
+              .cancel( $translate.instant('common_no') );
 
-                $mdDialog.show(confirm).then(function() {
-                    localStorage.clear();
-                    window.location.reload();
-                }, function() {});
-            };
+            $mdDialog.show(confirm).then(function() {
+                localStorage.clear();
+                window.location.reload();
+            }, function() {});
+        };
+
+        /**
+         * Mini-Controller for Custom Dialog, provides some simple methods.
+         * 
+         * @param {[type]} $scope           [description]
+         * @param {[type]} $mdDialog        [description]
+         * @author Philipp Christen
+         */
+        var ForgotPasswordController = function($scope, $mdDialog) {
+            $scope.cancel = function() { $mdDialog.cancel(); };
+            $scope.accept = function() { $mdDialog.hide(); };
+        };
+
+        /**
+         * Shows the "Reset Password" dialogue.
+         * 
+         * @return {[type]} [description]
+         * @author Philipp Christen
+         */
+        $scope.forgotPassword = function() {
+            $scope.close();
+            $mdDialog.show({
+                controller: ForgotPasswordController,
+                templateUrl: '../partials/forgotPasswordDialog.html',
+                resolve: {
+                }
+            })
+            .then( function() {
+                // TODO
+            }, function() {
+                // TODO
+            });
+        };
     }]);
 
 })();

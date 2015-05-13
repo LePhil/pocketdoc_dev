@@ -1,12 +1,12 @@
-(function(){
+(function() {
 	
 	var pocketdocData = angular.module('pocketdocData', []);
 	
-	pocketdocData.factory('DataService', function(){
+	pocketdocData.factory('DataService', function() {
 		
 		var DataService = {
 			
-			questions: function(){
+			questions: function() {
 				return [
 					{
 						"id": 0,
@@ -1006,7 +1006,7 @@
 				];
 			},
 			
-			diagnoses: function(){
+			diagnoses: function() {
 				return [
 					{
 						"id": 0,
@@ -1072,7 +1072,7 @@
 				];
 			},
 			
-			actionSuggestions: function(){
+			actionSuggestions: function() {
 				return [
 					{
 						"id": 0,
@@ -1122,7 +1122,7 @@
 				];
 			},
 			
-			users: function(){
+			users: function() {
 				return [
 					{
 						"id": 0,
@@ -1144,7 +1144,7 @@
 				];
 			},
 			
-			histories: function(){
+			histories: function() {
 				return [
 					{
 						"id": 0,
@@ -1175,7 +1175,7 @@
 				];
 			},
 
-			followUps: function(){
+			followUps: function() {
 				return [
 					{
 						"id": 0,
@@ -1196,15 +1196,20 @@
 				];
 			},
 			
-			languages: function(){
+			languages: function() {
 				return [
-					{
-						"id": 0,
-						"locale": "de"
-					}, {
-						"id": 1,
-						"locale": "en"
-					}
+					{ "id": 0, "locale": "de", "nativeName": "Deutsch" },
+					{ "id": 1, "locale": "en", "nativeName": "English" }
+				];
+			},
+
+			ageRanges: function() {
+				return [
+					{ "id": 0, "start":  0, "end":   9 },
+					{ "id": 1, "start": 10, "end":  24 },
+					{ "id": 2, "start": 25, "end":  49 },
+					{ "id": 3, "start": 50, "end":  70 },
+					{ "id": 4, "start": 71, "end": 100 }
 				];
 			}
 			

@@ -512,6 +512,22 @@
 		};
 		
 	}]);
+
+	backend.factory('MetaDataService', [ '_', 'DataService',
+							   function(  _ ,  DataService  ){
+   		var getLanguages = function() {
+   				return DataService.languages();
+   			},
+
+   			getAgeRanges = function() {
+   				return DataService.ageRanges();
+			};
+
+   		return {
+   			getLanguages: getLanguages,
+   			getAgeRanges: getAgeRanges
+   		};
+	}]);
 	
 	backend.factory('UtilService', function(){
 		

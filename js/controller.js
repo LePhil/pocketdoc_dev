@@ -212,9 +212,12 @@
      * @return {[type]}
      * @author Roman Eichenberger, Philipp Christen
      */
-	pocketdocControllers.controller('registrationController', ['$scope', '$location', '$translate', '$mdDialog', 'UserService', function($scope, $location, $translate, $mdDialog, UserService) {
+	pocketdocControllers.controller('registrationController',
+                ['$scope', '$location', '$translate', '$mdDialog', 'UserService', 'MetaDataService',
+        function( $scope ,  $location ,  $translate ,  $mdDialog ,  UserService ,  MetaDataService ) {
 		
 		$scope.isProfile = UserService.getCurrentUser().id >= 0;
+        $scope.languages = MetaDataService.getLanguages();
 		
 		$scope.user = UserService.getCurrentUser();
 		var oldEmail = $scope.user.email;
@@ -267,13 +270,31 @@
 		};
 
         /**
-         * Changes the language of the to-be-registered user
+         * Changes the language of the to-be-registered user and tells the app
+         * to use this language from now on.
          * 
          * @param  {Number}
          * @author Roman Eichenberger, Philipp Christen
          */
 		$scope.changeLanguage = function(lang) {
-			$scope.user.lang = lang;
+            UserService.updateLanguage(
+                {
+                    lang: lang
+                },
+                function(data){
+                    $translate.use( data.lang ).then(
+                        function ( lang ) {
+                            $scope.user.lang = lang;
+                        },
+                        function ( lang ) {
+                            console.log("Error occured while changing language");
+                        }
+                    );
+                },
+                function(error){
+                    alert(error);
+                }
+            );
 		};
 		
         /**
@@ -514,10 +535,11 @@
 	}]);
 
     pocketdocControllers.controller('HeaderController',
-                ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService',
-        function( $scope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ) {
+                ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService',
+        function( $scope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ) {
 			
             $scope.lang = UserService.getCurrentUser().lang;
+            $scope.languages = MetaDataService.getLanguages();
 			$scope.location = $location;
 			
 			// Resize handler to calculate layout
@@ -547,17 +569,19 @@
 			});
 
             $scope.changeLanguage = function( lang ) {
-                $scope.language = lang;
-				UserService.updateLanguage(
+                UserService.updateLanguage(
 					{
 						lang: lang
 					},
 					function(data){
-						$scope.lang = data.lang;
-						$translate.use( data.lang ).then(function ( lang ) {
-						}, function ( lang ) {
-							console.log("Error occured while changing language");
-						});
+                        $translate.use( data.lang ).then(
+                            function ( lang ) {
+						        $scope.lang = data.lang;
+                            },
+                            function ( lang ) {
+    							console.log("Error occured while changing language");
+    						}
+                        );
 					},
 					function(error){
 						alert(error);

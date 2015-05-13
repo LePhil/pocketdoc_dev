@@ -64,14 +64,14 @@
 			<div flex layout="column">
 				<div class="profile-subtitle" >{{ 'reg_language' | translate }}:</div>
 				<div layout="row">
-					<md-button id="language-button-de" class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage('de')" ng-class="{'md-primary md-raised': user.lang == 'de'}">
-						<md-icon md-svg-icon="images/icons/de.svg" class="s36"></md-icon>
-					</md-button>
-					<md-button id="language-button-en" class="md-icon-button" aria-label="English" ng-click="changeLanguage('en')" ng-class="{'md-primary md-raised': user.lang == 'en'}">
-						<md-icon md-svg-icon="images/icons/en.svg" class="s36"></md-icon>
-					</md-button>
-					<md-button id="language-button-fr" class="md-icon-button" aria-label="Français" ng-click="changeLanguage('fr')" ng-class="{'md-primary md-raised': user.lang == 'fr'}">
-						<md-icon md-svg-icon="images/icons/fr.svg" class="s36"></md-icon>
+					<md-button
+						ng-repeat="language in languages"
+						id="language-button-{{language.locale}}"
+						class="md-icon-button"
+						aria-label="{{language.nativeName}}"
+						ng-click="changeLanguage( language.locale )"
+						ng-class="{'md-primary md-raised': user.lang ==  language.locale }">
+						<md-icon md-svg-icon="images/icons/{{ language.locale }}.svg" class="s36"></md-icon>
 					</md-button>
 				</div>
 			</div>

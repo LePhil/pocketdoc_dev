@@ -31,7 +31,7 @@
 								<span ng-show="isFollowUpReady( followup.timeAdded)">{{ followup.timeAdded | date:'dd.MM.yyyy HH:mm' }}</span>
 								<span ng-show="!isFollowUpReady( followup.timeAdded)">{{ 'main_followUp_remaining' | translate }} {{ getRemainingTime( followup.timeAdded ) | date:'HH:mm:ss' }}</span>
 							</p>
-								<h4>Diagnose: {{ getDiagnosis( followup ) }}</h4>
+								<h4>{{ 'main_followUp_diag' | translate }}: {{ getDiagnosis( followup ) }}</h4>
 							</div>
 
 						<md-button class="md-icon-button" ng-click="startFollowUp(followup, $event)" aria-label="{{ 'main_followUp_start' | translate }}">

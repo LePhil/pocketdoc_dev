@@ -6,159 +6,160 @@
 	        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DataService', 'DiagnosisService', '$translate',
 	function( $scope,   $location,   RunService,   DiagnosisData,   $mdDialog,   DataService,   DiagnosisService ,  $translate ) {
 	
+        $scope.loading = true;
+		$scope.hidden = true;
+		
+		RunService.startRun(
+			function( questionData ) {
+				// Success
+				$scope.currentQuestion = questionData;
+				$scope.answeredQuestions = [];
+                $scope.loading = false;
+				$scope.hidden = false;
+			},
+			function( error ) {
+				alert( error );
+			}
+		);
+		
+		$scope.answerQuestion = function( givenAnswer ) {
             $scope.loading = true;
 			$scope.hidden = true;
-			
-			RunService.startRun(
-				"",
-				function( questionData ) {
-					// Success
-					$scope.currentQuestion = questionData;
-					$scope.answeredQuestions = [];
-                    $scope.loading = false;
-					$scope.hidden = false;
-				},
-				function( error ) {
-					alert( error );
-				}
-			);
-			
-			$scope.answerQuestion = function(givenAnswer) {
-                $scope.loading = true;
-				$scope.hidden = true;
-				
-				RunService.answerQuestion(
-					{
-						answerId : givenAnswer.id
-					},
-					function( questionData ) {
-                        // Success: Add previous question to the list
-                        // "position" is used for getting the position in the list
-						$scope.answeredQuestions.push(
-							{
-                                position: $scope.answeredQuestions.length,
-								question: $scope.currentQuestion,
-								answer: givenAnswer
-							}
-						);
 
-						// Show new question
-						$scope.currentQuestion = questionData;
+            // Add previous question to the list of answered questions
+            // "position" is used for getting the position in the list
+            $scope.answeredQuestions.push(
+                {
+                    position: $scope.answeredQuestions.length,
+                    question: $scope.currentQuestion,
+                    answer: givenAnswer
+                }
+            );
 
-                        if ( typeof(givenAnswer.diagnosis) !== "undefined" &&
-                             typeof(givenAnswer.action_suggestion) !== "undefined" ) {
+            // then, check if the answer had a diagnosis/actionSuggestion attached to it
+            if ( typeof( givenAnswer.diagnosis ) !== "undefined" &&
+                 typeof( givenAnswer.action_suggestion ) !== "undefined" ) {
 
-                            DiagnosisService.getByID(
-                                givenAnswer.diagnosis,
-                                givenAnswer.action_suggestion,
-                                function( diag ) {
-                                    $scope.showDialog(
-                                        diag.diagnosis,
-                                        diag.action_suggestion
-                                    );
-                                },
-                                function( error ) {
-                                    alert( error );
-                                }
-                            );
-
-                        } else {
-                            $scope.givenAnswer = undefined;
-                            $scope.showNewQuestion();
-                        }
-					},
-					function( message ) {
-                        // TODO: still show diagnosis if found, and supply the title of the content through the service as well...
-                        $scope.loading = false;
-                        // Error occured. Show Dialogue.
-                        $mdDialog.show(
-                            $mdDialog.alert()
-                                .title( $translate.instant('error_noMoreQuestions_title') )
-                                .content( message )
-                                .ariaLabel('Alert Dialog Demo')
-                                .ok( $translate.instant('common_ok') )
-                        ).finally( function() {
-                            $scope.goToMain();
-                        });
-					}
-				);
-			};
-
-            /**
-             * Mini-Controller for Custom Dialog, provides some simple methods
-             * and makes the passed data available in the template.
-             * 
-             * @param {[type]} $scope           [description]
-             * @param {[type]} $mdDialog        [description]
-             * @param {[type]} diagnosis        [description]
-             * @param {[type]} actionSuggestion [description]
-             * @author Philipp Christen
-             */
-            var DialogController = function($scope, $mdDialog, diagnosis, actionSuggestion) {
-                $scope.diagnosis = diagnosis;
-                $scope.actionSuggestion = actionSuggestion;
-
-                $scope.cancel = function() { $mdDialog.cancel(); };
-                $scope.accept = function() { $mdDialog.hide(); };
-            };
-
-            /**
-             * Shows the "diagnosis found" dialog.
-             * 
-             * @param  {[type]} diagnosis        [description]
-             * @param  {[type]} actionSuggestion [description]
-             * @param  {jQuery.Event} ev [description]
-             * @author Philipp Christen, Roman Eichenberger
-             */
-            $scope.showDialog = function( diagnosis, actionSuggestion, ev ) {
-                $scope.loading = false;
-                $mdDialog.show({
-                    controller: DialogController,
-                    templateUrl: '../partials/diagDialog.html',
-                    targetEvent: ev,
-                    resolve: {
-                        diagnosis: function(){ return diagnosis; },
-                        actionSuggestion: function(){ return actionSuggestion; }
+                DiagnosisService.getByID(
+                    givenAnswer.diagnosis,
+                    givenAnswer.action_suggestion,
+                    function( diag ) {
+                        $scope.showDialog(
+                            givenAnswer,
+                            diag.diagnosis,
+                            diag.action_suggestion
+                        );
+                    },
+                    function( error ) {
+                        alert( error );
                     }
-                })
-                .then( function() {
-                    RunService.acceptDiagnosis(
-                        undefined,
-                        function() {
-                            $location.url("/diagnosis");
-                            DiagnosisData.diagnosis = diagnosis;
-                            DiagnosisData.actionSuggestion = actionSuggestion;
-                        },
-                        function( error ) {
-                            alert( error );
-                        }
-                    );
-                }, function() {
-                    $scope.showNewQuestion();
-                });
-            };
+                );
 
-            $scope.showNewQuestion = function() {
-				$scope.loading = false;
-                $scope.hidden = false;				
-            };
+            } else {
+                $scope.givenAnswer = undefined;
+                $scope.showNewQuestion( givenAnswer );
+            }
+		};
 
-            /**
-             * Used clicked on a question that they already answered to answer
-             * it again.
-             * 
-             * @param  {Object} question
-             * @param  {jQuery.Event} $event
-             * @author Philipp Christen
-             */
-            $scope.reviseQuestion = function( qData, $event ) {
-                var pos = qData.position;
-                $scope.answeredQuestions.splice( pos, $scope.answeredQuestions.length-pos+1 );
+        /**
+         * Mini-Controller for Custom Dialog, provides some simple methods
+         * and makes the passed data available in the template.
+         * 
+         * @param {[type]} $scope           [description]
+         * @param {[type]} $mdDialog        [description]
+         * @param {[type]} diagnosis        [description]
+         * @param {[type]} actionSuggestion [description]
+         * @author Philipp Christen
+         */
+        var DialogController = function($scope, $mdDialog, diagnosis, actionSuggestion) {
+            $scope.diagnosis = diagnosis;
+            $scope.actionSuggestion = actionSuggestion;
 
-                // TODO: answers still get counted for the old currentQuestion...
-                // Fix in the simulator, don't just get the next question...
-                $scope.currentQuestion = qData.question;
-            };
+            $scope.cancel = function() { $mdDialog.cancel(); };
+            $scope.accept = function() { $mdDialog.hide(); };
+        };
+
+        /**
+         * Shows the "diagnosis found" dialog.
+         * 
+         * @param  {[type]} diagnosis        [description]
+         * @param  {[type]} actionSuggestion [description]
+         * @param  {jQuery.Event} ev [description]
+         * @author Philipp Christen, Roman Eichenberger
+         */
+        $scope.showDialog = function( givenAnswer, diagnosis, actionSuggestion, ev ) {
+            $scope.loading = false;
+            $mdDialog.show({
+                controller: DialogController,
+                templateUrl: '../partials/diagDialog.html',
+                targetEvent: ev,
+                resolve: {
+                    diagnosis: function(){ return diagnosis; },
+                    actionSuggestion: function(){ return actionSuggestion; }
+                }
+            })
+            .then( function() {
+                RunService.acceptDiagnosis(
+                    undefined,
+                    function() {
+                        $location.url("/diagnosis");
+                        DiagnosisData.diagnosis = diagnosis;
+                        DiagnosisData.actionSuggestion = actionSuggestion;
+                    },
+                    function( error ) {
+                        alert( error );
+                    }
+                );
+            }, function() {
+                $scope.showNewQuestion( givenAnswer );
+            });
+        };
+
+        $scope.showNewQuestion = function( givenAnswer ) {
+            RunService.answerQuestion(
+                {
+                    question: $scope.currentQuestion,
+                    answerId : givenAnswer.id
+                },
+                function( questionData ) {
+                    // Show new question
+                    $scope.currentQuestion = questionData;
+                    $scope.loading = false;
+                    $scope.hidden = false;  
+                },
+                function( message ) {
+                    // TODO: still show diagnosis if found, and supply the title of the content through the service as well...
+                    $scope.loading = false;
+                    // Error occured. Show Dialogue.
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                            .title( $translate.instant('error_noMoreQuestions_title') )
+                            .content( message )
+                            .ariaLabel('Alert Dialog Demo')
+                            .ok( $translate.instant('common_ok') )
+                    ).finally( function() {
+                        $scope.goToMain();
+                    });
+                }
+            );			
+        };
+
+        /**
+         * Used clicked on a question that they already answered to answer
+         * it again.
+         * 
+         * @param  {Object} question
+         * @param  {jQuery.Event} $event
+         * @author Philipp Christen
+         */
+        $scope.reviseQuestion = function( qData, $event ) {
+            var pos = qData.position;
+            $scope.answeredQuestions.splice( pos, $scope.answeredQuestions.length-pos+1 );
+
+            // TODO: answers still get counted for the old currentQuestion...
+            // Fix in the simulator, don't just get the next question...
+            $scope.currentQuestion = qData.question;
+        };
 	}]);
 	
 	pocketdocControllers.controller('diagnosisController',

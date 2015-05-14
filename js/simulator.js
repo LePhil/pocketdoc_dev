@@ -227,13 +227,25 @@
 			followUp = null;
 		
 		
-		var start = function( data, success, error ) {
-			var startQ = 0;
+		/**
+		 * First question of a run is the question with the ID 0.
+		 * If it's a followUp, it's of course the question that was defined
+		 * as the startquestion in the followUp.
+		 * 
+		 * @param  {Function} success
+		 * @param  {Function} error
+		 */
+		var start = function( success, error ) {
+			var startQuestionID = 0,
+				qData = {};
 
 			if ( followUp !== null ) {
-				startQ = followUp.startQuestion;
+				startQuestionID = followUp.startQuestion;
 			}
-			getQ( startQ, success, error );
+
+			qData.id = startQuestionID;
+
+			getQ( qData, success, error );
 		};
 		
 		/**
@@ -245,7 +257,6 @@
 		 * @author Roman Eichenberger, Philipp Christen
 		 */
 		var answerQ = function( data, success, error ) {
-				
 			var currQuestion = currentQuestion;
 			var answerObj = UtilService.getElementById(data.answerId, currQuestion.answers );
 			
@@ -254,14 +265,14 @@
 			if ( nextQuestions.length === 0 || nextQuestions[0] === -1 ) {
 				error( $translate.instant('error_noMoreQuestions') );
 			} else {
-				getQ( nextQuestions.pop(), success, error );
+				getQ( { id: nextQuestions.pop() }, success, error );
 			}
 		};
 		
-		var getQ = function(questionId, success, error ) {
-				
-			var questions = DataService.questions();
-			var firstQuestion = UtilService.getElementById(questionId, questions);
+		var getQ = function( questionData, success, error ) {
+			
+			var allQuestions = DataService.questions();
+			var firstQuestion = UtilService.getElementById( questionData.id, allQuestions );
 			
 			var questionResult = {};
 			
@@ -294,7 +305,7 @@
 			success(questionResult);	
 		};
 
-		var getD = function( data, success, error ) {
+		var addDiagnosis = function( data, success, error ) {
 
 		}
 		

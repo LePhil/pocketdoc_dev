@@ -3,8 +3,8 @@
 	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices', 'ngMessages']);
 
 	pocketdocControllers.controller('questionController',
-		        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DataService', 'DiagnosisService', '$translate',
-		function( $scope,   $location,   RunService,   DiagnosisData,   $mdDialog,   DataService,   DiagnosisService ,  $translate ) {
+	        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DataService', 'DiagnosisService', '$translate',
+	function( $scope,   $location,   RunService,   DiagnosisData,   $mdDialog,   DataService,   DiagnosisService ,  $translate ) {
 	
             $scope.loading = true;
 			$scope.hidden = true;
@@ -162,8 +162,8 @@
 	}]);
 	
 	pocketdocControllers.controller('diagnosisController',
-                ['$scope', '$location', 'DiagnosisData', 'UserService', 'FollowupService', 'RunService',
-        function( $scope ,  $location ,  DiagnosisData ,  UserService ,  FollowupService ,  RunService ) {
+            ['$scope', '$location', 'DiagnosisData', 'UserService', 'FollowupService', 'RunService',
+    function( $scope ,  $location ,  DiagnosisData ,  UserService ,  FollowupService ,  RunService ) {
 		
 		$scope.diagnosis = DiagnosisData.diagnosis;
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
@@ -224,8 +224,8 @@
      * @author Roman Eichenberger, Philipp Christen
      */
 	pocketdocControllers.controller('registrationController',
-                ['$scope', '$location', '$translate', '$mdDialog', 'UserService', 'MetaDataService',
-        function( $scope ,  $location ,  $translate ,  $mdDialog ,  UserService ,  MetaDataService ) {
+            ['$scope', '$location', '$translate', '$mdDialog', 'UserService', 'MetaDataService',
+    function( $scope ,  $location ,  $translate ,  $mdDialog ,  UserService ,  MetaDataService ) {
 		
 		$scope.isProfile = UserService.getCurrentUser().id >= 0;
         $scope.languages = MetaDataService.getLanguages();
@@ -298,6 +298,7 @@
                     $translate.use( data.lang ).then(
                         function ( lang ) {
                             $scope.user.lang = lang;
+                            $scope.$root.$broadcast( "languageChange", lang );
                         },
                         function ( lang ) {
                             console.log("Error occured while changing language");
@@ -399,8 +400,8 @@
 	}]);
 	
 	pocketdocControllers.controller('mainController',
-               [ '_', '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', '$mdDialog', 'DiagnosisService', '$interval', 
-        function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ,  DiagnosisService ,  $interval ) {
+           [ '_', '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', '$mdDialog', 'DiagnosisService', '$interval', 
+    function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ,  DiagnosisService ,  $interval ) {
 		
         $scope.followUps = [];
 
@@ -547,8 +548,8 @@
 	}]);
 
     pocketdocControllers.controller('HeaderController',
-                ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService',
-        function( $scope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ) {
+            ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService',
+    function( $scope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ) {
 			
         $scope.lang = UserService.getCurrentUser().lang;
         $scope.languages = MetaDataService.getLanguages();
@@ -575,6 +576,11 @@
 			$scope.lang = UserService.getCurrentUser().lang;
 			$translate.use( $scope.lang );
 		});
+
+        $scope.$on( "languageChange", function( event, lang ) {
+            $scope.lang = lang;
+            $translate.use( lang );
+        });
 		
 		$scope.$on("resize", function(event, data){
 			$scope.resize();

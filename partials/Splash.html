@@ -17,7 +17,7 @@
 		<div layout="column" ng-show="loggedIn">
 			<h1>{{ 'main_welcomeBack' | translate }}<span ng-hide="isEmpty(userName)">, {{userName}}.</span></h1>
 			
-			<md-content ng-hide="!followUps">
+			<md-content ng-hide="followUps.length == 0">
 				<section>
 					<md-subheader class="md-primary">{{ 'main_followUp_open' | translate }}</md-subheader>
 					<md-list layout="column" layout-padding id="followUpList">

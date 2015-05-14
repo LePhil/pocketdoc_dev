@@ -3,8 +3,8 @@
 	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices', 'ngMessages']);
 
 	pocketdocControllers.controller('questionController',
-		        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DataService', 'DiagnosisService',
-		function( $scope,   $location,   RunService,   DiagnosisData,   $mdDialog,   DataService,   DiagnosisService ) {
+		        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DataService', 'DiagnosisService', '$translate',
+		function( $scope,   $location,   RunService,   DiagnosisData,   $mdDialog,   DataService,   DiagnosisService ,  $translate ) {
 	
             $scope.loading = true;
 			$scope.hidden = true;
@@ -67,8 +67,19 @@
                             $scope.showNewQuestion();
                         }
 					},
-					function( error ) {
-						alert( error );
+					function( message ) {
+                        // TODO: still show diagnosis if found, and supply the title of the content through the service as well...
+                        $scope.loading = false;
+                        // Error occured. Show Dialogue.
+                        $mdDialog.show(
+                            $mdDialog.alert()
+                                .title( $translate.instant('error_noMoreQuestions_title') )
+                                .content( message )
+                                .ariaLabel('Alert Dialog Demo')
+                                .ok( $translate.instant('common_ok') )
+                        ).finally( function() {
+                            $scope.goToMain();
+                        });
 					}
 				);
 			};

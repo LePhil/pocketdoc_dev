@@ -954,7 +954,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [23]
+								"next_questions": [-1]
 							}
 						]
 					}, {
@@ -982,7 +982,7 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [23],
+								"next_questions": [-1],
 								"diagnosis": 1,
 								"action_suggestion": 1
 							}, {
@@ -997,7 +997,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [23],
+								"next_questions": [-1],
 								"diagnosis": 1,
 								"action_suggestion": 1
 							}
@@ -1138,7 +1138,7 @@
 						"email": "alfred@waynemanor.com",
 						"password": "alfred",
 						"gender": 0,
-						"age_category": 6,
+						"age_category": 3,
 						"lang": "de"
 					}
 				];

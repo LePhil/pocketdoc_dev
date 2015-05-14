@@ -223,8 +223,8 @@
 	});
 	
 	backend.factory('RunService', [
-				 'UserService', 'DataService', 'UtilService', 
-		function( UserService,   DataService,   UtilService ){
+				 'UserService', 'DataService', 'UtilService', '$translate', 
+		function( UserService,   DataService,   UtilService ,  $translate ){
 		
 		var nextQuestions = [],
 		    currentQuestion,
@@ -240,17 +240,25 @@
 			getQ( startQ, success, error );
 		};
 		
+		/**
+		 * User answered a question.
+		 * 
+		 * @param  {Object} data    [description]
+		 * @param  {Function} success
+		 * @param  {Function} error
+		 * @author Roman Eichenberger, Philipp Christen
+		 */
 		var answerQ = function(data, success, error){
 				
 			var currQuestion = currentQuestion;
 			var answerObj = UtilService.getElementById(data.answerId, currQuestion.answers );
 			
-			nextQuestions.push(answerObj.next_questions);
+			nextQuestions = answerObj.next_questions;
 			
-			if ( nextQuestions.length == 0 ) {
-				error("Ups, uns sind die Fragen ausgegangen.");
+			if ( nextQuestions.length === 0 || nextQuestions[0] === -1 ) {
+				error( $translate.instant('error_noMoreQuestions') );
 			} else {
-				getQ(nextQuestions.pop(), success, error);
+				getQ( nextQuestions.pop(), success, error );
 			}
 		};
 		

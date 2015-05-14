@@ -129,7 +129,9 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			common_years: "Jahre",
 			common_appname: "PocketDoc",
 			forgotPassword_send: "Absenden",
-			forgotPassword_title: "Passwort vergessen"
+			forgotPassword_title: "Passwort vergessen",
+			error_noMoreQuestions: "Leider war dies die letzte Frage. Es handelt sich hier um eine Demo, welche noch nicht den gesamten Funktionsumfang enthält. Sorry :(\nSie werden auf die Startseite weitergeleitet.",
+			error_noMoreQuestions_title: "Keine weiteren Fragen"
 		});
 		$translateProvider.translations('en', {
 			main_startDiagnosis: 'Start Diagnosis now!',
@@ -214,7 +216,9 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			common_years: "years",
 			common_appname: "PocketDoc",
 			forgotPassword_send: "Send",
-			forgotPassword_title: "Forgotten Password"
+			forgotPassword_title: "Forgotten Password",
+			error_noMoreQuestions: "Unfortunately, this was the last question. This is just a demo, not all functionality is implemented. Sorry about that :(\nYou will be redirected to the main page.",
+			error_noMoreQuestions_title: "No further questions"
 		});
 
 		$translateProvider.preferredLanguage('de');

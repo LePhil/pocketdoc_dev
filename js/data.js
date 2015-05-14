@@ -1,12 +1,12 @@
-(function(){
+(function() {
 	
 	var pocketdocData = angular.module('pocketdocData', []);
 	
-	pocketdocData.factory('DataService', function(){
+	pocketdocData.factory('DataService', function() {
 		
 		var DataService = {
 			
-			questions: function(){
+			questions: function() {
 				return [
 					{
 						"id": 0,
@@ -33,6 +33,19 @@
 									}
 								],
 								"style": "md-accent",
+								"next_questions": [1]
+							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
 								"next_questions": [1]
 							}, {
 								"id": 1,
@@ -76,6 +89,19 @@
 								"style": "md-accent",
 								"next_questions": [5]
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [5]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -115,6 +141,19 @@
 									}
 								],
 								"style": "md-accent",
+								"next_questions": [4]
+							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
 								"next_questions": [4]
 							}, {
 								"id": 1,
@@ -158,6 +197,19 @@
 								"style": "md-accent",
 								"next_questions": [5]
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [5]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -197,6 +249,19 @@
 									}
 								],
 								"style": "md-accent",
+								"next_questions": [5]
+							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
 								"next_questions": [5]
 							}, {
 								"id": 1,
@@ -240,6 +305,19 @@
 								"style": "md-accent",
 								"next_questions": [6]
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [6]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -279,6 +357,19 @@
 									}
 								],
 								"style": "md-accent",
+								"next_questions": [7]
+							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
 								"next_questions": [7]
 							}, {
 								"id": 1,
@@ -322,6 +413,19 @@
 								"style": "md-accent",
 								"next_questions": [8]
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [8]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -361,6 +465,19 @@
 									}
 								],
 								"style": "md-accent",
+								"next_questions": [10]
+							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
 								"next_questions": [10]
 							}, {
 								"id": 1,
@@ -404,6 +521,19 @@
 								"style": "md-accent",
 								"next_questions": [11]
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [11]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -443,6 +573,19 @@
 									}
 								],
 								"style": "md-accent",
+								"next_questions": [12]
+							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
 								"next_questions": [12]
 							}, {
 								"id": 1,
@@ -486,6 +629,19 @@
 								"style": "md-accent",
 								"next_questions": [17]
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [17]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -525,6 +681,19 @@
 									}
 								],
 								"style": "md-accent",
+								"next_questions": [13]
+							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
 								"next_questions": [13]
 							}, {
 								"id": 1,
@@ -570,6 +739,19 @@
 								"diagnosis": 0,
 								"action_suggestion": 3
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [14]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -611,6 +793,19 @@
 								"style": "md-accent",
 								"next_questions": [15]
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [15]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -650,6 +845,19 @@
 									}
 								],
 								"style": "md-accent",
+								"next_questions": [16]
+							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
 								"next_questions": [16]
 							}, {
 								"id": 1,
@@ -695,6 +903,19 @@
 								"diagnosis": 2,
 								"action_suggestion": 2
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [20]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -734,6 +955,19 @@
 									}
 								],
 								"style": "md-accent",
+								"next_questions": [22]
+							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
 								"next_questions": [22]
 							}, {
 								"id": 1,
@@ -777,6 +1011,19 @@
 								"style": "md-accent",
 								"next_questions": [19]
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [19]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -818,6 +1065,19 @@
 								"style": "md-accent",
 								"next_questions": [20]
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [20]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -857,6 +1117,19 @@
 									}
 								],
 								"style": "md-accent",
+								"next_questions": [21]
+							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
 								"next_questions": [21]
 							}, {
 								"id": 1,
@@ -902,6 +1175,19 @@
 								"diagnosis": 1,
 								"action_suggestion": 1
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [22]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -943,6 +1229,19 @@
 								"style": "md-accent",
 								"next_questions": [23]
 							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [23]
+							}, {
 								"id": 1,
 								"desc": [
 									{
@@ -954,7 +1253,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [23]
+								"next_questions": [-1]
 							}
 						]
 					}, {
@@ -982,9 +1281,22 @@
 									}
 								],
 								"style": "md-accent",
-								"next_questions": [23],
+								"next_questions": [-1],
 								"diagnosis": 1,
 								"action_suggestion": 1
+							}, {
+								"id": 2,
+								"desc": [
+									{
+										"lang": 0,
+										"text": "Weiss nicht"
+									}, {
+										"lang": 1,
+										"text": "Don't know"
+									}
+								],
+								"style": "md-primary",
+								"next_questions": [-1]
 							}, {
 								"id": 1,
 								"desc": [
@@ -997,7 +1309,7 @@
 									}
 								],
 								"style": "md-warn",
-								"next_questions": [23],
+								"next_questions": [-1],
 								"diagnosis": 1,
 								"action_suggestion": 1
 							}
@@ -1006,7 +1318,7 @@
 				];
 			},
 			
-			diagnoses: function(){
+			diagnoses: function() {
 				return [
 					{
 						"id": 0,
@@ -1072,7 +1384,7 @@
 				];
 			},
 			
-			actionSuggestions: function(){
+			actionSuggestions: function() {
 				return [
 					{
 						"id": 0,
@@ -1122,7 +1434,7 @@
 				];
 			},
 			
-			users: function(){
+			users: function() {
 				return [
 					{
 						"id": 0,
@@ -1138,13 +1450,13 @@
 						"email": "alfred@waynemanor.com",
 						"password": "alfred",
 						"gender": 0,
-						"age_category": 6,
+						"age_category": 3,
 						"lang": "de"
 					}
 				];
 			},
 			
-			histories: function(){
+			histories: function() {
 				return [
 					{
 						"id": 0,
@@ -1175,7 +1487,7 @@
 				];
 			},
 
-			followUps: function(){
+			followUps: function() {
 				return [
 					{
 						"id": 0,
@@ -1196,15 +1508,20 @@
 				];
 			},
 			
-			languages: function(){
+			languages: function() {
 				return [
-					{
-						"id": 0,
-						"locale": "de"
-					}, {
-						"id": 1,
-						"locale": "en"
-					}
+					{ "id": 0, "locale": "de", "nativeName": "Deutsch" },
+					{ "id": 1, "locale": "en", "nativeName": "English" }
+				];
+			},
+
+			ageRanges: function() {
+				return [
+					{ "id": 0, "start":  0, "end":   9 },
+					{ "id": 1, "start": 10, "end":  24 },
+					{ "id": 2, "start": 25, "end":  49 },
+					{ "id": 3, "start": 50, "end":  70 },
+					{ "id": 4, "start": 71, "end": 100 }
 				];
 			}
 			

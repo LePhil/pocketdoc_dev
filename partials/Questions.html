@@ -1,7 +1,14 @@
 ﻿<md-content layout="column" layout-align="space-between space-between" >
 	<div id="partialContent">
+		<md-card>
+			<md-card-content>
+				<div ng-hide="loading || hidden">
+					<h3><span>{{currentQuestion.description}}</span></h3>
+				</div>
+			</md-card-content>
+		</md-card>
 		<md-list id="answeredQuestions">
-			<md-list-item class="answeredQuestion" ng-repeat="question in answeredQuestions" ng-click="reviseQuestion(question, $event)">
+			<md-list-item class="answeredQuestion" ng-repeat="question in answeredQuestions | reverse" ng-click="reviseQuestion(question, $event)">
 				<h3 flex>{{question.question.description}}</h3>
 
 				<div ng-show="question.answer.id === 0">
@@ -26,8 +33,6 @@
 					</div>
 			
 					<div ng-hide="loading || hidden">
-						<h3><span>{{currentQuestion.description}}</span></h3>
-						
 						<div layout="row" layout-align="center center">
 							<md-button flex="{{100/(currentQuestion.answers.length+1)}}" class="md-raised answer-button" ng-class="answer.style" ng-click="answerQuestion(answer)" ng-repeat="answer in currentQuestion.answers">{{answer.desc}}</md-button>
 						</div>

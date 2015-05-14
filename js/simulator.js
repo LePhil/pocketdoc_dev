@@ -2,9 +2,7 @@
 
 	var backend = angular.module('pocketdocBackend', ['pocketdocData']);
 	
-	backend.factory('UserService', [
-					 '_', 'DataService',
-			function( _ ,  DataService){
+	backend.factory('UserService', ['_', 'DataService',	function( _ ,  DataService){
 
 		// on startup, save the fake data to the localstorage 
 		if ( !localStorage.getItem("users") ) {
@@ -44,7 +42,7 @@
 			}
 		};
 		
-		var get = function(data, success, error){
+		var get = function( data, success, error ) {
 			
 			var users = JSON.parse(localStorage.getItem("users")),
 				user = $.grep(users, function(e){ return e.id == data.id; });
@@ -59,7 +57,7 @@
 		};
 		
 		// TODO: refactor (e.g. only grep once)
-		var update = function(data, success, error){
+		var update = function( data, success, error ) {
 			var users = JSON.parse(localStorage.getItem("users"));
 			var user = $.grep(users, function(e){ return e.id == data.id; })[0];
 			
@@ -93,7 +91,7 @@
 			
 		};
 		
-		var del = function(data, success, error){
+		var del = function( data, success, error ) {
 			var name = currentUser.name;
 			var users = JSON.parse(localStorage.getItem("users"));
 			var leftUsers = $.grep(users, function(e){ return e.id != currentUser.id; });
@@ -117,7 +115,7 @@
 		};
 		
 		// TODO: refactor
-		var login = function(data, success, error){
+		var login = function( data, success, error ) {
 			var users = JSON.parse( localStorage.getItem("users") ) || {},
 				user = $.grep( users, function( e ){
 					// check if user exists by comparing the emails.
@@ -138,7 +136,7 @@
 			}
 		};
 		
-		var logout = function(data, success, error){
+		var logout = function( data, success, error ) {
 			
 			var userName = currentUser.name;
 			
@@ -150,7 +148,7 @@
 			success({name : userName});
 		};
 		
-		var checkData = function(data, success, error){
+		var checkData = function( data, success, error ) {
 			
 		};
 		
@@ -158,7 +156,7 @@
 			return currentUser;
 		};
 		
-		var updateLang = function(data, success, error){
+		var updateLang = function( data, success, error ) {
 			currentUser.lang = data.lang;
 			success(
 				{
@@ -167,7 +165,7 @@
 			);
 		};
 		
-		var isInUse = function(data, success, error){
+		var isInUse = function( data, success, error ) {
 			var users = JSON.parse(localStorage.getItem("users"));
 			
 			if (users == null)
@@ -192,24 +190,23 @@
 			isEmailInUse : isInUse,
 			isLoggedIn: isLoggedIn
 		};
-		
 	}]);
 	
 	backend.factory('HistoryService', function(){
 		
-		var get = function(data, success, error){
+		var get = function( data, success, error ) {
 			
 		};
 		
-		var getEntry = function(data, success, error){
+		var getEntry = function( data, success, error ) {
 			
 		};
 		
-		var del = function(data, success, error){
+		var del = function( data, success, error ) {
 			
 		};
 		
-		var create = function(data, success, error){
+		var create = function( data, success, error ) {
 			
 		};
 		
@@ -219,45 +216,63 @@
 			deleteHistoryEntry : del,
 			createHistoryEntry : create
 		};
-				
 	});
 	
 	backend.factory('RunService', [
-				 'UserService', 'DataService', 'UtilService', 
-		function( UserService,   DataService,   UtilService ){
+			 'UserService', 'DataService', 'UtilService', '$translate', 
+	function( UserService,   DataService,   UtilService ,  $translate ){
 		
 		var nextQuestions = [],
 		    currentQuestion,
 			followUp = null;
 		
 		
-		var start = function(data, success, error){
-			var startQ = 0;
+		/**
+		 * First question of a run is the question with the ID 0.
+		 * If it's a followUp, it's of course the question that was defined
+		 * as the startquestion in the followUp.
+		 * 
+		 * @param  {Function} success
+		 * @param  {Function} error
+		 */
+		var start = function( success, error ) {
+			var startQuestionID = 0,
+				qData = {};
 
 			if ( followUp !== null ) {
-				startQ = followUp.startQuestion;
+				startQuestionID = followUp.startQuestion;
 			}
-			getQ( startQ, success, error );
+
+			qData.id = startQuestionID;
+
+			getQ( qData, success, error );
 		};
 		
-		var answerQ = function(data, success, error){
-				
+		/**
+		 * User answered a question.
+		 * 
+		 * @param  {Object} data    [description]
+		 * @param  {Function} success
+		 * @param  {Function} error
+		 * @author Roman Eichenberger, Philipp Christen
+		 */
+		var answerQ = function( data, success, error ) {
 			var currQuestion = currentQuestion;
 			var answerObj = UtilService.getElementById(data.answerId, currQuestion.answers );
 			
-			nextQuestions.push(answerObj.next_questions);
+			nextQuestions = answerObj.next_questions;
 			
-			if ( nextQuestions.length == 0 ) {
-				error("Ups, uns sind die Fragen ausgegangen.");
+			if ( nextQuestions.length === 0 || nextQuestions[0] === -1 ) {
+				error( $translate.instant('error_noMoreQuestions') );
 			} else {
-				getQ(nextQuestions.pop(), success, error);
+				getQ( { id: nextQuestions.pop() }, success, error );
 			}
 		};
 		
-		var getQ = function(questionId, success, error){
-				
-			var questions = DataService.questions();
-			var firstQuestion = UtilService.getElementById(questionId, questions);
+		var getQ = function( questionData, success, error ) {
+			
+			var allQuestions = DataService.questions();
+			var firstQuestion = UtilService.getElementById( questionData.id, allQuestions );
 			
 			var questionResult = {};
 			
@@ -287,15 +302,18 @@
 
 			questionResult.answers = answerTexts;
 			
-			success(questionResult);
-			
+			success(questionResult);	
 		};
+
+		var addDiagnosis = function( data, success, error ) {
+
+		}
 		
-		var change = function(data, success, error){
+		var change = function( data, success, error ) {
 			// TODO
 		};
 		
-		var acceptDiag = function(data, success, error){
+		var acceptDiag = function( data, success, error ) {
 			// Aktueller Run aufräumen und beenden
 			delete nextQuestions;
 
@@ -330,14 +348,13 @@
 			setFollowUp: setFollowUp,
 			getFollowUp: getFollowUp
 		};
-		
 	}]);
 
 	backend.factory('DiagnosisService', ['DataService', 'UtilService', 'UserService', function( DataService, UtilService, UserService ){
 
 		var langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
 				
-		var getAll = function(success, error){
+		var getAll = function(success, error ) {
 			// TODO?
 		};
 
@@ -345,15 +362,14 @@
 		var getByID = function( diagID, actionID, success, error ) {
 			var diagnosisData = {};
 
+			// Get current language again
+			langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
+			
 			// Set diagnosis
 			diagnosisData.diagnosis = getDiagByID( diagID );
 			
-			// Set Action suggestion
-			var action_suggestion = UtilService.getElementById( actionID, DataService.actionSuggestions() );
-			diagnosisData.action_suggestion = {
-				id: actionID,
-				description : UtilService.getCurrentLanguageObject( langId, action_suggestion.description).text
-			};
+			// Set Action Suggestion
+			diagnosisData.action_suggestion = getActionByID( actionID );
 
 			if ( diagnosisData.diagnosis && diagnosisData.action_suggestion ) {
 				success( diagnosisData );
@@ -363,7 +379,7 @@
 		};
 
 		/**
-		 * Returns a single diagnosis by checking the ID.
+		 * Returns a single translated diagnosis by checking the ID.
 		 * 
 		 * @param  {Number} ID
 		 * @return {Object}
@@ -371,6 +387,7 @@
 		 */
 		var getDiagByID = function( ID ) {
 			var diagnosis = UtilService.getElementById( ID, DataService.diagnoses() );
+			
 			return {
 				id: ID,
 				short_desc : UtilService.getCurrentLanguageObject( langId, diagnosis.short_desc).text,
@@ -378,8 +395,21 @@
 			};
 		};
 
+		/**
+		 * Returns a single translated action suggestion by checking the ID.
+		 *
+		 * @name getActionByID
+		 * @param  {Number} ID
+		 * @return {Object}
+		 * @author Philipp Christen
+		 */
 		var getActionByID = function( ID ) {
+			var action_suggestion = UtilService.getElementById( ID, DataService.actionSuggestions() );
 
+			return {
+				id: ID,
+				description : UtilService.getCurrentLanguageObject( langId, action_suggestion.description).text
+			};
 		};
 		
 		return {
@@ -390,8 +420,7 @@
 		};
 	}]);
 	
-	backend.factory('FollowupService', [ '_', 'DataService', 'UtilService', 'UserService', 'RunService',
-							   function(  _ ,  DataService ,  UtilService ,  UserService ,  RunService ){
+	backend.factory('FollowupService', [ '_', 'DataService', 'UtilService', 'UserService', 'RunService', function(  _ ,  DataService ,  UtilService ,  UserService ,  RunService ){
 
 		var save = function ( followUps ) {
 			localStorage.setItem( "followUps", angular.toJson( followUps ) );
@@ -436,7 +465,7 @@
 		 * @param  {Function} error
 		 * @author Philipp Christen
 		 */
-		var del = function(followUpID, success, error){
+		var del = function(followUpID, success, error ) {
 			var followUps = getAll();
 
 			// removes the followUp with the passed ID
@@ -510,7 +539,21 @@
 			getAll: getAll,
 			getByID: getByID
 		};
-		
+	}]);
+
+	backend.factory('MetaDataService', [ '_', 'DataService', function(  _ ,  DataService  ){
+   		var getLanguages = function() {
+   				return DataService.languages();
+   			},
+
+   			getAgeRanges = function() {
+   				return DataService.ageRanges();
+			};
+
+   		return {
+   			getLanguages: getLanguages,
+   			getAgeRanges: getAgeRanges
+   		};
 	}]);
 	
 	backend.factory('UtilService', function(){
@@ -540,8 +583,6 @@
 		};
 		
 		return UtilService;
-		
 	});
-	
 	
 })();

@@ -1,7 +1,7 @@
 ﻿<div class="start ng-scope" layout-align="center">
 	<div id="partialContent">
 		<div layout="row">
-			<img id="logo" src="images/PocketDocMaskottchen.jpg">
+			<img id="logo" ng-class="{'smaller' : loggedIn }" src="images/PocketDocMaskottchen.jpg">
 		</div>
 		<div layout="column" ng-hide="loggedIn">
 			<h2>{{ 'main_welcome' | translate }}</h2>
@@ -13,10 +13,11 @@
 			
 			<h3>{{ 'main_intro_tryNow' | translate }}</h3>
 		</div>
+
 		<div layout="column" ng-show="loggedIn">
-			<h1>{{ 'main_welcomeBack' | translate }}, {{userName}}.</h1>
+			<h1>{{ 'main_welcomeBack' | translate }}<span ng-hide="isEmpty(userName)">, {{userName}}.</span></h1>
 			
-			<md-content ng-hide="!followUps">
+			<md-content ng-hide="followUps.length == 0">
 				<section>
 					<md-subheader class="md-primary">{{ 'main_followUp_open' | translate }}</md-subheader>
 					<md-list layout="column" layout-padding id="followUpList">
@@ -30,7 +31,7 @@
 								<span ng-show="isFollowUpReady( followup.timeAdded)">{{ followup.timeAdded | date:'dd.MM.yyyy HH:mm' }}</span>
 								<span ng-show="!isFollowUpReady( followup.timeAdded)">{{ 'main_followUp_remaining' | translate }} {{ getRemainingTime( followup.timeAdded ) | date:'HH:mm:ss' }}</span>
 							</p>
-								<h4>Diagnose: {{ getDiagnosis( followup ) }}</h4>
+								<h4>{{ 'main_followUp_diag' | translate }}: {{ getDiagnosis( followup ) }}</h4>
 							</div>
 
 						<md-button class="md-icon-button" ng-click="startFollowUp(followup, $event)" aria-label="{{ 'main_followUp_start' | translate }}">

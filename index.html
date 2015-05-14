@@ -1,31 +1,31 @@
 ﻿
 <!DOCTYPE html>
 <html lang="en" ng-app="pocketdocApp">
-  <head>
+<head>
 	<meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-      
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
 	<link rel="stylesheet" href="css/design.css">
-    
-    <script src="bower_components/underscore/underscore-min.js"></script>
-    
+
+	<script src="bower_components/underscore/underscore-min.js"></script>
+
 	<!-- Angular Dependencies -->
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.min.js"></script>
 	<script src="bower_components/angular-route/angular-route.min.js"></script>
-    <script src="bower_components/angular-aria/angular-aria.min.js"></script>
+	<script src="bower_components/angular-aria/angular-aria.min.js"></script>
 	<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
 	<script src="bower_components/angular-resource/angular-resource.min.js"></script>
 	<script src="bower_components/angular-translate/angular-translate.min.js"></script>
 	<script src="bower_components/angular-messages/angular-messages.min.js"></script>
-	
-	<!-- Angular Material Dependencies -->
-    <script src="bower_components/angular-material/angular-material.min.js"></script>
 
-    <!-- jQuery -->
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<!-- Angular Material Dependencies -->
+	<script src="bower_components/angular-material/angular-material.min.js"></script>
+
+	<!-- jQuery -->
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
 
 	<!--<script src="js/communication.js"></script>-->
 	<script src="js/data.js"></script>
@@ -34,11 +34,10 @@
 	<script src="js/factories.js"></script>
 	<script src="js/services.js"></script>
 	<script src="js/app.js"></script>
-	
-  </head>
 
-  <!-- TODO: extract all of this -->
-  <body layout="column">
+</head>
+
+<body layout="column">
   	<div ng-controller="HeaderController" id="header">
 		<md-toolbar>
 			<div id="headerbar" class="md-toolbar-tools">
@@ -46,7 +45,7 @@
 					<md-icon md-svg-icon="images/icons/back.svg" class="s36"></md-icon>
 				</md-button>
 				<span flex></span>
-				<h2><span>PocketDoc</span></h2>
+				<h2><span>{{ 'common_appname' | translate }}</span></h2>
 				<span flex></span>
 				<md-button class="md-icon-button white" aria-label="{{ 'header_settings' | translate }}" ng-click="toggleRight()" ng-show="location.url() == '/'">
 					<md-icon md-svg-icon="images/icons/settings.svg" class="s36"></md-icon>
@@ -56,74 +55,71 @@
 	</div>
 
 	<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-      <md-toolbar class="md-theme-light" ng-controller="HeaderController">
-      	<div class="md-toolbar-tools">
-	        <h1><span>{{ 'header_account' | translate }}</span></h1>
-	        <span flex></span>
-	        <md-button class="md-icon-button white" aria-label="{{ 'header_close' | translate }}" ng-click="close()">
-				<md-icon md-svg-icon="images/icons/close.svg" class="s36"></md-icon>
-			</md-button>
-      	</div>
-      </md-toolbar>
-      <md-content ng-controller="HeaderController" layout-padding>
-        <div ng-hide="loggedIn">
-			<form novalidate>
-			  <md-input-container>
-				<label for="testInput">{{ 'header_login_email' | translate }}</label>
-				<input type="text" id="testInput" ng-model="user.email" md-sidenav-focus>
-			  </md-input-container>
-			  <md-input-container>
-				<label for="password">{{ 'header_login_password' | translate }}</label>
-				<input type="password" id="password" ng-model="user.password">
-			  </md-input-container>
-			</form>
-
-			<div layout="column" flex>
-				<md-button ng-click="login()" class="md-primary">{{ 'header_login' | translate }}</md-button>
-				<md-button ng-click="register()" class="md-primary">{{ 'header_register' | translate }}</md-button>
-				<md-button ng-click="close()" class="md-primary">{{ 'header_close' | translate }}</md-button>
-			</div>
-			<div layout="row" flex>
-				<md-button class="md-icon-button" aria-label="Deutsch" ng-click="changeLanguage('de')" ng-class="{'md-primary md-raised': lang == 'de'}">
-					<md-icon md-svg-icon="images/icons/de.svg" class="s36"></md-icon>
-				</md-button>
-				<md-button class="md-icon-button" aria-label="English" ng-click="changeLanguage('en')" ng-class="{'md-primary md-raised': lang == 'en'}">
-					<md-icon md-svg-icon="images/icons/en.svg" class="s36"></md-icon>
-				</md-button>
-				<md-button class="md-icon-button" aria-label="Français" ng-click="changeLanguage('fr')" ng-class="{'md-primary md-raised': lang == 'fr'}">
-					<md-icon md-svg-icon="images/icons/fr.svg" class="s36"></md-icon>
+		<md-toolbar class="md-theme-light" ng-controller="HeaderController">
+			<div class="md-toolbar-tools">
+				<h1><span>{{ 'header_account' | translate }}</span></h1>
+				<span flex></span>
+				<md-button class="md-icon-button white" aria-label="{{ 'header_close' | translate }}" ng-click="close()">
+					<md-icon md-svg-icon="images/icons/close.svg" class="s36"></md-icon>
 				</md-button>
 			</div>
-		</div>
-		<div ng-show="loggedIn">
-			<div layout="column" flex>
-				<md-button ng-click="logout()" class="md-primary">{{ 'header_logout' | translate }}</md-button>
-				<md-button ng-click="profile()" class="md-primary">{{ 'header_profile' | translate }}</md-button>
-				<md-button ng-click="close()" class="md-primary">{{ 'header_close' | translate }}</md-button>
+		</md-toolbar>
+		<md-content ng-controller="HeaderController" layout-padding>
+
+	        <div ng-hide="loggedIn">
+				<form novalidate>
+				  
+				<md-input-container>
+					<label for="testInput">{{ 'header_login_email' | translate }}</label>
+					<input type="text" id="testInput" ng-model="user.email" md-sidenav-focus>
+				</md-input-container>
+
+				<md-input-container class="pwContainer">
+					<label for="password">{{ 'header_login_password' | translate }}</label>
+					<input type="password" id="password" ng-model="user.password">
+				</md-input-container>
+
+					<div layout="row" flex layout-align="end end" >
+						<md-button ng-click="forgotPassword()" class="forgotPassword">{{ 'header_forgotPassword' | translate }}</md-button>
+					</div>
+				</form>
+
+				<div layout="column" flex>
+					<md-button ng-click="login()" class="md-primary">{{ 'header_login' | translate }}</md-button>
+					<md-button ng-click="register()" class="md-primary">{{ 'header_register' | translate }}</md-button>
+				</div>
+
 			</div>
-		</div>
+			
+			<div ng-show="loggedIn">
+				<div layout="column" flex>
+					<md-button ng-click="profile()" class="md-primary">{{ 'header_profile' | translate }}</md-button>
+				</div>
+			</div>
 
-		<div layout="column" flex>
-			<md-button ng-click="resetForDemo()" class="md-primary">{{ 'header_reset' | translate }}</md-button>
-		</div>
-		
-      </md-content>
-    </md-sidenav>
+			<div layout="column" layout-align="center center" class="additionalActions" >
+				<div layout="row" flex layout-align="center center" ng-hide="loggedIn">
+					<md-button class="md-icon-button" ng-repeat="language in languages" aria-label="{{language.nativeName}}" ng-click="changeLanguage( language.locale )" ng-class="{'md-primary md-raised': lang == language.locale }">
+						<md-icon md-svg-icon="images/icons/{{ language.locale }}.svg" class="s36"></md-icon>
+					</md-button>
+				</div>
 
-    <div layout="row" flex>
-        <div layout="column" flex id="content" ng-controller="HeaderController">
-            <md-content layout="column" flex class="md-padding" id="contentContainer">
-				<ng-view id="app" onload="resize();"></ng-view>
-            </md-content>
-        </div>
-    </div>
-	<!--
-	<div>
-		<md-content>
-			<ng-include src="bottomContent"></ng-include>
+				<div layout="column" flex>
+					<md-button ng-click="resetForDemo()" class="md-primary">{{ 'header_reset' | translate }}</md-button>
+				</div>
+			</div>
+			
 		</md-content>
+	</md-sidenav>
+
+	<div layout="row" flex>
+		<div layout="column" flex id="content" ng-controller="HeaderController">
+			<md-content layout="column" flex class="md-padding" id="contentContainer">
+				<ng-view id="app" onload="resize();"></ng-view>
+			</md-content>
+		</div>
 	</div>
-    -->
-  </body>
+
+</body>
 </html>
 

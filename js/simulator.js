@@ -353,15 +353,14 @@
 		var getByID = function( diagID, actionID, success, error ) {
 			var diagnosisData = {};
 
+			// Get current language again
+			langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
+			
 			// Set diagnosis
 			diagnosisData.diagnosis = getDiagByID( diagID );
 			
-			// Set Action suggestion
-			var action_suggestion = UtilService.getElementById( actionID, DataService.actionSuggestions() );
-			diagnosisData.action_suggestion = {
-				id: actionID,
-				description : UtilService.getCurrentLanguageObject( langId, action_suggestion.description).text
-			};
+			// Set Action Suggestion
+			diagnosisData.action_suggestion = getActionByID( actionID );
 
 			if ( diagnosisData.diagnosis && diagnosisData.action_suggestion ) {
 				success( diagnosisData );
@@ -371,7 +370,7 @@
 		};
 
 		/**
-		 * Returns a single diagnosis by checking the ID.
+		 * Returns a single translated diagnosis by checking the ID.
 		 * 
 		 * @param  {Number} ID
 		 * @return {Object}
@@ -379,6 +378,7 @@
 		 */
 		var getDiagByID = function( ID ) {
 			var diagnosis = UtilService.getElementById( ID, DataService.diagnoses() );
+			
 			return {
 				id: ID,
 				short_desc : UtilService.getCurrentLanguageObject( langId, diagnosis.short_desc).text,
@@ -386,8 +386,21 @@
 			};
 		};
 
+		/**
+		 * Returns a single translated action suggestion by checking the ID.
+		 *
+		 * @name getActionByID
+		 * @param  {Number} ID
+		 * @return {Object}
+		 * @author Philipp Christen
+		 */
 		var getActionByID = function( ID ) {
+			var action_suggestion = UtilService.getElementById( ID, DataService.actionSuggestions() );
 
+			return {
+				id: ID,
+				description : UtilService.getCurrentLanguageObject( langId, action_suggestion.description).text
+			};
 		};
 		
 		return {

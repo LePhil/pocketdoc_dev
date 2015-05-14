@@ -1,5 +1,85 @@
 ﻿<md-content layout="column" layout-align="space-between space-between" >
-	<div id="partialContent">
+	
+	<div id="preDiag" ng-show="isPreDiag">
+		<md-card>
+			<md-card-content>
+				<p>{{ 'preDiag_intro' | translate }}</p>
+			</md-card-content>
+		</md-card>
+
+		<md-card>
+			<md-card-content>
+
+				<div class="profile-subtitle">{{ 'preDiag_forMeOrNot' | translate }}</div>
+
+				<div layout="row" class="profile-row">
+					<md-button flex class="md-raised" ng-click="changeCurrentUser(true)" ng-class="{'md-primary': forCurrentUser}">
+						{{ 'preDiag_forMe' | translate }}
+					</md-button>
+
+					<md-button flex class="md-raised" ng-click="changeCurrentUser(false)" ng-class="{'md-primary': !forCurrentUser }">
+						{{ 'preDiag_notForMe' | translate }}
+					</md-button>
+				</div>
+
+
+				<div ng-controller="registrationController">
+
+					<div flex layout="column">
+						<md-input-container flex>
+							<label for="name">{{ 'reg_name' | translate }}:</label>
+							<input ng-model="user.name" id="name">
+						</md-input-container>
+
+						<div class="profile-subtitle">{{ 'reg_sex' | translate }}:</div>
+
+						<div layout="row" class="profile-row">
+							<md-button id="gender-button-male" flex class="md-raised registration-button" ng-click="setGender(0)" ng-class="{'md-primary': user.gender == 0}">
+								<md-icon md-svg-icon="images/icons/gender-male.svg"></md-icon>
+								<span>{{ 'reg_sex_male' | translate }}</span>
+							</md-button>
+
+							<md-button id="gender-button-female" flex class="md-raised registration-button" ng-click="setGender(1)" ng-class="{'md-primary': user.gender == 1}">
+								<md-icon md-svg-icon="images/icons/gender-female.svg"></md-icon>
+								<span>{{ 'reg_sex_female' | translate }}</span>
+							</md-button>
+						</div>
+
+						<div class="profile-subtitle">{{ 'reg_ageRange' | translate }}:</div>
+
+						<md-select placeholder="{{ 'reg_defaultValueSelect' | translate }}" ng-model="user.age_category" class="age-category">
+							<md-option
+								ng-repeat="AR in ageRanges"
+								value="{{AR.id}}">
+								{{AR.start}} - {{AR.end}} {{ 'common_years' | translate }}
+							</md-option>
+						</md-select>
+					</div>
+
+					<div flex layout="column">
+						<div class="profile-subtitle" >{{ 'reg_language' | translate }}:</div>
+
+						<div flex layout="row" layout-align="start center" class="profile-row">
+							<md-button
+								ng-repeat="language in languages"
+								id="language-button-{{language.locale}}"
+								class="md-icon-button"
+								aria-label="{{language.nativeName}}"
+								ng-click="changeLanguage( language.locale )"
+								ng-class="{'md-primary md-raised': user.lang ==  language.locale }">
+								<md-icon md-svg-icon="images/icons/{{ language.locale }}.svg" class="s36"></md-icon>
+							</md-button>
+						</div>
+					</div>
+
+				</div>
+				 
+			</md-card-content>
+		</md-card>
+	</div>
+
+
+	<div id="partialContent" ng-hide="isPreDiag">
 		<md-card>
 			<md-card-content>
 				<div ng-hide="loading || hidden">
@@ -26,7 +106,7 @@
 
 	<div id="footer" >
 		<div id="footerContent">
-			<md-card>
+			<md-card ng-hide="isPreDiag" >
 				<md-card-content>
 					<div ng-show="loading" layout-align="center center" layout="row">
 						<md-progress-circular md-mode="indeterminate" ng-show="loading"></md-progress-circular>
@@ -40,6 +120,17 @@
 
 				</md-card-content>
 			</md-card>
+
+			<md-card ng-show="isPreDiag">
+				<md-card-content>
+					<div layout="row" layout-align="center center">
+						<md-button flex="50" class="md-raised md-primary" ng-click="confirmPreDiag()">
+							{{ 'preDiag_startDiag' | translate }}
+						</md-button>
+					</div>
+				</md-card-content>
+			</md-card>
+
 		</div>
 	</div>
 </md-content>

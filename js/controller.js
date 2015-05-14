@@ -3,24 +3,52 @@
 	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices', 'ngMessages']);
 
 	pocketdocControllers.controller('questionController',
-	        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DataService', 'DiagnosisService', '$translate',
-	function( $scope,   $location,   RunService,   DiagnosisData,   $mdDialog,   DataService,   DiagnosisService ,  $translate ) {
+	        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DiagnosisService', '$translate', 'UserService',
+	function( $scope ,  $location ,  RunService ,  DiagnosisData ,  $mdDialog ,  DiagnosisService ,  $translate ,  UserService ) {
 	
+        $scope.isPreDiag = true;
+        $scope.forCurrentUser = true;
+        $scope.user = UserService.getCurrentUser();
+
+        $scope.changeCurrentUser = function( cur ) {
+            $scope.forCurrentUser = cur;
+
+            if ( cur ) {
+                // Get Data and display it, e.g. name
+                var current = UserService.getCurrentUser();
+                console.log( current );
+            } else {
+                // Remove Data from the currentUser
+                $scope.user = {}
+            }
+        };
+
         $scope.loading = true;
 		$scope.hidden = true;
+        $scope.currentQuestion;
+        $scope.answeredQuestions = [];
 		
-		RunService.startRun(
-			function( questionData ) {
-				// Success
-				$scope.currentQuestion = questionData;
-				$scope.answeredQuestions = [];
-                $scope.loading = false;
-				$scope.hidden = false;
-			},
-			function( error ) {
-				alert( error );
-			}
-		);
+        /**
+         * Starts the actual run after saving the data for the current run.
+         * 
+         * @name confirmPreDiag
+         * @author Philipp Christen
+         */
+        $scope.confirmPreDiag = function() {
+            $scope.isPreDiag = false;
+
+            RunService.startRun(
+                function( questionData ) {
+                    // Success
+                    $scope.currentQuestion = questionData;
+                    $scope.loading = false;
+                    $scope.hidden = false;
+                },
+                function( error ) {
+                    alert( error );
+                }
+            );
+        };
 		
 		$scope.answerQuestion = function( givenAnswer ) {
             $scope.loading = true;

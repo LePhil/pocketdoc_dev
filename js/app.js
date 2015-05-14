@@ -132,7 +132,12 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			forgotPassword_send: "Absenden",
 			forgotPassword_title: "Passwort vergessen",
 			error_noMoreQuestions: "Leider war dies die letzte Frage. Es handelt sich hier um eine Demo, welche noch nicht den gesamten Funktionsumfang enthält. Sorry :(\nSie werden auf die Startseite weitergeleitet.",
-			error_noMoreQuestions_title: "Keine weiteren Fragen"
+			error_noMoreQuestions_title: "Keine weiteren Fragen",
+			preDiag_forMeOrNot: "Diese Diagnose ist...",
+			preDiag_forMe: "Für mich",
+			preDiag_notForMe: "Für jemand anders",
+			preDiag_intro: "Bevor wir beginnen: Stimmen diese Angaben?",
+			preDiag_startDiag: "Alles korrekt, Diagnose starten"
 		});
 		$translateProvider.translations('en', {
 			main_startDiagnosis: 'Start Diagnosis now!',
@@ -220,7 +225,12 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			forgotPassword_send: "Send",
 			forgotPassword_title: "Forgotten Password",
 			error_noMoreQuestions: "Unfortunately, this was the last question. This is just a demo, not all functionality is implemented. Sorry about that :(\nYou will be redirected to the main page.",
-			error_noMoreQuestions_title: "No further questions"
+			error_noMoreQuestions_title: "No further questions",
+			preDiag_forMeOrNot: "This diagnosis is...",
+			preDiag_forMe: "For me",
+			preDiag_notForMe: "For someone else",
+			preDiag_intro: "Before we start: Are these settings correct?",
+			preDiag_startDiag: "Looks good, start diagnosis now"
 		});
 
 		$translateProvider.preferredLanguage('de');

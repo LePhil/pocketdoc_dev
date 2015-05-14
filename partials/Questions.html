@@ -3,30 +3,38 @@
 	<div id="preDiag" ng-show="isPreDiag">
 		<md-card>
 			<md-card-content>
-				<p>{{ 'preDiag_intro' | translate }}</p>
+				<p ng-show="loggedIn">{{ 'preDiag_intro' | translate }}</p>
+				<p ng-show="!loggedIn">{{ 'preDiag_pleaseGiveSomeInfo' | translate }}
+				</p>
 			</md-card-content>
 		</md-card>
 
 		<md-card>
 			<md-card-content>
 
-				<div class="profile-subtitle">{{ 'preDiag_forMeOrNot' | translate }}</div>
+				<div ng-show="loggedIn">
+					<div class="profile-subtitle">{{ 'preDiag_forMeOrNot' | translate }}</div>
 
-				<div layout="row" class="profile-row">
-					<md-button flex class="md-raised" ng-click="changeCurrentUser(true)" ng-class="{'md-primary': forCurrentUser}">
-						{{ 'preDiag_forMe' | translate }}
-					</md-button>
+					<div layout="row" class="profile-row">
+						<md-button flex class="md-raised" ng-click="changeCurrentUser(true)" ng-class="{'md-primary': forCurrentUser}">
+							{{ 'preDiag_forMe' | translate }}
+						</md-button>
 
-					<md-button flex class="md-raised" ng-click="changeCurrentUser(false)" ng-class="{'md-primary': !forCurrentUser }">
-						{{ 'preDiag_notForMe' | translate }}
-					</md-button>
+						<md-button flex class="md-raised" ng-click="changeCurrentUser(false)" ng-class="{'md-primary': !forCurrentUser }">
+							{{ 'preDiag_notForMe' | translate }}
+						</md-button>
+					</div>
 				</div>
 
 
+
 				<div ng-controller="registrationController">
+				<!--
+				<div ng-model="user">
+				-->
 
 					<div flex layout="column">
-						<md-input-container flex>
+						<md-input-container flex ng-show="loggedIn">
 							<label for="name">{{ 'reg_name' | translate }}:</label>
 							<input ng-model="user.name" id="name">
 						</md-input-container>

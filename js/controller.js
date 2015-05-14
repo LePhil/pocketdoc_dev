@@ -8,6 +8,7 @@
 	
         $scope.isPreDiag = true;
         $scope.forCurrentUser = true;
+        $scope.isLoggedIn = UserService.isLoggedIn();
         $scope.user = UserService.getCurrentUser();
 
         $scope.changeCurrentUser = function( cur ) {
@@ -15,8 +16,7 @@
 
             if ( cur ) {
                 // Get Data and display it, e.g. name
-                var current = UserService.getCurrentUser();
-                console.log( current );
+                $scope.user = UserService.getCurrentUser();
             } else {
                 // Remove Data from the currentUser
                 $scope.user = {}

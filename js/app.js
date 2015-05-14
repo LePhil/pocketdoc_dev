@@ -137,7 +137,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			preDiag_forMe: "Für mich",
 			preDiag_notForMe: "Für jemand anders",
 			preDiag_intro: "Bevor wir beginnen: Stimmen diese Angaben?",
-			preDiag_startDiag: "Alles korrekt, Diagnose starten"
+			preDiag_startDiag: "Alles korrekt, Diagnose starten",
+			preDiag_pleaseGiveSomeInfo: "Nur noch ein paar Angaben und es geht los!"
 		});
 		$translateProvider.translations('en', {
 			main_startDiagnosis: 'Start Diagnosis now!',
@@ -230,7 +231,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			preDiag_forMe: "For me",
 			preDiag_notForMe: "For someone else",
 			preDiag_intro: "Before we start: Are these settings correct?",
-			preDiag_startDiag: "Looks good, start diagnosis now"
+			preDiag_startDiag: "Looks good, start diagnosis now",
+			preDiag_pleaseGiveSomeInfo: "Just a few basic details about you and we're ready!"
 		});
 
 		$translateProvider.preferredLanguage('de');

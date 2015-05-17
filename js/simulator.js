@@ -129,10 +129,20 @@
 					
 					success( currentUser );
 				} else {
-					error("Falsches Passwort!");
+					error(
+						{
+							errorType: 1,	// Type wrong password
+							message: "Falsches Passwort!"
+						}
+					);
 				}
 			} else {
-				error("Benutzer nicht gefunden");
+				error(
+					{
+						errorType: 0,	// Type user not found
+						message: "Benutzer nicht gefunden"
+					}
+				);
 			}
 		};
 		

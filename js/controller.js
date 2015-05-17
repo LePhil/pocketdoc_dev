@@ -710,6 +710,9 @@
         };
 
         $scope.login = function() {
+            $scope.loginForm.loginEmail.$setValidity('notFound', true);
+            $scope.loginForm.loginPassword.$setValidity('wrong', true);
+            
         	UserService.loginUser(
 				{
 					email : $scope.user.email,
@@ -722,7 +725,14 @@
 					$scope.$root.$broadcast("login", data);
 				},
 				function( error ) {
-					alert( error );
+                    if (error.errorType == 0)
+                        $scope.loginForm.loginEmail.$setValidity('notFound', false);
+					else if (error.errorType == 1)
+                        $scope.loginForm.loginPassword.$setValidity('wrong', false);
+                    else
+                        alert( error.message );
+                        
+                    $scope.login_error = error.message;
 				}
 			);
         };

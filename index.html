@@ -69,16 +69,22 @@
 		<md-content ng-controller="HeaderController" layout-padding>
 
 	        <div ng-hide="loggedIn">
-				<form novalidate>
+				<form novalidate name="loginForm">
 				  
 				<md-input-container>
 					<label for="testInput">{{ 'header_login_email' | translate }}</label>
-					<input type="text" id="testInput" ng-model="user.email" md-sidenav-focus>
+					<input type="text" id="testInput" name="loginEmail" ng-model="user.email" md-sidenav-focus>
+					<div ng-messages="loginForm.loginEmail.$error">
+						<div ng-message="notFound">{{ login_error }}</div>
+					</div>
 				</md-input-container>
 
-				<md-input-container class="pwContainer">
+				<md-input-container>
 					<label for="password">{{ 'header_login_password' | translate }}</label>
-					<input type="password" id="password" ng-model="user.password">
+					<input type="password" name="loginPassword" id="password" ng-model="user.password">
+					<div ng-messages="loginForm.loginPassword.$error">
+						<div ng-message="wrong">{{ login_error }}</div>
+					</div>
 				</md-input-container>
 
 					<div layout="row" flex layout-align="end end" >

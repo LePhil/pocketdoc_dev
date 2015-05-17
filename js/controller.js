@@ -37,7 +37,10 @@
         $scope.confirmPreDiag = function() {
             $scope.isPreDiag = false;
 
+            //UserService.
+
             RunService.startRun(
+                $scope.user,
                 function( questionData ) {
                     // Success
                     $scope.currentQuestion = questionData;
@@ -191,19 +194,16 @@
 	}]);
 	
 	pocketdocControllers.controller('diagnosisController',
-            ['$scope', '$location', 'DiagnosisData', 'UserService', 'FollowupService', 'RunService',
-    function( $scope ,  $location ,  DiagnosisData ,  UserService ,  FollowupService ,  RunService ) {
+            ['$scope', '$location', 'DiagnosisData', 'UserService', 'FollowupService', 'RunService', '$mdDialog',
+    function( $scope ,  $location ,  DiagnosisData ,  UserService ,  FollowupService ,  RunService ,  $mdDialog ) {
 		
 		$scope.diagnosis = DiagnosisData.diagnosis;
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
         $scope.followUp = RunService.getFollowUp();
-        $scope.isFollowUp = $scope.followUp != null;
+        $scope.isFollowUp = $scope.followUp != null && $scope.followUp != false;
         $scope.isSameDiag = false;
         $scope.isLoggedIn = UserService.isLoggedIn();
 
-        if ( $scope.isFollowUp ) {
-            $scope.isSameDiag = $scope.diagnosis.id === $scope.followUp.oldDiagnosis;
-        }
 
         $scope.goToMain = function() { $location.url('/'); };
 
@@ -229,16 +229,61 @@
                     "startQuestion": 5,  // TODO get correct q,
                     "timeAdded": Date.now()
                 };
+                console.log("saving followUp:", followUpData );
 
                 FollowupService.registerFollowup( followUpData );
                 $location.url('/');
+            } else {
+                console.log( "Error: not logged in" );
             }
         };
 
+
+        var LoginController = function($scope, $mdDialog) {
+            $scope.cancelLogin = function() { $mdDialog.cancel(); };
+            $scope.submitLogin = function() {
+                UserService.loginUser(
+                    {
+                        email : $scope.user.email,
+                        password : $scope.user.password 
+                    },
+                    function( data ) {
+                        $scope.$root.$broadcast("login", data);
+
+                        $mdDialog.hide();
+                    },
+                    function( error ) {
+                        console.log( error );
+                    }
+                );
+            };
+        };
+
         /**
-         * TODO !
-         * [registerForFollowUp description]
-         * @return {[type]} [description]
+         * TODO!
+         *
+         * Shows the login dialogue.
+         *
+         * @name login
+         * @author Philipp Christen
+         */
+        $scope.login = function() {
+            $mdDialog.show({
+                controller: LoginController,
+                templateUrl: '../partials/loginDialog.html'
+            })
+            .then( function() {
+                $scope.isLoggedIn = UserService.isLoggedIn();
+            }, function() {
+                console.log( "error" );
+            });
+        };
+
+        /**
+         * TODO!
+         *
+         * @name registerForFollowUp
+         * @author Philipp Christen
          */
         $scope.registerForFollowUp = function() {
             // $location.url("/registration");
@@ -429,15 +474,21 @@
 	}]);
 	
 	pocketdocControllers.controller('mainController',
-           [ '_', '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', '$mdDialog', 'DiagnosisService', '$interval', 
-    function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ,  DiagnosisService ,  $interval ) {
+           [ '_', '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', '$mdDialog', 'DiagnosisService', '$interval', 'RunService',  
+    function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ,  DiagnosisService ,  $interval ,  RunService ) {
 		
         $scope.followUps = [];
 
         $scope.hasNoFollowUps = function() { return _.isEmpty( $scope.followUps ); }
 
+        /**
+         * Run has to be told that there's NO followUp.
+         * This can be solved differently (TODO)
+         *
+         */
         $scope.run = function() {
-		  $location.url('/run');
+            RunService.setFollowUp( null );
+            $location.url('/run');
 		};
 		
 		$scope.$on( "login", function( event, data ) {

@@ -1,0 +1,25 @@
+<md-dialog aria-label="{{ 'run_diagnosis_found' | translate }}">
+    <md-dialog-content layout-padding>
+        <h2>Login</h2>
+
+        <form novalidate>
+            
+          <md-input-container>
+            <label for="testInput">{{ 'header_login_email' | translate }}</label>
+            <input type="text" id="testInput" ng-model="user.email">
+          </md-input-container>
+
+          <md-input-container class="pwContainer">
+            <label for="password">{{ 'header_login_password' | translate }}</label>
+            <input type="password" id="password" ng-model="user.password">
+          </md-input-container>
+
+        </form>
+
+    </md-dialog-content>
+
+    <div class="md-actions" layout="row">
+        <md-button ng-click="cancelLogin()" class="md-primary">{{ 'common_cancel' | translate }}</md-button>
+        <md-button ng-click="submitLogin()" class="md-primary">{{ 'header_login' | translate }}</md-button>
+    </div>
+</md-dialog>

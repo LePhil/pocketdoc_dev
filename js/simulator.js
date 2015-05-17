@@ -222,29 +222,35 @@
 			 'UserService', 'DataService', 'UtilService', '$translate', 
 	function( UserService,   DataService,   UtilService ,  $translate ){
 		
-		var nextQuestions = [],
-		    currentQuestion,
-			followUp = null;
+		var run = {};
+			nextQuestions = [],
+		    currentQuestion = null,
+			followUp = null,
+			user = null;
+
 		
 		
 		/**
 		 * First question of a run is the question with the ID 0.
 		 * If it's a followUp, it's of course the question that was defined
 		 * as the startquestion in the followUp.
-		 * 
+		 *
+		 * @name start
+		 * @param {Object} userData Data concerning the user that is the subject of the diagnosis
 		 * @param  {Function} success
 		 * @param  {Function} error
+		 * @author Philipp Christen
 		 */
-		var start = function( success, error ) {
+		var start = function( userData, success, error ) {
 			var startQuestionID = 0,
 				qData = {};
+			// TODO: handle userData
 
 			if ( followUp !== null ) {
 				startQuestionID = followUp.startQuestion;
 			}
 
 			qData.id = startQuestionID;
-
 			getQ( qData, success, error );
 		};
 		
@@ -336,6 +342,7 @@
 		};
 
 		var getFollowUp = function() {
+			followUp = typeof(followUp) === "undefined" ? false : followUp;
 			return followUp;
 		}
 		

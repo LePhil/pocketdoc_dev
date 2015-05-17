@@ -30,9 +30,15 @@
 	        </md-card-content>
 			<div class="md-actions" layout="row" layout-align="center center">
 	            <md-button flex="20" class="" ng-click="goToMain()">{{ 'diag_followup_notnow' | translate }}</md-button>
+	            
 	            <div ng-show="isLoggedIn">
 		            <md-button flex="20" class="md-raised" ng-click="addFollowUp()">{{ 'diag_followup_enterfollowup' | translate }}</md-button>
 	           </div>
+
+	           <div ng-hide="isLoggedIn">
+		            <md-button flex="20" class="md-raised" ng-click="login()">{{ 'diag_followup_login' | translate }}</md-button>
+	           </div>
+
 	           <div ng-hide="isLoggedIn">
 		            <md-button flex="20" class="md-raised" ng-click="registerForFollowUp()">{{ 'diag_followup_register' | translate }}</md-button>
 	           </div>

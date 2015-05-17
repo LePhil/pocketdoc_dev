@@ -163,7 +163,7 @@
 		};
 		
 		var getCurrent = function(){
-			return currentUser;
+			return Object.create(currentUser);
 		};
 		
 		var updateLang = function( data, success, error ) {
@@ -233,10 +233,10 @@
 	function( UserService,   DataService,   UtilService ,  $translate ){
 		
 		var run = {};
-			nextQuestions = [],
-		    currentQuestion = null,
-			followUp = null,
-			user = null;
+		var	nextQuestions = [];
+		var	currentQuestion = null;
+		var	followUp = null;
+		var	user = null;
 
 		
 		
@@ -299,6 +299,7 @@
 			// Set Question Text 
 			var langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
 			var questionText = UtilService.getCurrentLanguageObject(langId, firstQuestion.description);
+			questionResult.id = questionData.id;
 			questionResult.description = questionText.text;
 			
 			// Set Answer Texts
@@ -323,10 +324,31 @@
 
 		var addDiagnosis = function( data, success, error ) {
 
-		}
+		};
 		
 		var change = function( data, success, error ) {
 			// TODO
+			getQ(
+				{
+					id: data.questionId
+				},
+				function(questionData){
+					answerQ(
+						{
+							answerId: data.answerId
+						},
+						function(answerData){
+							success(answerData);
+						},
+						function(errorMsg){
+							error(errorMsg);
+						}
+					);
+				},
+				function(errorMsg){
+					error(errorMsg);
+				}
+			);
 		};
 		
 		var acceptDiag = function( data, success, error ) {

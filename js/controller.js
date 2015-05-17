@@ -10,6 +10,7 @@
         $scope.forCurrentUser = true;
         $scope.isLoggedIn = UserService.isLoggedIn();
         $scope.user = UserService.getCurrentUser();
+        $scope.revise = false;
 
         $scope.changeCurrentUser = function( cur ) {
             $scope.forCurrentUser = cur;
@@ -147,36 +148,82 @@
         };
 
         $scope.showNewQuestion = function( givenAnswer ) {
-            RunService.answerQuestion(
-                {
-                    question: $scope.currentQuestion,
-                    answerId : givenAnswer.id
-                },
-                function( questionData ) {
-                    // Show new question
-                    $scope.currentQuestion = questionData;
-                    $scope.loading = false;
-                    $scope.hidden = false;  
-                },
-                function( message ) {
-                    // TODO: still show diagnosis if found, and supply the title of the content through the service as well...
-                    $scope.loading = false;
-                    // Error occured. Show Dialogue.
-                    $mdDialog.show(
-                        $mdDialog.alert()
-                            .title( $translate.instant('error_noMoreQuestions_title') )
-                            .content( message )
-                            .ariaLabel('Alert Dialog Demo')
-                            .ok( $translate.instant('common_ok') )
-                    ).finally( function() {
-                        $scope.goToMain();
-                    });
-                }
-            );			
+            
+            var success = function( questionData ) {
+                // Show new question
+                $scope.currentQuestion = questionData;
+                $scope.loading = false;
+                $scope.hidden = false;  
+            };
+            
+            var error = function( message ) {
+                // TODO: still show diagnosis if found, and supply the title of the content through the service as well...
+                $scope.loading = false;
+                // Error occured. Show Dialogue.
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .title( $translate.instant('error_noMoreQuestions_title') )
+                        .content( message )
+                        .ariaLabel('Alert Dialog Demo')
+                        .ok( $translate.instant('common_ok') )
+                ).finally( function() {
+                    $scope.goToMain();
+                });
+            };
+            
+            if (!$scope.revise)
+            {
+                RunService.answerQuestion(
+                    {
+                        question: $scope.currentQuestion,
+                        answerId : givenAnswer.id
+                    },
+                    success,
+                    error
+                );
+            }
+            else
+            {
+                RunService.changeAnswer(
+                    {
+                        questionId: $scope.currentQuestion.id,
+                        answerId: givenAnswer.id
+                    },
+                    success,
+                    error
+                );
+            }
+            
+//            RunService.answerQuestion(
+//                {
+//                    question: $scope.currentQuestion,
+//                    answerId : givenAnswer.id
+//                },
+//                function( questionData ) {
+//                    // Show new question
+//                    $scope.currentQuestion = questionData;
+//                    $scope.loading = false;
+//                    $scope.hidden = false;  
+//                },
+//                function( message ) {
+//                    // TODO: still show diagnosis if found, and supply the title of the content through the service as well...
+//                    $scope.loading = false;
+//                    // Error occured. Show Dialogue.
+//                    $mdDialog.show(
+//                        $mdDialog.alert()
+//                            .title( $translate.instant('error_noMoreQuestions_title') )
+//                            .content( message )
+//                            .ariaLabel('Alert Dialog Demo')
+//                            .ok( $translate.instant('common_ok') )
+//                    ).finally( function() {
+//                        $scope.goToMain();
+//                    });
+//                }
+//            );			
         };
 
         /**
-         * Used clicked on a question that they already answered to answer
+         * User clicked on a question that they already answered to answer
          * it again.
          * 
          * @param  {Object} question
@@ -190,6 +237,7 @@
             // TODO: answers still get counted for the old currentQuestion...
             // Fix in the simulator, don't just get the next question...
             $scope.currentQuestion = qData.question;
+            $scope.revise = true;
         };
 	}]);
 	
@@ -342,10 +390,10 @@
 				$scope.registrationForm.oldPassword.$setValidity('req', valid);
 			}
 			else{
-				$scope.registrationForm.password.$setValidity('req', password.value !== "");
+				$scope.registrationForm.regPassword.$setValidity('req', regPassword.value !== "");
 			}
 		};
-		
+
         /**
          * Sets the gender of the to-be-registered user.
          * 
@@ -628,22 +676,22 @@
 	}]);
 
     pocketdocControllers.controller('HeaderController',
-            ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService',
-    function( $scope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ) {
+            ['$scope', '$rootScope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService',
+    function( $scope ,  $rootScope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ) {
 			
         $scope.lang = UserService.getCurrentUser().lang;
         $scope.languages = MetaDataService.getLanguages();
 		$scope.location = $location;
 		
 		// Resize handler to calculate layout
-		$scope.resize = function(){
+		$rootScope.resize = function(){
 			var height = window.innerHeight;
 			var footerHeight = $('#footer').height();
 			var headerHeight = $('#header').height();
 			$('#partialContent').css('marginBottom', footerHeight);
 		}
 		
-		window.onresize = $scope.resize;
+		window.onresize = $rootScope.resize;
 		
 		$scope.$on( "login", function( event, data ) {
 			$scope.loggedIn = true;

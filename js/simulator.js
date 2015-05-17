@@ -300,7 +300,7 @@
 				);
 			}
 
-			questionResult.answers = answerTexts;
+			questionResult.answers = answerTexts.reverse();
 			
 			success(questionResult);	
 		};

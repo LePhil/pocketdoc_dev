@@ -592,7 +592,7 @@
 			$('#partialContent').css('marginBottom', footerHeight);
 		}
 		
-		window.onresize = $scope.resize();
+		window.onresize = $scope.resize;
 		
 		$scope.$on( "login", function( event, data ) {
 			$scope.loggedIn = true;
@@ -756,6 +756,24 @@
             }, function() {
                 // TODO
             });
+        };
+        
+        /**
+         * Shows the About screen.
+         * 
+         * @author Roman Eichenberger
+         */
+        $scope.showAbout = function(){
+            $location.url("/about");
+        };
+        
+        /**
+         * Shows the Terms screen
+         * 
+         * @author Roman Eicheberger
+         */
+        $scope.showTerms = function(){
+            $location.url("/terms");
         };
     }]);
 

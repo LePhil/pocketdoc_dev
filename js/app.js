@@ -40,6 +40,14 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			templateUrl: 'partials/Registration.html',
 			controller: 'registrationController'
 		})
+		.when('/about', {
+			templateUrl: 'partials/About.html',
+			controller: 'mainController'
+		})
+		.when('/terms', {
+			templateUrl: 'partials/Terms.html',
+			controller: 'mainController'
+		})
 		.otherwise({
 			redirectTo: '/'
 		});
@@ -117,6 +125,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_register: "Registrieren",
 			reg_back: "Zurück",
 			reg_save: "Speichern",
+			header_terms: "AGB",
+			header_about: "Über Pocketdoc",
 			header_reset: "Reset",
 			header_forgotPassword: "Passwort vergessen?",
 			header_reset_title: "Daten zurücksetzen?",
@@ -211,6 +221,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_register: "Register",
 			reg_back: "Back",
 			reg_save: "Save",
+			header_terms: "Terms",
+			header_about: "About Pocketdoc",
 			header_reset: "Reset",
 			header_forgotPassword: "Forgot Password?",
 			header_reset_title: "Reset Data?",

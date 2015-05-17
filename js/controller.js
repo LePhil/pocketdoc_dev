@@ -815,6 +815,7 @@
          * @author Roman Eichenberger
          */
         $scope.showAbout = function(){
+            $scope.close();
             $location.url("/about");
         };
         
@@ -824,6 +825,7 @@
          * @author Roman Eicheberger
          */
         $scope.showTerms = function(){
+            $scope.close();
             $location.url("/terms");
         };
     }]);

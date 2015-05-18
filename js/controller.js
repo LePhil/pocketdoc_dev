@@ -29,7 +29,7 @@
 
         $scope.loading = true;
 		$scope.hidden = true;
-        $scope.currentQuestion;currentUser
+        $scope.currentQuestion;
         $scope.answeredQuestions = [];
 		
         /**

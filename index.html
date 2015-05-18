@@ -39,8 +39,8 @@
 
 </head>
 
-<body layout="column">
-  	<div ng-controller="HeaderController" id="header">
+<body layout="column" ng-controller="HeaderController">
+  	<div id="header">
 		<md-toolbar>
 			<div id="headerbar" class="md-toolbar-tools">
 				<md-button class="md-icon-button white" aria-label="{{ 'header_back' | translate }}" ng-click="goToMain()" ng-show="location.url() != '/'">
@@ -57,7 +57,7 @@
 	</div>
 
 	<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-		<md-toolbar class="md-theme-light" ng-controller="HeaderController">
+		<md-toolbar class="md-theme-light">
 			<div class="md-toolbar-tools">
 				<h1><span>{{ 'header_account' | translate }}</span></h1>
 				<span flex></span>
@@ -66,8 +66,8 @@
 				</md-button>
 			</div>
 		</md-toolbar>
-		<md-content ng-controller="HeaderController" layout-padding>
-
+		<md-content layout-padding>
+			
 	        <div ng-hide="loggedIn">
 				<form novalidate name="loginForm">
 				  
@@ -125,7 +125,7 @@
 	</md-sidenav>
 
 	<div layout="row" flex>
-		<div layout="column" flex id="content" ng-controller="HeaderController">
+		<div layout="column" flex id="content">
 			<md-content layout="column" flex class="md-padding" id="contentContainer">
 				<ng-view id="app" onload="resize();"></ng-view>
 			</md-content>

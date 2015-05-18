@@ -765,16 +765,24 @@
 		window.onresize = $rootScope.resize;
 		
 		$scope.$on( "login", function( event, data ) {
-			$scope.loggedIn = true;
-			$scope.lang = UserService.getCurrentUser().lang;
-			$translate.use( $scope.lang );
-		});
-		
-		$scope.$on( "logout", function( event, data ) {
-			$scope.loggedIn = false;
-			$scope.lang = UserService.getCurrentUser().lang;
-			$translate.use( $scope.lang );
-		});
+            handleLogin( data );
+        });
+        
+        $scope.$on( "logout", function( event, data ) {
+            handleLogout( data );
+        });
+
+        var handleLogin = function( data ) {
+            $scope.loggedIn = true;
+            $scope.lang = UserService.getCurrentUser().lang;
+            $translate.use( $scope.lang );
+        };
+
+        var handleLogout = function( data ) {
+            $scope.loggedIn = false;
+            $scope.lang = UserService.getCurrentUser().lang;
+            $translate.use( $scope.lang );
+        };
 
         $scope.$on( "languageChange", function( event, lang ) {
             $scope.lang = lang;
@@ -849,7 +857,7 @@
 					else if (error.errorType == 1)
                         $scope.loginForm.loginPassword.$setValidity('wrong', false);
                     else
-                        alert( error.message );
+                        console.log( error.message );
                         
                     $scope.login_error = error.message;
 				}
@@ -958,6 +966,12 @@
             $location.url("/terms");
         };
 
+        /**
+         * Gets triggered on start
+         *
+         * @name start
+         * @author Philipp Christen
+         */
         var start = function() {
             var existingUser = UserService.getCurrentUser();
 

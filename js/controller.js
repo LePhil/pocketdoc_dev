@@ -26,7 +26,7 @@
 
         $scope.loading = true;
 		$scope.hidden = true;
-        $scope.currentQuestion;
+        $scope.currentQuestion;currentUser
         $scope.answeredQuestions = [];
 		
         /**
@@ -676,9 +676,9 @@
 	}]);
 
     pocketdocControllers.controller('HeaderController',
-            ['$scope', '$rootScope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService',
-    function( $scope ,  $rootScope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ) {
-			
+            ['$scope', '$rootScope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService', '$cookies',
+    function( $scope ,  $rootScope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ,  $cookies ) {
+		
         $scope.lang = UserService.getCurrentUser().lang;
         $scope.languages = MetaDataService.getLanguages();
 		$scope.location = $location;
@@ -689,7 +689,7 @@
 			var footerHeight = $('#footer').height();
 			var headerHeight = $('#header').height();
 			$('#partialContent').css('marginBottom', footerHeight);
-		}
+		};
 		
 		window.onresize = $rootScope.resize;
 		
@@ -886,6 +886,27 @@
             $scope.close();
             $location.url("/terms");
         };
+
+        var start = function() {
+            var existingUser = UserService.getCurrentUser();
+
+            if ( existingUser.id === -1 ) {
+                var cookieUser = $cookies.pocketDocUser;
+                
+                if ( cookieUser ) {
+                    cookieUser = angular.fromJson( cookieUser );
+
+                    UserService.loginUser(
+                        cookieUser,
+                        function( data ) {
+                            $scope.$root.$broadcast("login", data);
+                        },
+                        function( error ) { console.log( error); }
+                    );
+                }
+                
+            }
+        }();
     }]);
 
 })();

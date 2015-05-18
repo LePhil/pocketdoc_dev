@@ -2,7 +2,7 @@
 
 	var backend = angular.module('pocketdocBackend', ['pocketdocData']);
 	
-	backend.factory('UserService', ['_', 'DataService',	function( _ ,  DataService){
+	backend.factory('UserService', ['_', 'DataService', '$cookies', function( _ ,  DataService, $cookies ){
 
 		// on startup, save the fake data to the localstorage 
 		if ( !localStorage.getItem("users") ) {
@@ -105,6 +105,8 @@
 					id: -1,
 					lang: currentUser.lang
 				}
+
+				clearSession();
 				
 				success({
 					name : name
@@ -116,17 +118,27 @@
 		
 		// TODO: refactor
 		var login = function( data, success, error ) {
+			if ( !data || ( !data.session && !data.email ) ) {
+				error({
+					errorType: 2,
+					message: "Can't login"
+				});
+				return;
+			}
+
 			var users = JSON.parse( localStorage.getItem("users") ) || {},
 				user = $.grep( users, function( e ){
 					// check if user exists by comparing the emails.
 					return e.email == data.email;
 				} );
 
-			if (!user || user.length === 1){
-				if (data.password === user[0].password){
+			if ( user.length === 1 || hasValidSession( data ) ){
+				if (checkSession ( data ) || data.password === user[0].password ){
 					currentUser = user[0];
 					delete currentUser.password;
 					
+					saveUserSession( currentUser );
+
 					success( currentUser );
 				} else {
 					error(
@@ -154,6 +166,8 @@
 				id : -1,
 				lang : currentUser.lang,
 			};
+
+			clearSession();
 			
 			success({name : userName});
 		};
@@ -186,6 +200,49 @@
 				success({ inUse: user.length !== 0 });
 			}
 		};
+
+		/**
+		 * Create arbitrary sessionID. For demonstration purposes, we create a 
+		 * date that's 24 hours in the future. This is the time in which the
+		 * session is valid.
+		 * It's suggested that this is handled on the server, in non-visible
+		 * code and with security in mind.
+		 *
+		 * @name getSesstion
+		 * @param  {Object} userData [description]
+		 * @return {String}
+		 * @author Philipp Christen
+		 */
+		var getSession = function( userData ) {
+			var validity = new Date();
+				validity.setDate( validity.getDate() + 1 /*days*/ );    
+
+			return validity.toString();
+		};
+
+		var hasValidSession = function( data ) {
+			return data.session;
+		};
+
+		var saveUserSession = function( userData ) {
+            var toBeSaved = {};
+            angular.extend( toBeSaved, userData, { session: getSession( userData ) } );
+
+            $cookies.pocketDocUser = angular.toJson( toBeSaved );
+		};
+
+		var checkSession = function( data ) {
+			return data.session && new Date( data.session ) >= new Date();
+		};
+
+		/**
+		 * Clears a session ID. Should propagate to the backend.
+		 * 
+		 * @author Philipp Christen
+		 */
+		var clearSession = function() {
+			$cookies.pocketDocUser = null;
+		}
 		
 		return {
 			createUser : create,
@@ -198,7 +255,8 @@
 			getCurrentUser : getCurrent,
 			updateLanguage : updateLang,
 			isEmailInUse : isInUse,
-			isLoggedIn: isLoggedIn
+			isLoggedIn: isLoggedIn,
+			getSession: getSession
 		};
 	}]);
 	

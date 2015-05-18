@@ -415,6 +415,11 @@
 		if ($scope.isProfile) {
 			$scope.user.password = "";
         }
+
+        // If no language was defined yet, use german because of reasons.
+        if ( typeof( $scope.user.lang ) === "undefined" ) {
+            $scope.user.lang = "de";
+        }
 		
 		$scope.checkEmail = function(){
 			if ($scope.isProfile)
@@ -513,9 +518,7 @@
                         FollowUpData.data.user = data.id;
                         FollowupService.registerFollowup(
                             FollowUpData.data,
-                            function(data){
-                                
-                            },
+                            function(data){},
                             function(error){
                                 alert(error);
                             }
@@ -978,7 +981,7 @@
             if ( existingUser.id === -1 ) {
                 var cookieUser = $cookies.pocketDocUser;
                 
-                if ( cookieUser ) {
+                if ( cookieUser && cookieUser !== "null" ) {
                     cookieUser = angular.fromJson( cookieUser );
 
                     UserService.loginUser(

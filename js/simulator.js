@@ -35,10 +35,7 @@
 				
 				localStorage.setItem( "users", angular.toJson( users ) );
 				
-				currentUser = data;
-				delete currentUser.password;
-				
-				success( data );
+				login( data, success, error );
 			}
 		};
 		
@@ -121,7 +118,7 @@
 			if ( !data || ( !data.session && !data.email ) ) {
 				error({
 					errorType: 2,
-					message: "Can't login"
+					message: "Not allowed to log in"
 				});
 				return;
 			}

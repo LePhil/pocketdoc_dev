@@ -4,12 +4,14 @@
 	
 	services.factory('DiagnosisData', function(){
 	
-		var DiagnosisData = {
-			
-		};
-		
+		var DiagnosisData = {};
 		return DiagnosisData;
 	
+	});
+	
+	services.factory('FollowUpData', function(){
+		var FollowUpData = {};
+		return FollowUpData;
 	});
 	
 })();

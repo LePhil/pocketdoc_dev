@@ -313,6 +313,7 @@
 			var startQuestionID = 0,
 				qData = {};
 			// TODO: handle userData
+			user = userData;
 
 			if ( followUp !== null ) {
 				startQuestionID = followUp.startQuestion;
@@ -385,7 +386,6 @@
 		};
 		
 		var change = function( data, success, error ) {
-			// TODO
 			getQ(
 				{
 					id: data.questionId
@@ -434,7 +434,11 @@
 		var getFollowUp = function() {
 			followUp = typeof(followUp) === "undefined" ? false : followUp;
 			return followUp;
-		}
+		};
+		
+		var getUser = function(){
+			return user;	
+		};
 		
 		return {
 			startRun : start,
@@ -443,7 +447,8 @@
 			changeAnswer : change,
 			acceptDiagnosis : acceptDiag,
 			setFollowUp: setFollowUp,
-			getFollowUp: getFollowUp
+			getFollowUp: getFollowUp,
+			getUserData: getUser
 		};
 	}]);
 

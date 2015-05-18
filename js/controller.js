@@ -3,14 +3,17 @@
 	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices', 'ngMessages']);
 
 	pocketdocControllers.controller('questionController',
-	        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DiagnosisService', '$translate', 'UserService',
-	function( $scope ,  $location ,  RunService ,  DiagnosisData ,  $mdDialog ,  DiagnosisService ,  $translate ,  UserService ) {
+	        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DiagnosisService', '$translate', 'UserService', 'MetaDataService',
+	function( $scope ,  $location ,  RunService ,  DiagnosisData ,  $mdDialog ,  DiagnosisService ,  $translate ,  UserService ,  MetaDataService) {
 	
         $scope.isPreDiag = true;
         $scope.forCurrentUser = true;
         $scope.isLoggedIn = UserService.isLoggedIn();
         $scope.user = UserService.getCurrentUser();
         $scope.revise = false;
+        
+        $scope.languages = MetaDataService.getLanguages();
+        $scope.ageRanges = MetaDataService.getAgeRanges();
 
         $scope.changeCurrentUser = function( cur ) {
             $scope.forCurrentUser = cur;
@@ -29,6 +32,45 @@
         $scope.currentQuestion;currentUser
         $scope.answeredQuestions = [];
 		
+        /**
+         * Sets the gender of the to-be-registered user.
+         * 
+         * @param {Number}
+         * @author Roman Eichenberger, Philipp Christen
+         */
+		$scope.setGender = function(gender) {
+            $scope.user.gender = gender;
+		};
+
+        /**
+         * Changes the language of the to-be-registered user and tells the app
+         * to use this language from now on.
+         * 
+         * @param  {Number}
+         * @author Roman Eichenberger, Philipp Christen
+         */
+		$scope.changeLanguage = function(lang) {
+            UserService.updateLanguage(
+                {
+                    lang: lang
+                },
+                function(data){
+                    $translate.use( data.lang ).then(
+                        function ( lang ) {
+                            $scope.user.lang = lang;
+                            $scope.$root.$broadcast( "languageChange", lang );
+                        },
+                        function ( lang ) {
+                            console.log("Error occured while changing language");
+                        }
+                    );
+                },
+                function(error){
+                    alert(error);
+                }
+            );
+		};
+        
         /**
          * Starts the actual run after saving the data for the current run.
          * 
@@ -137,6 +179,7 @@
                         $location.url("/diagnosis");
                         DiagnosisData.diagnosis = diagnosis;
                         DiagnosisData.actionSuggestion = actionSuggestion;
+                        DiagnosisData.userData = RunService.getUserData();
                     },
                     function( error ) {
                         alert( error );
@@ -242,8 +285,8 @@
 	}]);
 	
 	pocketdocControllers.controller('diagnosisController',
-            ['$scope', '$location', 'DiagnosisData', 'UserService', 'FollowupService', 'RunService', '$mdDialog',
-    function( $scope ,  $location ,  DiagnosisData ,  UserService ,  FollowupService ,  RunService ,  $mdDialog ) {
+            ['$scope', '$location', 'DiagnosisData', 'FollowUpData', 'UserService', 'FollowupService', 'RunService', '$mdDialog',
+    function( $scope ,  $location ,  DiagnosisData ,  FollowUpData ,  UserService ,  FollowupService ,  RunService ,  $mdDialog ) {
 		
 		$scope.diagnosis = DiagnosisData.diagnosis;
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
@@ -270,13 +313,9 @@
             var userID = UserService.getCurrentUser().id;
 
             if ( userID > -1 ) {
-                var followUpData = {
-                    "user": userID,
-                    "oldDiagnosis": $scope.diagnosis.id,
-                    "oldActionSuggestion": $scope.actionSuggestion.id,
-                    "startQuestion": 5,  // TODO get correct q,
-                    "timeAdded": Date.now()
-                };
+                var followUpData = $scope.getFollowUpData();
+                followUpData.user = userID;
+                
                 console.log("saving followUp:", followUpData );
 
                 FollowupService.registerFollowup( followUpData );
@@ -284,6 +323,15 @@
             } else {
                 console.log( "Error: not logged in" );
             }
+        };
+        
+        $scope.getFollowUpData = function(){
+            return {
+                "oldDiagnosis": $scope.diagnosis.id,
+                "oldActionSuggestion": $scope.actionSuggestion.id,
+                "startQuestion": 5,  // TODO get correct q,
+                "timeAdded": Date.now()
+            };  
         };
 
 
@@ -334,7 +382,9 @@
          * @author Philipp Christen
          */
         $scope.registerForFollowUp = function() {
-            // $location.url("/registration");
+             FollowUpData.data = $scope.getFollowUpData();
+             FollowUpData.userData = DiagnosisData.userData;
+             $location.url("/registration");
         };
 	}]);
 	
@@ -346,8 +396,8 @@
      * @author Roman Eichenberger, Philipp Christen
      */
 	pocketdocControllers.controller('registrationController',
-            ['$scope', '$location', '$translate', '$mdDialog', 'UserService', 'MetaDataService',
-    function( $scope ,  $location ,  $translate ,  $mdDialog ,  UserService ,  MetaDataService ) {
+            ['$scope', '$location', '$translate', '$mdDialog', 'FollowUpData', 'UserService', 'FollowupService', 'MetaDataService',
+    function( $scope ,  $location ,  $translate ,  $mdDialog ,  FollowUpData ,  UserService ,  FollowupService ,  MetaDataService ) {
 		
 		$scope.isProfile = UserService.getCurrentUser().id >= 0;
         $scope.languages = MetaDataService.getLanguages();
@@ -356,6 +406,12 @@
 		$scope.user = UserService.getCurrentUser();
 		var oldEmail = $scope.user.email;
 		
+        if (typeof(FollowUpData.userData) !== 'undefined')
+        {
+            $scope.user = _.extend($scope.user, FollowUpData.userData);
+            delete FollowUpData.userData;
+        }
+        
 		if ($scope.isProfile) {
 			$scope.user.password = "";
         }
@@ -451,6 +507,21 @@
 				$scope.user,
 				function( data ) {
 					$scope.$root.$broadcast("login", data);
+                    
+                    if (typeof(FollowUpData.data) !== 'undefined' )
+                    {
+                        FollowUpData.data.user = data.id;
+                        FollowupService.registerFollowup(
+                            FollowUpData.data,
+                            function(data){
+                                
+                            },
+                            function(error){
+                                alert(error);
+                            }
+                        );
+                    }
+                    
 					$location.url('/');
 				},
 				function( error ) {

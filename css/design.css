@@ -100,18 +100,6 @@ h1{
 	color: rgb(210, 210, 210);
 }
 
-#partialContent{
-
-}
-
-#footer{
-	background: white;
-	position: fixed;
-	bottom: 0;
-	right: 8px;
-	left: 0px;
-	z-index: 1;
-}
 
 @media (min-width: 600px){
 	#footer {
@@ -119,10 +107,12 @@ h1{
 	}
 }
 
-#footerContent{
-	margin: 0 auto;
-	max-width: 960px;
-	width: 100%;
+.partialContent{
+	overflow: auto;
+}
+
+.currentQuestion{
+	min-height: 80px;
 }
 
 .pwContainer {

@@ -415,11 +415,6 @@
 		if ($scope.isProfile) {
 			$scope.user.password = "";
         }
-
-        // If no language was defined yet, use german because of reasons.
-        if ( typeof( $scope.user.lang ) === "undefined" ) {
-            $scope.user.lang = "de";
-        }
 		
 		$scope.checkEmail = function(){
 			if ($scope.isProfile)
@@ -511,7 +506,7 @@
 			UserService.createUser(
 				$scope.user,
 				function( data ) {
-					$scope.$root.$broadcast("login", data);
+                    $scope.$root.$broadcast("login", data);  
                     
                     if (typeof(FollowUpData.data) !== 'undefined' )
                     {
@@ -534,6 +529,7 @@
 		};
 		
 		$scope.saveClick = function(){
+            debugger;
 			UserService.updateUser(
 				$scope.user,
 				function( data ){
@@ -753,7 +749,7 @@
             ['$scope', '$rootScope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService', '$cookies',
     function( $scope ,  $rootScope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ,  $cookies ) {
 		
-        $scope.lang = UserService.getCurrentUser().lang;
+        $scope.lang = UserService.getLang();
         $scope.languages = MetaDataService.getLanguages();
 		$scope.location = $location;
 		
@@ -777,13 +773,13 @@
 
         var handleLogin = function( data ) {
             $scope.loggedIn = true;
-            $scope.lang = UserService.getCurrentUser().lang;
+            $scope.lang = UserService.getLang();
             $translate.use( $scope.lang );
         };
 
         var handleLogout = function( data ) {
             $scope.loggedIn = false;
-            $scope.lang = UserService.getCurrentUser().lang;
+            $scope.lang = UserService.getLang();
             $translate.use( $scope.lang );
         };
 

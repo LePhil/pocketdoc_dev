@@ -4,16 +4,6 @@
 	
 	backend.factory('UserService', ['_', 'DataService', '$cookies', function( _ ,  DataService, $cookies ){
 
-		// on startup, save the fake data to the localstorage 
-		if ( !localStorage.getItem("users") ) {
-			localStorage.setItem( "users", angular.toJson( DataService.users() ) );
-		}
-
-		var currentUser = {
-			id : -1,
-			lang : 'de'
-		};
-
 		var isLoggedIn = function() {
 			return currentUser.id !== -1;
 		};
@@ -35,7 +25,12 @@
 				
 				localStorage.setItem( "users", angular.toJson( users ) );
 				
-				login( data, success, error );
+ 				currentUser = data;
+ 				
+				login( data, function(){}, function(){} );
+
+ 				delete currentUser.password;
+ 				success( data );
 			}
 		};
 		
@@ -55,6 +50,8 @@
 		
 		// TODO: refactor (e.g. only grep once)
 		var update = function( data, success, error ) {
+			debugger;
+
 			var users = JSON.parse(localStorage.getItem("users"));
 			var user = $.grep(users, function(e){ return e.id == data.id; })[0];
 			
@@ -74,11 +71,17 @@
 			delete data.oldPassword;
 			
 			users = $.grep(users, function(e){ return e.id != data.id; });
-			users.push(data);
+
+			var changedUser = buildUserObject( data );
+			debugger;
+
+			users.push( changedUser );
 			
 			localStorage.setItem( "users", angular.toJson(users) );
 			
-			currentUser = data;
+			debugger;
+
+			currentUser = changedUser;
 			delete currentUser.password;
 			
 			success({
@@ -129,8 +132,10 @@
 					return e.email == data.email;
 				} );
 
-			if ( user.length === 1 || hasValidSession( data ) ){
-				if (checkSession ( data ) || data.password === user[0].password ){
+			// Only continue if user exists at all
+			if ( user.length === 1 ){
+
+				if ( hasValidSession( data ) || data.password === user[0].password ){
 					currentUser = user[0];
 					delete currentUser.password;
 					
@@ -218,7 +223,7 @@
 		};
 
 		var hasValidSession = function( data ) {
-			return data.session;
+			return data.session && new Date( data.session ) >= new Date();
 		};
 
 		var saveUserSession = function( userData ) {
@@ -226,10 +231,6 @@
             angular.extend( toBeSaved, userData, { session: getSession( userData ) } );
 
             $cookies.pocketDocUser = angular.toJson( toBeSaved );
-		};
-
-		var checkSession = function( data ) {
-			return data.session && new Date( data.session ) >= new Date();
 		};
 
 		/**
@@ -240,6 +241,64 @@
 		var clearSession = function() {
 			$cookies.pocketDocUser = null;
 		}
+
+		/**
+		 * The user's language is used often, without need for the whole user.
+		 * This returns their language or the default value, if necessary.
+		 *
+		 * @name getLang
+		 * @return {String} language locale
+		 * @author Philipp Christen
+		 */
+		var getLang = function() {
+			if ( currentUser.lang && typeof( currentUser.lang ) !== "undefined" ) {
+				return currentUser.lang;
+			} else {
+				return getDefaultLang();
+			}
+		};
+
+		/**
+		 * Angular sometimes moves properties into an object's prototype so
+		 * that they're not copied anymore. Here we take potentially incomplete
+		 * data and generate a complete user object with all its properties.
+		 *
+		 * @name buildUserObject
+		 * @param  {Object} data
+		 * @return {Object}
+		 * @author Philipp Christen
+		 */
+		var buildUserObject = function( data ) {
+			return {
+				id: data.id,
+				password: data.password,
+				lang: data.lang || getDefaultLang(),
+				email: data.email,
+				name: data.name,
+				gender: data.gender
+			}
+		};
+
+		/**
+		 * If all else fails, return German as the default language.
+		 *
+		 * @name getDefaultLang
+		 * @return {String}
+		 * @author Philipp Christen
+		 */
+		var getDefaultLang = function() {
+			return 'de';
+		}
+		
+		// on startup, save the fake data to the localstorage 
+		if ( !localStorage.getItem("users") ) {
+			localStorage.setItem( "users", angular.toJson( DataService.users() ) );
+		}
+
+		var currentUser = {
+			id : -1,
+			lang : getDefaultLang()
+		};
 		
 		return {
 			createUser : create,
@@ -253,7 +312,8 @@
 			updateLanguage : updateLang,
 			isEmailInUse : isInUse,
 			isLoggedIn: isLoggedIn,
-			getSession: getSession
+			getSession: getSession,
+			getLang: getLang
 		};
 	}]);
 	
@@ -353,7 +413,7 @@
 			currentQuestion = firstQuestion;
 			
 			// Set Question Text 
-			var langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
+			var langId = UtilService.getIdByLocale(UserService.getLang(), DataService.languages());
 			var questionText = UtilService.getCurrentLanguageObject(langId, firstQuestion.description);
 			questionResult.id = questionData.id;
 			questionResult.description = questionText.text;
@@ -451,7 +511,7 @@
 
 	backend.factory('DiagnosisService', ['DataService', 'UtilService', 'UserService', function( DataService, UtilService, UserService ){
 
-		var langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
+		var langId = UtilService.getIdByLocale(UserService.getLang(), DataService.languages());
 				
 		var getAll = function(success, error ) {
 			// TODO?
@@ -462,7 +522,7 @@
 			var diagnosisData = {};
 
 			// Get current language again
-			langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
+			langId = UtilService.getIdByLocale(UserService.getLang(), DataService.languages());
 			
 			// Set diagnosis
 			diagnosisData.diagnosis = getDiagByID( diagID );

@@ -760,16 +760,6 @@
         $scope.languages = MetaDataService.getLanguages();
 		$scope.location = $location;
 		
-		// Resize handler to calculate layout
-		$rootScope.resize = function(){
-			var height = window.innerHeight;
-			var footerHeight = $('#footer').height();
-			var headerHeight = $('#header').height();
-			$('#partialContent').css('marginBottom', footerHeight);
-		};
-		
-		window.onresize = $rootScope.resize;
-		
 		$scope.$on( "login", function( event, data ) {
             handleLogin( data );
         });

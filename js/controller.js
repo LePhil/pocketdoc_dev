@@ -159,6 +159,7 @@
         /**
          * Shows the "diagnosis found" dialog.
          * 
+         * @param  {[type]} givenAnswer      [description]
          * @param  {[type]} diagnosis        [description]
          * @param  {[type]} actionSuggestion [description]
          * @param  {jQuery.Event} ev [description]
@@ -286,6 +287,7 @@
             $scope.revise = true;
         };
 
+        // immediately start with Run if it's a followUp
         if ( !$scope.isPreDiag ) {
             $scope.confirmPreDiag();
         }
@@ -304,6 +306,21 @@
 
 
         $scope.goToMain = function() { $location.url('/'); };
+
+        /**
+         * User wants to register for a followUp. If they're already logged in,
+         * that's alright, otherwise the login-dialogue gets shown.
+         *
+         * @name acceptFollowUp
+         * @author Philipp Christen
+         */
+        $scope.acceptFollowUp = function() {
+            if ( $scope.isLoggedIn ) {
+                $scope.addFollowUp();
+            } else {
+                $scope.showLoginDialog();
+            }
+        };
 
         /**
          * add a follow-up to the existing ones for the current user.
@@ -342,9 +359,18 @@
         };
 
 
+        /**
+         * Mini-Controller for the Login-Dialgue
+         * 
+         * @param {[type]} $scope    [description]
+         * @param {[type]} $mdDialog [description]
+         */
         var LoginController = function($scope, $mdDialog) {
-            $scope.cancelLogin = function() { $mdDialog.cancel(); };
-            $scope.submitLogin = function() {
+            $scope.loginDialogCancel = function() { $mdDialog.cancel(); };
+            
+            $scope.loginDialogRegister = function() { $mdDialog.hide( true ); };
+
+            $scope.loginDialogSubmit = function() {
                 UserService.loginUser(
                     {
                         email : $scope.user.email,
@@ -353,7 +379,7 @@
                     function( data ) {
                         $scope.$root.$broadcast("login", data);
 
-                        $mdDialog.hide();
+                        $mdDialog.hide( false );
                     },
                     function( error ) {
                         console.log( error );
@@ -363,35 +389,29 @@
         };
 
         /**
-         * TODO!
-         *
          * Shows the login dialogue.
          *
          * @name login
          * @author Philipp Christen
          */
-        $scope.login = function() {
+        $scope.showLoginDialog = function() {
             $mdDialog.show({
                 controller: LoginController,
                 templateUrl: '../partials/loginDialog.html'
             })
-            .then( function() {
+            .then( function( goToRegistration ) {
                 $scope.isLoggedIn = UserService.isLoggedIn();
+
+                if ( goToRegistration ) {
+                    FollowUpData.data = $scope.getFollowUpData();
+                    FollowUpData.userData = DiagnosisData.userData;
+                    $location.url("/registration");
+                } else {
+                    $scope.addFollowUp();
+                }
             }, function() {
                 console.log( "error" );
             });
-        };
-
-        /**
-         * TODO!
-         *
-         * @name registerForFollowUp
-         * @author Philipp Christen
-         */
-        $scope.registerForFollowUp = function() {
-             FollowUpData.data = $scope.getFollowUpData();
-             FollowUpData.userData = DiagnosisData.userData;
-             $location.url("/registration");
         };
 	}]);
 	
@@ -810,7 +830,7 @@
 			);
         };
 
-        $scope.toggleRight = buildToggler('right');
+        $scope.toggleMenu = buildToggler('left');
         
         // Build handler to open/close a SideNav
         function buildToggler( navID ) {
@@ -821,48 +841,12 @@
         }
 
         $scope.close = function () {
-            $mdSidenav('right').close()
-            .then(function () {
-                $log.debug("close RIGHT is done");
-            });
+            $mdSidenav('left').close().then(function () {});
         };
 
         $scope.profile = function() {
             $scope.close();
             $location.url("/profile");
-        };
-
-        $scope.login = function() {
-            $scope.loginForm.loginEmail.$setValidity('notFound', true);
-            $scope.loginForm.loginPassword.$setValidity('wrong', true);
-            
-        	UserService.loginUser(
-				{
-					email : $scope.user.email,
-					password : $scope.user.password 
-				},
-				function( data ) {
-					$scope.close();
-					$scope.loggedIn = true;
-					$scope.user = {};
-					$scope.$root.$broadcast("login", data);
-				},
-				function( error ) {
-                    if (error.errorType == 0)
-                        $scope.loginForm.loginEmail.$setValidity('notFound', false);
-					else if (error.errorType == 1)
-                        $scope.loginForm.loginPassword.$setValidity('wrong', false);
-                    else
-                        console.log( error.message );
-                        
-                    $scope.login_error = error.message;
-				}
-			);
-        };
-
-        $scope.register = function() {
-			$scope.close();
-            $location.url("/registration");
         };
 
         /**
@@ -910,6 +894,65 @@
         };
 
         /**
+         * Shows the Dialogue for logging in or registering.
+         * 
+         * @name showLoginDialog
+         * @author Philipp Christen
+         */
+        $scope.showLoginDialog = function() {
+            if ( $scope.loggedIn ) {
+                $scope.profile();
+            } else {
+                $mdDialog.show({
+                    controller: 'HeaderController',
+                    templateUrl: '../partials/loginDialog.html'
+                })
+                .then( function() {
+                    $scope.isLoggedIn = UserService.isLoggedIn();
+                }, function() {
+                    console.log( "error" );
+                });
+            }
+        };
+
+        $scope.loginDialogCancel = function() {
+            $mdDialog.cancel();
+        };
+        
+        $scope.loginDialogRegister = function() {
+            $mdDialog.hide();
+            $location.url("/registration");
+        };
+
+        $scope.loginDialogSubmit = function() {
+            $scope.loginForm.loginEmail.$setValidity('notFound', true);
+            $scope.loginForm.loginPassword.$setValidity('wrong', true);
+            
+            UserService.loginUser(
+                {
+                    email : $scope.user.email,
+                    password : $scope.user.password 
+                },
+                function( data ) {
+                    $mdDialog.hide();
+                    $scope.loggedIn = true;
+                    $scope.user = {};
+                    $scope.$root.$broadcast("login", data);
+                },
+                function( error ) {
+                    if (error.errorType == 0)
+                        $scope.loginForm.loginEmail.$setValidity('notFound', false);
+                    else if (error.errorType == 1)
+                        $scope.loginForm.loginPassword.$setValidity('wrong', false);
+                    else
+                        console.log( error.message );
+                        
+                    $scope.login_error = error.message;
+                }
+            );
+        };
+
+        /**
          * Mini-Controller for Custom Dialog, provides some simple methods.
          * 
          * @param {[type]} $scope           [description]
@@ -928,7 +971,7 @@
          * @author Philipp Christen
          */
         $scope.forgotPassword = function() {
-            $scope.close();
+            $mdDialog.hide();
             $mdDialog.show({
                 controller: ForgotPasswordController,
                 templateUrl: '../partials/forgotPasswordDialog.html',

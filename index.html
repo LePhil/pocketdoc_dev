@@ -43,84 +43,52 @@
   	<div id="header">
 		<md-toolbar>
 			<div id="headerbar" class="md-toolbar-tools">
-				<md-button class="md-icon-button white" aria-label="{{ 'header_back' | translate }}" ng-click="goToMain()" ng-show="location.url() != '/'">
+				<md-button class="md-icon-button white" aria-label="{{ 'header_menu' | translate }}" ng-click="goToMain()" ng-show="location.url() != '/'">
 					<md-icon md-svg-icon="images/icons/back.svg" class="s36"></md-icon>
 				</md-button>
+
+				<md-button class="md-icon-button white" aria-label="{{ 'header_back' | translate }}" ng-click="toggleMenu()" ng-show="location.url() === '/'">
+					<md-icon md-svg-icon="images/icons/menu.svg" class="s36"></md-icon>
+				</md-button>
+
 				<span flex></span>
-				<h2><span>{{ 'common_appname' | translate }}</span></h2>
+				<h2>{{ 'common_appname' | translate }}</h2>
 				<span flex></span>
-				<md-button class="md-icon-button white" aria-label="{{ 'header_settings' | translate }}" ng-click="toggleRight()" ng-show="location.url() == '/'">
+
+				<md-button class="md-icon-button white" aria-label="{{ 'header_settings' | translate }}" ng-click="showLoginDialog()" ng-show="location.url() == '/'">
 					<md-icon md-svg-icon="images/icons/settings.svg" class="s36"></md-icon>
 				</md-button>
 			</div>
 		</md-toolbar>
 	</div>
 
-	<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right" layout="column">
+	<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" layout="column">
 		<md-toolbar class="md-theme-light">
 			<div class="md-toolbar-tools">
-				<h1><span>{{ 'header_account' | translate }}</span></h1>
-				<span flex></span>
+				
 				<md-button class="md-icon-button white" aria-label="{{ 'header_close' | translate }}" ng-click="close()">
 					<md-icon md-svg-icon="images/icons/close.svg" class="s36"></md-icon>
 				</md-button>
+				
+				<span flex></span>
+				<h1>{{ 'header_furtherInformation' | translate }}</h1>
+			
 			</div>
 		</md-toolbar>
-		<md-content layout-padding flex layout="column">
-			
-	        <div ng-hide="loggedIn" flex>
-				<form novalidate name="loginForm">
-				  
-				<md-input-container>
-					<label for="testInput">{{ 'header_login_email' | translate }}</label>
-					<input type="text" id="testInput" name="loginEmail" ng-model="user.email" md-sidenav-focus>
-					<div ng-messages="loginForm.loginEmail.$error">
-						<div ng-message="notFound">{{ login_error }}</div>
-					</div>
-				</md-input-container>
+		<md-content layout-padding flex layout="column" layout-align="begin center">
 
-				<md-input-container>
-					<label for="password">{{ 'header_login_password' | translate }}</label>
-					<input type="password" name="loginPassword" id="password" ng-model="user.password">
-					<div ng-messages="loginForm.loginPassword.$error">
-						<div ng-message="wrong">{{ login_error }}</div>
-					</div>
-				</md-input-container>
+			<md-button ng-click="showAbout()" class="md-primary">{{ 'header_about' | translate }}</md-button>
 
-					<div layout="row" flex layout-align="end end" >
-						<md-button ng-click="forgotPassword()" class="forgotPassword">{{ 'header_forgotPassword' | translate }}</md-button>
-					</div>
-				</form>
+			<md-button ng-click="showTerms()" class="md-primary">{{ 'header_terms' | translate }}</md-button>
 
-				<div layout="column" flex>
-					<md-button ng-click="login()" class="md-primary">{{ 'header_login' | translate }}</md-button>
-					<md-button ng-click="register()" class="md-primary">{{ 'header_register' | translate }}</md-button>
-				</div>
-
-			</div>
-			
-			<div ng-show="loggedIn" flex>
-				<div layout="column" flex>
-					<md-button ng-click="profile()" class="md-primary">{{ 'header_profile' | translate }}</md-button>
-				</div>
+			<div layout="row" layout-align="center center" ng-hide="loggedIn">
+				<md-button class="md-icon-button" ng-repeat="language in languages" aria-label="{{language.nativeName}}" ng-click="changeLanguage( language.locale )" ng-class="{'md-primary md-raised': lang == language.locale }">
+					<md-icon md-svg-icon="images/icons/{{ language.locale }}.svg" class="s36"></md-icon>
+				</md-button>
 			</div>
 
-			<div layout="column" layout-align="center center" >
-				<div layout="column">
-					<md-button ng-click="showAbout()" class="md-primary">{{ 'header_about' | translate }}</md-button>
-					<md-button ng-click="showTerms()" class="md-primary">{{ 'header_terms' | translate }}</md-button>
-				</div>
-				<div layout="row" layout-align="center center" ng-hide="loggedIn">
-					<md-button class="md-icon-button" ng-repeat="language in languages" aria-label="{{language.nativeName}}" ng-click="changeLanguage( language.locale )" ng-class="{'md-primary md-raised': lang == language.locale }">
-						<md-icon md-svg-icon="images/icons/{{ language.locale }}.svg" class="s36"></md-icon>
-					</md-button>
-				</div>
+			<md-button ng-click="resetForDemo()" class="md-primary">{{ 'header_reset' | translate }}</md-button>
 
-				<div layout="column">
-					<md-button ng-click="resetForDemo()" class="md-primary">{{ 'header_reset' | translate }}</md-button>
-				</div>
-			</div>
-			
 		</md-content>
 	</md-sidenav>
 

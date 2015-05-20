@@ -120,7 +120,13 @@
 			
 					<div ng-hide="loading || hidden">
 						<div layout="row" layout-align="center center">
-							<md-button flex="{{100/(currentQuestion.answers.length+1)}}" class="md-raised answer-button" ng-class="answer.style" ng-click="answerQuestion(answer)" ng-repeat="answer in currentQuestion.answers">
+							<md-button
+								flex="{{100/(currentQuestion.answers.length+1)}}"
+								class="md-raised answer-button"
+								ng-class="answer.style"
+								ng-click="answerQuestion(answer)"
+								ng-repeat="answer in currentQuestion.answers"
+								aria-label="{{answer.desc}}">
 
 								<div ng-show="answer.id === 0">
 									<md-icon md-svg-icon="images/icons/yes.svg" class="s36 md-accent"></md-icon>

@@ -25,7 +25,7 @@
           </div>
         </md-input-container>
 
-        <div layout="row" flex layout-align="end end" >
+        <div layout="row" flex layout-align="end end" ng-show="location.url() === '/'" >
           <md-button type="button" ng-click="forgotPassword()" class="forgotPassword">{{ 'header_forgotPassword' | translate }}</md-button>
         </div>
 

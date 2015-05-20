@@ -43,6 +43,9 @@ html {
 	width: 36px;
 	height: 36px;
 }
+.md-icon-button .faintIcon {
+	opacity: 0.8;
+}
 
 #languageBar button {
 	z-index: 1;

@@ -6,7 +6,10 @@
 	        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DiagnosisService', '$translate', 'UserService', 'MetaDataService',
 	function( $scope ,  $location ,  RunService ,  DiagnosisData ,  $mdDialog ,  DiagnosisService ,  $translate ,  UserService ,  MetaDataService) {
 	
-        $scope.isPreDiag = true;
+        var followUp = RunService.getFollowUp(),
+            isFollowUp = followUp != null && followUp != false;
+
+        $scope.isPreDiag = !isFollowUp; // Only show PreDiag when NOT in FollowUp-Mode
         $scope.forCurrentUser = true;
         $scope.isLoggedIn = UserService.isLoggedIn();
         $scope.user = UserService.getCurrentUser();
@@ -282,6 +285,10 @@
             $scope.currentQuestion = qData.question;
             $scope.revise = true;
         };
+
+        if ( !$scope.isPreDiag ) {
+            $scope.confirmPreDiag();
+        }
 	}]);
 	
 	pocketdocControllers.controller('diagnosisController',

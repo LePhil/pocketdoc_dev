@@ -4,11 +4,10 @@
 	        <md-card-content>
 	            <div ng-show="isFollowUp">
 	        		<h2>{{ 'diag_followUp_done' | translate }}</h2>
-	            	<p>{{diagnosis.short_desc}}</p>
 	            </div>
 	            
 	            <div ng-hide="isFollowUp">
-		            <h2>{{ 'diag_diagnosis' | translate }}: {{diagnosis.short_desc}}</h2>
+		            <h2>{{ 'diag_diagnosis' | translate }}</h2>
 	            </div>
 
 	            <p>{{diagnosis.description}}</p>
@@ -37,9 +36,7 @@
 
 	           <div ng-hide="isLoggedIn">
 		            <md-button flex="20" class="md-raised" ng-click="login()">{{ 'diag_followup_login' | translate }}</md-button>
-	           </div>
 
-	           <div ng-hide="isLoggedIn">
 		            <md-button flex="20" class="md-raised" ng-click="registerForFollowUp()">{{ 'diag_followup_register' | translate }}</md-button>
 	           </div>
 			</div>

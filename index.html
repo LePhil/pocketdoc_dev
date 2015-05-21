@@ -5,6 +5,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
 	<link rel="stylesheet" href="css/design.css">
@@ -19,6 +21,7 @@
 	<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
 	<script src="bower_components/angular-resource/angular-resource.min.js"></script>
 	<script src="bower_components/angular-translate/angular-translate.min.js"></script>
+	<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
 	<script src="bower_components/angular-messages/angular-messages.min.js"></script>
 
 	<!-- Angular Material Dependencies -->
@@ -37,88 +40,60 @@
 
 </head>
 
-<body layout="column">
-  	<div ng-controller="HeaderController" id="header">
+<body layout="column" ng-controller="HeaderController">
+  	<div id="header">
 		<md-toolbar>
 			<div id="headerbar" class="md-toolbar-tools">
-				<md-button class="md-icon-button white" aria-label="{{ 'header_back' | translate }}" ng-click="goToMain()" ng-show="location.url() != '/'">
+				<md-button class="md-icon-button white" aria-label="{{ 'header_menu' | translate }}" ng-click="goToMain()" ng-show="location.url() != '/'">
 					<md-icon md-svg-icon="images/icons/back.svg" class="s36"></md-icon>
 				</md-button>
+
+				<md-button class="md-icon-button white" aria-label="{{ 'header_back' | translate }}" ng-click="toggleMenu()" ng-show="location.url() === '/'">
+					<md-icon md-svg-icon="images/icons/menu.svg" class="s36"></md-icon>
+				</md-button>
+
 				<span flex></span>
-				<h2><span>{{ 'common_appname' | translate }}</span></h2>
+				<h2>{{ 'common_appname' | translate }}</h2>
 				<span flex></span>
-				<md-button class="md-icon-button white" aria-label="{{ 'header_settings' | translate }}" ng-click="toggleRight()" ng-show="location.url() == '/'">
+
+				<md-button class="md-icon-button white" aria-label="{{ 'header_settings' | translate }}" ng-click="showLoginDialog()" ng-show="location.url() == '/'">
 					<md-icon md-svg-icon="images/icons/settings.svg" class="s36"></md-icon>
 				</md-button>
 			</div>
 		</md-toolbar>
 	</div>
 
-	<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
-		<md-toolbar class="md-theme-light" ng-controller="HeaderController">
+	<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" layout="column">
+		<md-toolbar class="md-theme-light">
 			<div class="md-toolbar-tools">
-				<h1><span>{{ 'header_account' | translate }}</span></h1>
-				<span flex></span>
+				
 				<md-button class="md-icon-button white" aria-label="{{ 'header_close' | translate }}" ng-click="close()">
 					<md-icon md-svg-icon="images/icons/close.svg" class="s36"></md-icon>
 				</md-button>
+				
+				<span flex></span>
+				<h1>{{ 'header_furtherInformation' | translate }}</h1>
+			
 			</div>
 		</md-toolbar>
-		<md-content ng-controller="HeaderController" layout-padding>
+		<md-content layout-padding flex layout="column" layout-align="begin center">
 
-	        <div ng-hide="loggedIn">
-				<form novalidate>
-				  
-				<md-input-container>
-					<label for="testInput">{{ 'header_login_email' | translate }}</label>
-					<input type="text" id="testInput" ng-model="user.email" md-sidenav-focus>
-				</md-input-container>
+			<md-button ng-click="showAbout()" class="md-primary">{{ 'header_about' | translate }}</md-button>
 
-				<md-input-container class="pwContainer">
-					<label for="password">{{ 'header_login_password' | translate }}</label>
-					<input type="password" id="password" ng-model="user.password">
-				</md-input-container>
+			<md-button ng-click="showTerms()" class="md-primary">{{ 'header_terms' | translate }}</md-button>
 
-					<div layout="row" flex layout-align="end end" >
-						<md-button ng-click="forgotPassword()" class="forgotPassword">{{ 'header_forgotPassword' | translate }}</md-button>
-					</div>
-				</form>
-
-				<div layout="column" flex>
-					<md-button ng-click="login()" class="md-primary">{{ 'header_login' | translate }}</md-button>
-					<md-button ng-click="register()" class="md-primary">{{ 'header_register' | translate }}</md-button>
-				</div>
-
-			</div>
-			
-			<div ng-show="loggedIn">
-				<div layout="column" flex>
-					<md-button ng-click="profile()" class="md-primary">{{ 'header_profile' | translate }}</md-button>
-				</div>
+			<div layout="row" layout-align="center center" ng-hide="loggedIn">
+				<md-button class="md-icon-button" ng-repeat="language in languages" aria-label="{{language.nativeName}}" ng-click="changeLanguage( language.locale )" ng-class="{'md-primary md-raised': lang == language.locale }">
+					<md-icon md-svg-icon="images/icons/{{ language.locale }}.svg" class="s36"></md-icon>
+				</md-button>
 			</div>
 
-			<div layout="column" layout-align="center center" class="additionalActions" >
-				<div layout="row" flex layout-align="center center" ng-hide="loggedIn">
-					<md-button class="md-icon-button" ng-repeat="language in languages" aria-label="{{language.nativeName}}" ng-click="changeLanguage( language.locale )" ng-class="{'md-primary md-raised': lang == language.locale }">
-						<md-icon md-svg-icon="images/icons/{{ language.locale }}.svg" class="s36"></md-icon>
-					</md-button>
-				</div>
+			<md-button ng-click="resetForDemo()" class="md-primary">{{ 'header_reset' | translate }}</md-button>
 
-				<div layout="column" flex>
-					<md-button ng-click="resetForDemo()" class="md-primary">{{ 'header_reset' | translate }}</md-button>
-				</div>
-			</div>
-			
 		</md-content>
 	</md-sidenav>
 
-	<div layout="row" flex>
-		<div layout="column" flex id="content" ng-controller="HeaderController">
-			<md-content layout="column" flex class="md-padding" id="contentContainer">
-				<ng-view id="app" onload="resize();"></ng-view>
-			</md-content>
-		</div>
-	</div>
+	<ng-view id="app" layout="column" flex ng-class="{'mainPage' : location.url() === '/' }"></ng-view>
 
 </body>
 </html>

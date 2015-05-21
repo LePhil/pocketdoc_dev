@@ -3,20 +3,27 @@
 	var pocketdocControllers = angular.module('pocketdocControllers', ['pocketdocBackend', 'pocketdocServices', 'ngMessages']);
 
 	pocketdocControllers.controller('questionController',
-	        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DiagnosisService', '$translate', 'UserService',
-	function( $scope ,  $location ,  RunService ,  DiagnosisData ,  $mdDialog ,  DiagnosisService ,  $translate ,  UserService ) {
+	        ['$scope', '$location', 'RunService', 'DiagnosisData', '$mdDialog', 'DiagnosisService', '$translate', 'UserService', 'MetaDataService',
+	function( $scope ,  $location ,  RunService ,  DiagnosisData ,  $mdDialog ,  DiagnosisService ,  $translate ,  UserService ,  MetaDataService) {
 	
-        $scope.isPreDiag = true;
+        var followUp = RunService.getFollowUp(),
+            isFollowUp = followUp != null && followUp != false;
+
+        $scope.isPreDiag = !isFollowUp; // Only show PreDiag when NOT in FollowUp-Mode
         $scope.forCurrentUser = true;
+        $scope.isLoggedIn = UserService.isLoggedIn();
         $scope.user = UserService.getCurrentUser();
+        $scope.revise = false;
+        
+        $scope.languages = MetaDataService.getLanguages();
+        $scope.ageRanges = MetaDataService.getAgeRanges();
 
         $scope.changeCurrentUser = function( cur ) {
             $scope.forCurrentUser = cur;
 
             if ( cur ) {
                 // Get Data and display it, e.g. name
-                var current = UserService.getCurrentUser();
-                console.log( current );
+                $scope.user = UserService.getCurrentUser();
             } else {
                 // Remove Data from the currentUser
                 $scope.user = {}
@@ -29,6 +36,45 @@
         $scope.answeredQuestions = [];
 		
         /**
+         * Sets the gender of the to-be-registered user.
+         * 
+         * @param {Number}
+         * @author Roman Eichenberger, Philipp Christen
+         */
+		$scope.setGender = function(gender) {
+            $scope.user.gender = gender;
+		};
+
+        /**
+         * Changes the language of the to-be-registered user and tells the app
+         * to use this language from now on.
+         * 
+         * @param  {Number}
+         * @author Roman Eichenberger, Philipp Christen
+         */
+		$scope.changeLanguage = function(lang) {
+            UserService.updateLanguage(
+                {
+                    lang: lang
+                },
+                function(data){
+                    $translate.use( data.lang ).then(
+                        function ( lang ) {
+                            $scope.user.lang = lang;
+                            $scope.$root.$broadcast( "languageChange", lang );
+                        },
+                        function ( lang ) {
+                            console.log("Error occured while changing language");
+                        }
+                    );
+                },
+                function(error){
+                    alert(error);
+                }
+            );
+		};
+        
+        /**
          * Starts the actual run after saving the data for the current run.
          * 
          * @name confirmPreDiag
@@ -37,7 +83,10 @@
         $scope.confirmPreDiag = function() {
             $scope.isPreDiag = false;
 
+            //UserService.
+
             RunService.startRun(
+                $scope.user,
                 function( questionData ) {
                     // Success
                     $scope.currentQuestion = questionData;
@@ -110,6 +159,7 @@
         /**
          * Shows the "diagnosis found" dialog.
          * 
+         * @param  {[type]} givenAnswer      [description]
          * @param  {[type]} diagnosis        [description]
          * @param  {[type]} actionSuggestion [description]
          * @param  {jQuery.Event} ev [description]
@@ -133,6 +183,7 @@
                         $location.url("/diagnosis");
                         DiagnosisData.diagnosis = diagnosis;
                         DiagnosisData.actionSuggestion = actionSuggestion;
+                        DiagnosisData.userData = RunService.getUserData();
                     },
                     function( error ) {
                         alert( error );
@@ -144,36 +195,55 @@
         };
 
         $scope.showNewQuestion = function( givenAnswer ) {
-            RunService.answerQuestion(
-                {
-                    question: $scope.currentQuestion,
-                    answerId : givenAnswer.id
-                },
-                function( questionData ) {
-                    // Show new question
-                    $scope.currentQuestion = questionData;
-                    $scope.loading = false;
-                    $scope.hidden = false;  
-                },
-                function( message ) {
-                    // TODO: still show diagnosis if found, and supply the title of the content through the service as well...
-                    $scope.loading = false;
-                    // Error occured. Show Dialogue.
-                    $mdDialog.show(
-                        $mdDialog.alert()
-                            .title( $translate.instant('error_noMoreQuestions_title') )
-                            .content( message )
-                            .ariaLabel('Alert Dialog Demo')
-                            .ok( $translate.instant('common_ok') )
-                    ).finally( function() {
-                        $scope.goToMain();
-                    });
-                }
-            );			
+            
+            var success = function( questionData ) {
+                // Show new question
+                $scope.currentQuestion = questionData;
+                $scope.loading = false;
+                $scope.hidden = false;  
+            };
+            
+            var error = function( message ) {
+                // TODO: still show diagnosis if found, and supply the title of the content through the service as well...
+                $scope.loading = false;
+                // Error occured. Show Dialogue.
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .title( $translate.instant('error_noMoreQuestions_title') )
+                        .content( message )
+                        .ariaLabel('Alert Dialog Demo')
+                        .ok( $translate.instant('common_ok') )
+                ).finally( function() {
+                    $scope.goToMain();
+                });
+            };
+            
+            if (!$scope.revise)
+            {
+                RunService.answerQuestion(
+                    {
+                        question: $scope.currentQuestion,
+                        answerId : givenAnswer.id
+                    },
+                    success,
+                    error
+                );
+            }
+            else
+            {
+                RunService.changeAnswer(
+                    {
+                        questionId: $scope.currentQuestion.id,
+                        answerId: givenAnswer.id
+                    },
+                    success,
+                    error
+                );
+            }
         };
 
         /**
-         * Used clicked on a question that they already answered to answer
+         * User clicked on a question that they already answered to answer
          * it again.
          * 
          * @param  {Object} question
@@ -184,28 +254,44 @@
             var pos = qData.position;
             $scope.answeredQuestions.splice( pos, $scope.answeredQuestions.length-pos+1 );
 
-            // TODO: answers still get counted for the old currentQuestion...
-            // Fix in the simulator, don't just get the next question...
             $scope.currentQuestion = qData.question;
+            $scope.revise = true;
         };
+
+        // immediately start with Run if it's a followUp
+        if ( !$scope.isPreDiag ) {
+            $scope.confirmPreDiag();
+        }
 	}]);
 	
 	pocketdocControllers.controller('diagnosisController',
-            ['$scope', '$location', 'DiagnosisData', 'UserService', 'FollowupService', 'RunService',
-    function( $scope ,  $location ,  DiagnosisData ,  UserService ,  FollowupService ,  RunService ) {
+            ['$scope', '$location', 'DiagnosisData', 'FollowUpData', 'UserService', 'FollowupService', 'RunService', '$mdDialog',
+    function( $scope ,  $location ,  DiagnosisData ,  FollowUpData ,  UserService ,  FollowupService ,  RunService ,  $mdDialog ) {
 		
 		$scope.diagnosis = DiagnosisData.diagnosis;
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
         $scope.followUp = RunService.getFollowUp();
-        $scope.isFollowUp = $scope.followUp != null;
+        $scope.isFollowUp = $scope.followUp != null && $scope.followUp != false;
         $scope.isSameDiag = false;
         $scope.isLoggedIn = UserService.isLoggedIn();
 
-        if ( $scope.isFollowUp ) {
-            $scope.isSameDiag = $scope.diagnosis.id === $scope.followUp.oldDiagnosis;
-        }
 
         $scope.goToMain = function() { $location.url('/'); };
+
+        /**
+         * User wants to register for a followUp. If they're already logged in,
+         * that's alright, otherwise the login-dialogue gets shown.
+         *
+         * @name acceptFollowUp
+         * @author Philipp Christen
+         */
+        $scope.acceptFollowUp = function() {
+            if ( $scope.isLoggedIn ) {
+                $scope.addFollowUp();
+            } else {
+                $scope.showLoginDialog();
+            }
+        };
 
         /**
          * add a follow-up to the existing ones for the current user.
@@ -222,26 +308,81 @@
             var userID = UserService.getCurrentUser().id;
 
             if ( userID > -1 ) {
-                var followUpData = {
-                    "user": userID,
-                    "oldDiagnosis": $scope.diagnosis.id,
-                    "oldActionSuggestion": $scope.actionSuggestion.id,
-                    "startQuestion": 5,  // TODO get correct q,
-                    "timeAdded": Date.now()
-                };
-
+                var followUpData = $scope.getFollowUpData();
+                followUpData.user = userID;
+                followUpData.newest = true;
+                
                 FollowupService.registerFollowup( followUpData );
                 $location.url('/');
+            } else {
+                console.log( "Error: not logged in" );
             }
+        };
+        
+        $scope.getFollowUpData = function(){
+            return {
+                "oldDiagnosis": $scope.diagnosis.id,
+                "oldActionSuggestion": $scope.actionSuggestion.id,
+                "startQuestion": 5,  // TODO get correct q,
+                "timeAdded": Date.now()
+            };  
+        };
+
+
+        /**
+         * Mini-Controller for the Login-Dialgue
+         * 
+         * @param {[type]} $scope    [description]
+         * @param {[type]} $mdDialog [description]
+         */
+        var LoginController = function($scope, $mdDialog) {
+            $scope.loginDialogCancel = function() { $mdDialog.cancel(); };
+            
+            $scope.loginDialogRegister = function() { $mdDialog.hide( true ); };
+
+            $scope.loginDialogSubmit = function() {
+                UserService.loginUser(
+                    {
+                        email : $scope.user.email,
+                        password : $scope.user.password 
+                    },
+                    function( data ) {
+                        $scope.$root.$broadcast("login", data);
+
+                        $mdDialog.hide( false );
+                    },
+                    function( error ) {
+                        console.log( error );
+                    }
+                );
+            };
         };
 
         /**
-         * TODO !
-         * [registerForFollowUp description]
-         * @return {[type]} [description]
+         * Shows the login dialogue.
+         *
+         * @name login
+         * @author Philipp Christen
          */
-        $scope.registerForFollowUp = function() {
-            // $location.url("/registration");
+        $scope.showLoginDialog = function() {
+            $mdDialog.show({
+                controller: LoginController,
+                templateUrl: '../partials/loginDialog.html',
+                clickOutsideToClose: true
+            })
+            .then( function( goToRegistration ) {
+                $scope.isLoggedIn = UserService.isLoggedIn();
+
+                if ( goToRegistration ) {
+                    FollowUpData.data = $scope.getFollowUpData();
+                    FollowUpData.userData = DiagnosisData.userData;
+                    $location.url("/registration");
+                } else {
+                    $scope.addFollowUp();
+                }
+            }, function() {
+                console.log( "error" );
+            });
         };
 	}]);
 	
@@ -253,9 +394,10 @@
      * @author Roman Eichenberger, Philipp Christen
      */
 	pocketdocControllers.controller('registrationController',
-            ['$scope', '$location', '$translate', '$mdDialog', 'UserService', 'MetaDataService',
-    function( $scope ,  $location ,  $translate ,  $mdDialog ,  UserService ,  MetaDataService ) {
+            ['$scope', '$location', '$translate', '$mdDialog', 'FollowUpData', 'UserService', 'FollowupService', 'MetaDataService',
+    function( $scope ,  $location ,  $translate ,  $mdDialog ,  FollowUpData ,  UserService ,  FollowupService ,  MetaDataService ) {
 		
+        $scope.acceptedTerms = false;
 		$scope.isProfile = UserService.getCurrentUser().id >= 0;
         $scope.languages = MetaDataService.getLanguages();
         $scope.ageRanges = MetaDataService.getAgeRanges();
@@ -263,18 +405,24 @@
 		$scope.user = UserService.getCurrentUser();
 		var oldEmail = $scope.user.email;
 		
+        if (typeof(FollowUpData.userData) !== 'undefined')
+        {
+            $scope.user = _.extend($scope.user, FollowUpData.userData);
+            delete FollowUpData.userData;
+        }
+        
 		if ($scope.isProfile) {
 			$scope.user.password = "";
         }
 		
 		$scope.checkEmail = function(){
-			if ($scope.isProfile)
+			if ( $scope.isProfile ) {
 				$scope.checkPassword();
+            }
 			
-			if ($scope.isProfile && oldEmail === $scope.user.email){
+			if ( $scope.isProfile && oldEmail === $scope.user.email ) {
 				$scope.registrationForm.email.$setValidity('used', true);
-			}
-			else{
+			} else {
 				UserService.isEmailInUse(
 					{
 						email: $scope.user.email
@@ -290,17 +438,18 @@
 		};
 		
 		$scope.checkPassword = function(){
-			if ($scope.isProfile){
+			if ( $scope.isProfile ) {
 				var oldPw = $scope.user.oldPassword;
 				var newPw = $scope.user.newPassword;
-				var valid = (typeof(oldPw) !== "undefined" && oldPw !== "") || ((typeof(newPw) === "undefined" || newPw === "") && $scope.user.email === oldEmail);
+				var valid = ( typeof(oldPw) !== "undefined" && oldPw !== "") 
+                         || ((typeof(newPw) === "undefined" || newPw === "")
+                         && $scope.user.email === oldEmail);
 				$scope.registrationForm.oldPassword.$setValidity('req', valid);
-			}
-			else{
-				$scope.registrationForm.password.$setValidity('req', password.value !== "");
+			} else {
+				$scope.registrationForm.regPassword.$setValidity('req', regPassword.value !== "");
 			}
 		};
-		
+
         /**
          * Sets the gender of the to-be-registered user.
          * 
@@ -349,23 +498,67 @@
 		};
 		
         /**
-         * [registerClick description]
-         * @return {[type]}
-         * @author Roman Eichenberger
+         * Click on Register --> Ask user if the email-address is correct.
+         * If so, register this user, if not, close dialog and wait.
+         * 
+         * @author Philipp Christen
          */
 		$scope.registerClick = function() {
-			UserService.createUser(
-				$scope.user,
-				function( data ) {
-					$scope.$root.$broadcast("login", data);
-					$location.url('/');
-				},
-				function( error ) {
-					alert( error );
-				}
-			);
+            var email = $scope.user.email;
+
+            var confirm = $mdDialog.confirm()
+                .title( $translate.instant('reg_correctMail_title') )
+                .content( $translate.instant('reg_correctMail_content', { mail: email }) )
+                .ariaLabel( $translate.instant('reg_correctMail_title') )
+                .ok( $translate.instant('common_yes') )
+                .cancel( $translate.instant('common_no') )
+                .clickOutsideToClose(false);
+
+            $mdDialog.show( confirm ).then(
+                function() {
+                    $scope.register();
+                },
+                function() {
+                }
+            );
 		};
+
+        /**
+         * Actually registers a new user.
+         * 
+         * @author Roman Eichenberger, Philipp Christen
+         */
+        $scope.register = function() {
+            UserService.createUser(
+                $scope.user,
+                function( data ) {
+                    $scope.$root.$broadcast("login", data);  
+                    
+                    if (typeof(FollowUpData.data) !== 'undefined' )
+                    {
+                        FollowUpData.data.user = data.id;
+                        FollowupService.registerFollowup(
+                            FollowUpData.data,
+                            function(data){},
+                            function(error){
+                                alert(error);
+                            }
+                        );
+                    }
+                    
+                    $location.url('/');
+                },
+                function( error ) {
+                    alert( error );
+                }
+            );
+        };
 		
+        /**
+         * User clicks on "Save" which should save the changes made on the user
+         * 
+         * @author Roman Eichenberger, Philipp Christen
+         */
 		$scope.saveClick = function(){
 			UserService.updateUser(
 				$scope.user,
@@ -379,6 +572,12 @@
 			);
 		};
 		
+        /**
+         * User clicks on "Delete Profile" which asks the user if they're
+         * serious and if so, deletes the profile.
+         * 
+         * @author Roman Eichenberger, Philipp Christen
+         */
 		$scope.deleteClick = function(){
 			
 			var confirm = $mdDialog.confirm()
@@ -429,15 +628,21 @@
 	}]);
 	
 	pocketdocControllers.controller('mainController',
-           [ '_', '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', '$mdDialog', 'DiagnosisService', '$interval', 
-    function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ,  DiagnosisService ,  $interval ) {
+           [ '_', '$scope', '$location', '$http', '$translate', 'UserService', 'FollowupService', '$mdDialog', 'DiagnosisService', '$interval', 'RunService',  
+    function( _ ,  $scope ,  $location ,  $http ,  $translate ,  UserService ,  FollowupService ,  $mdDialog ,  DiagnosisService ,  $interval ,  RunService ) {
 		
         $scope.followUps = [];
 
         $scope.hasNoFollowUps = function() { return _.isEmpty( $scope.followUps ); }
 
+        /**
+         * Run has to be told that there's NO followUp.
+         * This can be solved differently (TODO)
+         *
+         */
         $scope.run = function() {
-		  $location.url('/run');
+            RunService.setFollowUp( null );
+            $location.url('/run');
 		};
 		
 		$scope.$on( "login", function( event, data ) {
@@ -532,18 +737,18 @@
 
         /**
          * Calculates the age of the followUp and returns true if it's less
-         * than 4 hours.
+         * than 3 hours.
          * 
          * @param  {Timestamp}  timeAdded
          * @return {Boolean}
          * @author Philipp Christen
          */
         $scope.isFollowUpReady = function( timeAdded ) {
-            return new Date() - timeAdded > 4*60*60 *1000;
+            return new Date() - timeAdded > 3*60*60 *1000;
         };
 
         $scope.getRemainingTime = function( timeAdded ) {
-            return timeAdded + 4*60*60*1000 - new Date();
+            return timeAdded + 3*60*60*1000 - new Date();
         };
 
         /**
@@ -574,37 +779,44 @@
         } else {
             $scope.handleLogout();
         }
+
+        // Animate the newest followUp and mark it as read.
+        if ( !$scope.hasNoFollowUps() ) {
+            _.each( $scope.followUps, function( fUp ) {
+                if ( fUp.newest ) {
+                    FollowupService.markAsRead( fUp.id );
+                }
+            });
+        }
 	}]);
 
     pocketdocControllers.controller('HeaderController',
-            ['$scope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService',
-    function( $scope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ) {
-			
-        $scope.lang = UserService.getCurrentUser().lang;
+            ['$scope', '$rootScope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService', '$cookies',
+    function( $scope ,  $rootScope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ,  $cookies ) {
+		
+        $scope.lang = UserService.getLang();
         $scope.languages = MetaDataService.getLanguages();
 		$scope.location = $location;
 		
-		// Resize handler to calculate layout
-		$scope.resize = function(){
-			var height = window.innerHeight;
-			var footerHeight = $('#footer').height();
-			var headerHeight = $('#header').height();
-			$('#partialContent').css('marginBottom', footerHeight);
-		}
-		
-		window.onresize = $scope.resize();
-		
 		$scope.$on( "login", function( event, data ) {
-			$scope.loggedIn = true;
-			$scope.lang = UserService.getCurrentUser().lang;
-			$translate.use( $scope.lang );
-		});
-		
-		$scope.$on( "logout", function( event, data ) {
-			$scope.loggedIn = false;
-			$scope.lang = UserService.getCurrentUser().lang;
-			$translate.use( $scope.lang );
-		});
+            handleLogin( data );
+        });
+        
+        $scope.$on( "logout", function( event, data ) {
+            handleLogout( data );
+        });
+
+        var handleLogin = function( data ) {
+            $scope.loggedIn = true;
+            $scope.lang = UserService.getLang();
+            $translate.use( $scope.lang );
+        };
+
+        var handleLogout = function( data ) {
+            $scope.loggedIn = false;
+            $scope.lang = UserService.getLang();
+            $translate.use( $scope.lang );
+        };
 
         $scope.$on( "languageChange", function( event, lang ) {
             $scope.lang = lang;
@@ -636,7 +848,7 @@
 			);
         };
 
-        $scope.toggleRight = buildToggler('right');
+        $scope.toggleMenu = buildToggler('left');
         
         // Build handler to open/close a SideNav
         function buildToggler( navID ) {
@@ -647,38 +859,12 @@
         }
 
         $scope.close = function () {
-            $mdSidenav('right').close()
-            .then(function () {
-                $log.debug("close RIGHT is done");
-            });
+            $mdSidenav('left').close().then(function () {});
         };
 
         $scope.profile = function() {
             $scope.close();
             $location.url("/profile");
-        };
-
-        $scope.login = function() {
-        	UserService.loginUser(
-				{
-					email : $scope.user.email,
-					password : $scope.user.password 
-				},
-				function( data ) {
-					$scope.close();
-					$scope.loggedIn = true;
-					$scope.user = {};
-					$scope.$root.$broadcast("login", data);
-				},
-				function( error ) {
-					alert( error );
-				}
-			);
-        };
-
-        $scope.register = function() {
-			$scope.close();
-            $location.url("/registration");
         };
 
         /**
@@ -726,6 +912,66 @@
         };
 
         /**
+         * Shows the Dialogue for logging in or registering.
+         * 
+         * @name showLoginDialog
+         * @author Philipp Christen
+         */
+        $scope.showLoginDialog = function() {
+            if ( $scope.loggedIn ) {
+                $scope.profile();
+            } else {
+                $mdDialog.show({
+                    controller: 'HeaderController',
+                    templateUrl: '../partials/loginDialog.html',
+                    clickOutsideToClose: true
+                })
+                .then( function() {
+                    $scope.isLoggedIn = UserService.isLoggedIn();
+                }, function() {
+                    console.log( "error" );
+                });
+            }
+        };
+
+        $scope.loginDialogCancel = function() {
+            $mdDialog.cancel();
+        };
+        
+        $scope.loginDialogRegister = function() {
+            $mdDialog.hide();
+            $location.url("/registration");
+        };
+
+        $scope.loginDialogSubmit = function() {
+            $scope.loginForm.loginEmail.$setValidity('notFound', true);
+            $scope.loginForm.loginPassword.$setValidity('wrong', true);
+            
+            UserService.loginUser(
+                {
+                    email : $scope.user.email,
+                    password : $scope.user.password 
+                },
+                function( data ) {
+                    $mdDialog.hide();
+                    $scope.loggedIn = true;
+                    $scope.user = {};
+                    $scope.$root.$broadcast("login", data);
+                },
+                function( error ) {
+                    if (error.errorType == 0)
+                        $scope.loginForm.loginEmail.$setValidity('notFound', false);
+                    else if (error.errorType == 1)
+                        $scope.loginForm.loginPassword.$setValidity('wrong', false);
+                    else
+                        console.log( error.message );
+                        
+                    $scope.login_error = error.message;
+                }
+            );
+        };
+
+        /**
          * Mini-Controller for Custom Dialog, provides some simple methods.
          * 
          * @param {[type]} $scope           [description]
@@ -744,7 +990,7 @@
          * @author Philipp Christen
          */
         $scope.forgotPassword = function() {
-            $scope.close();
+            $mdDialog.hide();
             $mdDialog.show({
                 controller: ForgotPasswordController,
                 templateUrl: '../partials/forgotPasswordDialog.html',
@@ -757,6 +1003,53 @@
                 // TODO
             });
         };
+        
+        /**
+         * Shows the About screen.
+         * 
+         * @author Roman Eichenberger
+         */
+        $scope.showAbout = function(){
+            $scope.close();
+            $location.url("/about");
+        };
+        
+        /**
+         * Shows the Terms screen
+         * 
+         * @author Roman Eicheberger
+         */
+        $scope.showTerms = function(){
+            $scope.close();
+            $location.url("/terms");
+        };
+
+        /**
+         * Gets triggered on start
+         *
+         * @name start
+         * @author Philipp Christen
+         */
+        var start = function() {
+            var existingUser = UserService.getCurrentUser();
+
+            if ( existingUser.id === -1 ) {
+                var cookieUser = $cookies.pocketDocUser;
+                
+                if ( cookieUser && cookieUser !== "null" ) {
+                    cookieUser = angular.fromJson( cookieUser );
+
+                    UserService.loginUser(
+                        cookieUser,
+                        function( data ) {
+                            $scope.$root.$broadcast("login", data);
+                        },
+                        function( error ) { console.log( error); }
+                    );
+                }
+                
+            }
+        }();
     }]);
 
 })();

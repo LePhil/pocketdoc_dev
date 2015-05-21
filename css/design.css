@@ -1,3 +1,12 @@
+/* fixed header */
+#header {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index: 10;
+}
+
 #logo {
 	height: 250px;
 	width:	250px;
@@ -27,16 +36,29 @@ md-list {
 }
 
 html {
-	background-image: url("../images/agsquare.png");
+	background-color: white;
 }
 
-#app {
+#app, #mainRun {
 	width: 100%;
 	max-width: 960px;
 	margin: 0 auto;
 }
+#app {
+	margin-top: 64px;
+}
 
-#mainRun {
+.mainPage .partialContent {
+	margin-bottom: 68px;
+}
+
+#footer {
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	height: 68px;
+	left: 0px;
+	background-color: white; 
 }
 
 .md-icon-button .s36 {
@@ -44,8 +66,8 @@ html {
 	height: 36px;
 }
 
-#languageBar button {
-	z-index: 1;
+.md-icon-button .faintIcon {
+	opacity: 0.8;
 }
 
 h1{
@@ -82,9 +104,6 @@ h1{
   color: #939393;
 }
 
-#followUpList {
-	max-height: 500px;
-}
 .followUp {
 	margin: 10px 0;
 	border-bottom: 1px solid #DDD;
@@ -100,29 +119,12 @@ h1{
 	color: rgb(210, 210, 210);
 }
 
-#partialContent{
-
+.partialContent{
+	overflow: auto;
 }
 
-#footer{
-	background: white;
-	position: fixed;
-	bottom: 0;
-	right: 8px;
-	left: 0px;
-	z-index: 1;
-}
-
-@media (min-width: 600px){
-	#footer {
-	  right: 16px;
-	}
-}
-
-#footerContent{
-	margin: 0 auto;
-	max-width: 960px;
-	width: 100%;
+.currentQuestion{
+	min-height: 80px;
 }
 
 .pwContainer {
@@ -132,6 +134,8 @@ h1{
 .forgotPassword {
 	text-decoration: underline;
 	font-size: 0.75em;
+	cursor: pointer;
+	cursor: hand;
 }
 
 .additionalActions {
@@ -139,4 +143,50 @@ h1{
 	bottom: 5px;
 	right: 5px;
 	left: 5px;
+}
+
+.md-dialog-container {
+	position: fixed;
+	top: 0px !important;
+}
+.md-backdrop {
+	position: fixed;
+}
+
+.smallHeader h2 {
+	margin: 2px;
+	line-height: 18px;
+	font-size: 18px;
+}
+
+.smallHeader .close {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+}
+
+@media all and (max-height: 500px) {
+    .smallHeader {
+        display:none;
+    }
+}
+
+
+.newly-added {
+  animation: flyin 1.2s ease forwards;
+  opacity: 0;
+  transform: scale(2);
+  filter: blur(4px);
+}
+
+@keyframes flyin {
+   to { 
+     filter: blur(0);
+     transform: scale(1);
+     opacity: 1;
+   }
+}
+
+.acceptTermsCheckbox.md-warn {
+	color: rgb(244,67,54);
 }

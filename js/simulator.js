@@ -2,17 +2,7 @@
 
 	var backend = angular.module('pocketdocBackend', ['pocketdocData']);
 	
-	backend.factory('UserService', ['_', 'DataService',	function( _ ,  DataService){
-
-		// on startup, save the fake data to the localstorage 
-		if ( !localStorage.getItem("users") ) {
-			localStorage.setItem( "users", angular.toJson( DataService.users() ) );
-		}
-
-		var currentUser = {
-			id : -1,
-			lang : 'de'
-		};
+	backend.factory('UserService', ['_', 'DataService', '$cookies', function( _ ,  DataService, $cookies ){
 
 		var isLoggedIn = function() {
 			return currentUser.id !== -1;
@@ -35,10 +25,12 @@
 				
 				localStorage.setItem( "users", angular.toJson( users ) );
 				
-				currentUser = data;
-				delete currentUser.password;
-				
-				success( data );
+ 				currentUser = data;
+ 				
+				login( data, function(){}, function(){} );
+
+ 				delete currentUser.password;
+ 				success( data );
 			}
 		};
 		
@@ -58,6 +50,8 @@
 		
 		// TODO: refactor (e.g. only grep once)
 		var update = function( data, success, error ) {
+			debugger;
+
 			var users = JSON.parse(localStorage.getItem("users"));
 			var user = $.grep(users, function(e){ return e.id == data.id; })[0];
 			
@@ -77,11 +71,17 @@
 			delete data.oldPassword;
 			
 			users = $.grep(users, function(e){ return e.id != data.id; });
-			users.push(data);
+
+			var changedUser = buildUserObject( data );
+			debugger;
+
+			users.push( changedUser );
 			
 			localStorage.setItem( "users", angular.toJson(users) );
 			
-			currentUser = data;
+			debugger;
+
+			currentUser = changedUser;
 			delete currentUser.password;
 			
 			success({
@@ -105,6 +105,8 @@
 					id: -1,
 					lang: currentUser.lang
 				}
+
+				clearSession();
 				
 				success({
 					name : name
@@ -116,23 +118,45 @@
 		
 		// TODO: refactor
 		var login = function( data, success, error ) {
+			if ( !data || ( !data.session && !data.email ) ) {
+				error({
+					errorType: 2,
+					message: "Not allowed to log in"
+				});
+				return;
+			}
+
 			var users = JSON.parse( localStorage.getItem("users") ) || {},
 				user = $.grep( users, function( e ){
 					// check if user exists by comparing the emails.
 					return e.email == data.email;
 				} );
 
-			if (!user || user.length === 1){
-				if (data.password === user[0].password){
+			// Only continue if user exists at all
+			if ( user.length === 1 ){
+
+				if ( hasValidSession( data ) || data.password === user[0].password ){
 					currentUser = user[0];
 					delete currentUser.password;
 					
+					saveUserSession( currentUser );
+
 					success( currentUser );
 				} else {
-					error("Falsches Passwort!");
+					error(
+						{
+							errorType: 1,	// Type wrong password
+							message: "Falsches Passwort!"
+						}
+					);
 				}
 			} else {
-				error("Benutzer nicht gefunden");
+				error(
+					{
+						errorType: 0,	// Type user not found
+						message: "Benutzer nicht gefunden"
+					}
+				);
 			}
 		};
 		
@@ -144,6 +168,8 @@
 				id : -1,
 				lang : currentUser.lang,
 			};
+
+			clearSession();
 			
 			success({name : userName});
 		};
@@ -153,7 +179,7 @@
 		};
 		
 		var getCurrent = function(){
-			return currentUser;
+			return Object.create(currentUser);
 		};
 		
 		var updateLang = function( data, success, error ) {
@@ -176,7 +202,105 @@
 				success({ inUse: user.length !== 0 });
 			}
 		};
+
+		/**
+		 * Create arbitrary sessionID. For demonstration purposes, we create a 
+		 * date that's 24 hours in the future. This is the time in which the
+		 * session is valid.
+		 * It's suggested that this is handled on the server, in non-visible
+		 * code and with security in mind.
+		 *
+		 * @name getSesstion
+		 * @param  {Object} userData [description]
+		 * @return {String}
+		 * @author Philipp Christen
+		 */
+		var getSession = function( userData ) {
+			var validity = new Date();
+				validity.setDate( validity.getDate() + 1 /*days*/ );    
+
+			return validity.toString();
+		};
+
+		var hasValidSession = function( data ) {
+			return data.session && new Date( data.session ) >= new Date();
+		};
+
+		var saveUserSession = function( userData ) {
+            var toBeSaved = {};
+            angular.extend( toBeSaved, userData, { session: getSession( userData ) } );
+
+            $cookies.pocketDocUser = angular.toJson( toBeSaved );
+		};
+
+		/**
+		 * Clears a session ID. Should propagate to the backend.
+		 * 
+		 * @author Philipp Christen
+		 */
+		var clearSession = function() {
+			$cookies.pocketDocUser = null;
+		}
+
+		/**
+		 * The user's language is used often, without need for the whole user.
+		 * This returns their language or the default value, if necessary.
+		 *
+		 * @name getLang
+		 * @return {String} language locale
+		 * @author Philipp Christen
+		 */
+		var getLang = function() {
+			if ( currentUser.lang && typeof( currentUser.lang ) !== "undefined" ) {
+				return currentUser.lang;
+			} else {
+				return getDefaultLang();
+			}
+		};
+
+		/**
+		 * Angular sometimes moves properties into an object's prototype so
+		 * that they're not copied anymore. Here we take potentially incomplete
+		 * data and generate a complete user object with all its properties.
+		 *
+		 * @name buildUserObject
+		 * @param  {Object} data
+		 * @return {Object}
+		 * @author Philipp Christen
+		 */
+		var buildUserObject = function( data ) {
+			return {
+				id: data.id,
+				password: data.password,
+				lang: data.lang || getDefaultLang(),
+				email: data.email,
+				name: data.name,
+				gender: data.gender,
+				age_category: data.age_category
+			}
+		};
+
+		/**
+		 * If all else fails, return German as the default language.
+		 *
+		 * @name getDefaultLang
+		 * @return {String}
+		 * @author Philipp Christen
+		 */
+		var getDefaultLang = function() {
+			return 'de';
+		}
 		
+		// on startup, save the fake data to the localstorage 
+		if ( !localStorage.getItem("users") ) {
+			localStorage.setItem( "users", angular.toJson( DataService.users() ) );
+		}
+
+		var currentUser = {
+			id : -1,
+			lang : getDefaultLang()
+		};
+
 		return {
 			createUser : create,
 			getUser : get,
@@ -188,7 +312,9 @@
 			getCurrentUser : getCurrent,
 			updateLanguage : updateLang,
 			isEmailInUse : isInUse,
-			isLoggedIn: isLoggedIn
+			isLoggedIn: isLoggedIn,
+			getSession: getSession,
+			getLang: getLang
 		};
 	}]);
 	
@@ -222,29 +348,36 @@
 			 'UserService', 'DataService', 'UtilService', '$translate', 
 	function( UserService,   DataService,   UtilService ,  $translate ){
 		
-		var nextQuestions = [],
-		    currentQuestion,
-			followUp = null;
+		var run = {};
+		var	nextQuestions = [];
+		var	currentQuestion = null;
+		var	followUp = null;
+		var	user = null;
+
 		
 		
 		/**
 		 * First question of a run is the question with the ID 0.
 		 * If it's a followUp, it's of course the question that was defined
 		 * as the startquestion in the followUp.
-		 * 
+		 *
+		 * @name start
+		 * @param {Object} userData Data concerning the user that is the subject of the diagnosis
 		 * @param  {Function} success
 		 * @param  {Function} error
+		 * @author Philipp Christen
 		 */
-		var start = function( success, error ) {
+		var start = function( userData, success, error ) {
 			var startQuestionID = 0,
 				qData = {};
+			// TODO: handle userData
+			user = userData;
 
 			if ( followUp !== null ) {
 				startQuestionID = followUp.startQuestion;
 			}
 
 			qData.id = startQuestionID;
-
 			getQ( qData, success, error );
 		};
 		
@@ -281,8 +414,9 @@
 			currentQuestion = firstQuestion;
 			
 			// Set Question Text 
-			var langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
+			var langId = UtilService.getIdByLocale(UserService.getLang(), DataService.languages());
 			var questionText = UtilService.getCurrentLanguageObject(langId, firstQuestion.description);
+			questionResult.id = questionData.id;
 			questionResult.description = questionText.text;
 			
 			// Set Answer Texts
@@ -307,10 +441,30 @@
 
 		var addDiagnosis = function( data, success, error ) {
 
-		}
+		};
 		
 		var change = function( data, success, error ) {
-			// TODO
+			getQ(
+				{
+					id: data.questionId
+				},
+				function(questionData){
+					answerQ(
+						{
+							answerId: data.answerId
+						},
+						function(answerData){
+							success(answerData);
+						},
+						function(errorMsg){
+							error(errorMsg);
+						}
+					);
+				},
+				function(errorMsg){
+					error(errorMsg);
+				}
+			);
 		};
 		
 		var acceptDiag = function( data, success, error ) {
@@ -336,8 +490,13 @@
 		};
 
 		var getFollowUp = function() {
+			followUp = typeof(followUp) === "undefined" ? false : followUp;
 			return followUp;
-		}
+		};
+		
+		var getUser = function(){
+			return user;	
+		};
 		
 		return {
 			startRun : start,
@@ -346,13 +505,14 @@
 			changeAnswer : change,
 			acceptDiagnosis : acceptDiag,
 			setFollowUp: setFollowUp,
-			getFollowUp: getFollowUp
+			getFollowUp: getFollowUp,
+			getUserData: getUser
 		};
 	}]);
 
 	backend.factory('DiagnosisService', ['DataService', 'UtilService', 'UserService', function( DataService, UtilService, UserService ){
 
-		var langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
+		var langId = UtilService.getIdByLocale(UserService.getLang(), DataService.languages());
 				
 		var getAll = function(success, error ) {
 			// TODO?
@@ -363,7 +523,7 @@
 			var diagnosisData = {};
 
 			// Get current language again
-			langId = UtilService.getIdByLocale(UserService.getCurrentUser().lang, DataService.languages());
+			langId = UtilService.getIdByLocale(UserService.getLang(), DataService.languages());
 			
 			// Set diagnosis
 			diagnosisData.diagnosis = getDiagByID( diagID );
@@ -512,7 +672,7 @@
 			var followUps = _.filter( getAll(), function( fUp ){
 				return fUp.user === userID;
 			});
-			return followUps;
+			return followUps.reverse();
 		};
 
 		/**
@@ -522,6 +682,28 @@
 		 */
 		var getStartQuestion = function( followUpID ) {
 			return getByID( followUpID ).startQuestion;
+		};
+
+		/**
+		 * Marks a new followUp as read.
+		 * 
+		 * @param  {Number} fUpID
+		 * @author Philipp Christen
+		 */
+		var markAsRead = function( fUpID ) {
+			var followUps = getAll(),
+				fUpToChange = getByID( fUpID );
+
+			// removes the followUp with the passed ID
+			followUps = _.reject( followUps, function(fUp){
+				return fUp.id === fUpID;
+			});
+			fUpToChange.newest = false;
+			
+			followUps.push( fUpToChange );
+
+			save( followUps );
+
 		};
 
 
@@ -537,7 +719,8 @@
 			deleteFollowup : del,
 			getFollowupsForUser : getByUserID,
 			getAll: getAll,
-			getByID: getByID
+			getByID: getByID,
+			markAsRead: markAsRead
 		};
 	}]);
 

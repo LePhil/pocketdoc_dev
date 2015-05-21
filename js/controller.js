@@ -769,10 +769,11 @@
             $scope.handleLogout();
         }
 
+        // Animate the newest followUp and mark it as read.
         if ( !$scope.hasNoFollowUps() ) {
             _.each( $scope.followUps, function( fUp ) {
                 if ( fUp.newest ) {
-                    fUp.newest = false;
+                    FollowupService.markAsRead( fUp.id );
                 }
             });
         }

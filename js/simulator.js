@@ -275,7 +275,8 @@
 				lang: data.lang || getDefaultLang(),
 				email: data.email,
 				name: data.name,
-				gender: data.gender
+				gender: data.gender,
+				age_category: data.age_category
 			}
 		};
 
@@ -683,6 +684,28 @@
 			return getByID( followUpID ).startQuestion;
 		};
 
+		/**
+		 * Marks a new followUp as read.
+		 * 
+		 * @param  {Number} fUpID
+		 * @author Philipp Christen
+		 */
+		var markAsRead = function( fUpID ) {
+			var followUps = getAll(),
+				fUpToChange = getByID( fUpID );
+
+			// removes the followUp with the passed ID
+			followUps = _.reject( followUps, function(fUp){
+				return fUp.id === fUpID;
+			});
+			fUpToChange.newest = false;
+			
+			followUps.push( fUpToChange );
+
+			save( followUps );
+
+		};
+
 
 		// on startup, save the fake data to the localstorage if that hasn't
 		// happened already
@@ -696,7 +719,8 @@
 			deleteFollowup : del,
 			getFollowupsForUser : getByUserID,
 			getAll: getAll,
-			getByID: getByID
+			getByID: getByID,
+			markAsRead: markAsRead
 		};
 	}]);
 

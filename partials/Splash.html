@@ -3,7 +3,7 @@
 		<div layout="row">
 			<img id="logo" ng-class="{'smaller' : loggedIn }" src="images/PocketDocMaskottchen.jpg">
 		</div>
-		<div layout="column" ng-hide="loggedIn" flex>
+		<div ng-hide="loggedIn" flex>
 			<h2>{{ 'main_welcome' | translate }}</h2>
 			<h3>{{ 'main_intro_salutation' | translate }}</h3>
 			<p>{{ 'main_intro_short' | translate }}</p>

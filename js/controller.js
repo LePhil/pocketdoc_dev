@@ -729,18 +729,18 @@
 
         /**
          * Calculates the age of the followUp and returns true if it's less
-         * than 4 hours.
+         * than 3 hours.
          * 
          * @param  {Timestamp}  timeAdded
          * @return {Boolean}
          * @author Philipp Christen
          */
         $scope.isFollowUpReady = function( timeAdded ) {
-            return new Date() - timeAdded > 4*60*60 *1000;
+            return new Date() - timeAdded > 3*60*60 *1000;
         };
 
         $scope.getRemainingTime = function( timeAdded ) {
-            return timeAdded + 4*60*60*1000 - new Date();
+            return timeAdded + 3*60*60*1000 - new Date();
         };
 
         /**

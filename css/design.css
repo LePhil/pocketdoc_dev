@@ -48,7 +48,7 @@ html {
 	margin-top: 64px;
 }
 
-#app.mainPage {
+.mainPage .partialContent {
 	margin-bottom: 68px;
 }
 

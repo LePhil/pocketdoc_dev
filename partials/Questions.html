@@ -13,7 +13,7 @@
 				<div ng-show="loggedIn">
 					<div class="profile-subtitle">{{ 'preDiag_forMeOrNot' | translate }}</div>
 
-					<div layout="row" class="profile-row">
+					<div layout="row" class="profile-row" layout-sm="column">
 						<md-button flex class="md-raised" ng-click="changeCurrentUser(true)" ng-class="{'md-primary': forCurrentUser}">
 							{{ 'preDiag_forMe' | translate }}
 						</md-button>
@@ -39,7 +39,7 @@
 
 						<div class="profile-subtitle">{{ 'reg_sex' | translate }}:</div>
 
-						<div layout="row" class="profile-row">
+						<div layout="row" class="profile-row" layout-sm="column">
 							<md-button id="gender-button-male" flex class="md-raised registration-button" ng-click="setGender(0)" ng-class="{'md-primary': user.gender == 0}">
 								<md-icon md-svg-icon="images/icons/gender-male.svg"></md-icon>
 								<span>{{ 'reg_sex_male' | translate }}</span>

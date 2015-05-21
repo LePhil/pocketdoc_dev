@@ -397,7 +397,8 @@
         $scope.showLoginDialog = function() {
             $mdDialog.show({
                 controller: LoginController,
-                templateUrl: '../partials/loginDialog.html'
+                templateUrl: '../partials/loginDialog.html',
+                clickOutsideToClose: true
             })
             .then( function( goToRegistration ) {
                 $scope.isLoggedIn = UserService.isLoggedIn();
@@ -905,7 +906,8 @@
             } else {
                 $mdDialog.show({
                     controller: 'HeaderController',
-                    templateUrl: '../partials/loginDialog.html'
+                    templateUrl: '../partials/loginDialog.html',
+                    clickOutsideToClose: true
                 })
                 .then( function() {
                     $scope.isLoggedIn = UserService.isLoggedIn();

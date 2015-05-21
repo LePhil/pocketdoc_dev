@@ -137,6 +137,8 @@ h1{
 .forgotPassword {
 	text-decoration: underline;
 	font-size: 0.75em;
+	cursor: pointer;
+	cursor: hand;
 }
 
 .additionalActions {
@@ -144,4 +146,30 @@ h1{
 	bottom: 5px;
 	right: 5px;
 	left: 5px;
+}
+
+.md-dialog-container {
+	position: fixed;
+	top: 0px !important;
+}
+.md-backdrop {
+	position: fixed;
+}
+
+.smallHeader h2 {
+	margin: 2px;
+	line-height: 18px;
+	font-size: 18px;
+}
+
+.smallHeader .close {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+}
+
+@media all and (max-height: 500px) {
+    .smallHeader {
+        display:none;
+    }
 }

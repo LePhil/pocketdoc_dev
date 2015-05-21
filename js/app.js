@@ -151,7 +151,7 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			preDiag_forMe: "Für mich",
 			preDiag_notForMe: "Für jemand anders",
 			preDiag_intro: "Bevor wir beginnen: Stimmen diese Angaben?",
-			preDiag_startDiag: "Alles korrekt, Diagnose starten",
+			preDiag_startDiag: "Diagnose starten",
 			preDiag_pleaseGiveSomeInfo: "Nur noch ein paar Angaben und es geht los!",
 			terms_title: "Allgemeine Geschäftsbedingungen"
 		});
@@ -251,7 +251,7 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			preDiag_forMe: "For me",
 			preDiag_notForMe: "For someone else",
 			preDiag_intro: "Before we start: Are these settings correct?",
-			preDiag_startDiag: "Looks good, start diagnosis now",
+			preDiag_startDiag: "Start Diagnosis",
 			preDiag_pleaseGiveSomeInfo: "Just a few basic details about you and we're ready!",
 			terms_title: "Terms and conditions"
 		});

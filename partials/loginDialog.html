@@ -1,10 +1,14 @@
 <md-dialog>
   <md-dialog-content layout-padding>
 
-      <div layout="row" layout-aligh="center center" flex>
+      <div layout="row" layout-aligh="center center" flex class="smallHeader">
         <span flex></span>
         <h2>Login</h2>
         <span flex></span>
+
+        <md-button class="md-icon-button close" aria-label="{{ 'header_close' | translate }}" ng-click="loginDialogCancel()">
+          <md-icon md-svg-icon="images/icons/close.svg" class="s36"></md-icon>
+        </md-button>
       </div>
 
       <form novalidate name="loginForm">
@@ -26,15 +30,11 @@
         </md-input-container>
 
         <div layout="row" flex layout-align="end end" ng-show="location.url() === '/'" >
-          <md-button type="button" ng-click="forgotPassword()" class="forgotPassword">{{ 'header_forgotPassword' | translate }}</md-button>
+          <a ng-click="forgotPassword()" class="forgotPassword">{{ 'header_forgotPassword' | translate }}</a>
         </div>
 
         <div class="md-actions" layout="row" flex>
           
-          <md-button type="button" ng-click="loginDialogCancel()" class="md-primary">{{ 'common_cancel' | translate }}</md-button>
-
-          <span flex></span>
-
           <md-button type="button" ng-click="loginDialogRegister()" class="md-raised">{{ 'header_register' | translate }}</md-button>
 
           <md-button type="submit" ng-click="loginDialogSubmit()" class="md-raised md-primary">{{ 'header_login' | translate }}</md-button>

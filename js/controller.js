@@ -281,8 +281,6 @@
             var pos = qData.position;
             $scope.answeredQuestions.splice( pos, $scope.answeredQuestions.length-pos+1 );
 
-            // TODO: answers still get counted for the old currentQuestion...
-            // Fix in the simulator, don't just get the next question...
             $scope.currentQuestion = qData.question;
             $scope.revise = true;
         };
@@ -339,9 +337,8 @@
             if ( userID > -1 ) {
                 var followUpData = $scope.getFollowUpData();
                 followUpData.user = userID;
+                followUpData.newest = true;
                 
-                console.log("saving followUp:", followUpData );
-
                 FollowupService.registerFollowup( followUpData );
                 $location.url('/');
             } else {
@@ -770,6 +767,14 @@
             $scope.handleLogin( currentUser );
         } else {
             $scope.handleLogout();
+        }
+
+        if ( !$scope.hasNoFollowUps() ) {
+            _.each( $scope.followUps, function( fUp ) {
+                if ( fUp.newest ) {
+                    fUp.newest = false;
+                }
+            });
         }
 	}]);
 

@@ -671,7 +671,7 @@
 			var followUps = _.filter( getAll(), function( fUp ){
 				return fUp.user === userID;
 			});
-			return followUps;
+			return followUps.reverse();
 		};
 
 		/**

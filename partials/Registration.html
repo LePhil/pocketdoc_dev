@@ -71,7 +71,7 @@
 				<div class="profile-title" flex>{{ 'reg_personalInformation' | translate }}:</div>
 
 				<div flex layout="column">
-					<md-input-container flex>
+					<md-input-container>
 						<label for="name">{{ 'reg_name' | translate }}:</label>
 						<input ng-model="user.name" id="name">
 					</md-input-container>
@@ -116,7 +116,7 @@
 				<div flex layout="column">
 					<div class="profile-subtitle" >{{ 'reg_language' | translate }}:</div>
 
-					<div flex layout="row" layout-align="start center" class="profile-row">
+					<div layout="row" layout-align="start center" class="profile-row">
 						<md-button
 							ng-repeat="language in languages"
 							id="language-button-{{language.locale}}"

@@ -1,4 +1,5 @@
 ﻿<div flex class="partialContent">
+	<md-content layout-padding>
 		<div layout="row">
 			<img id="logo" ng-class="{'smaller' : loggedIn }" src="images/PocketDocMaskottchen.jpg">
 		</div>
@@ -43,14 +44,15 @@
 			</md-content>
 
 		</div>
-	</div>
+	</md-content>
+</div>
+<div>
 	<div>
-		<div>
-			<div id="mainRun" layout="row" layout-align="end center">
-				<md-button class="md-primary" ng-click="run()">{{ 'main_startDiagnosis' | translate }}</md-button>
-				<md-button class="md-fab md-primary" ng-click="run()" aria-label="{{ 'main_startDiagnosis' | translate }}">
-					<md-icon md-svg-src="images/icons/play.svg" style="color: white;"></md-icon>
-				</md-button>
-			</div>
+		<div id="mainRun" layout="row" layout-align="end center">
+			<md-button class="md-primary" ng-click="run()">{{ 'main_startDiagnosis' | translate }}</md-button>
+			<md-button class="md-fab md-primary" ng-click="run()" aria-label="{{ 'main_startDiagnosis' | translate }}">
+				<md-icon md-svg-src="images/icons/play.svg" style="color: white;"></md-icon>
+			</md-button>
 		</div>
 	</div>
+</div>

@@ -299,7 +299,7 @@
 			id : -1,
 			lang : getDefaultLang()
 		};
-		
+
 		return {
 			createUser : create,
 			getUser : get,
@@ -433,7 +433,7 @@
 				);
 			}
 
-			questionResult.answers = answerTexts.reverse();
+			questionResult.answers = answerTexts;
 			
 			success(questionResult);	
 		};

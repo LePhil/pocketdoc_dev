@@ -54,6 +54,7 @@ var pocketdocApp = angular.module('pocketdocApp', [
 		
 		$mdThemingProvider.theme('default').accentPalette('green');
 
+		$translateProvider.useSanitizeValueStrategy('escaped');
 		$translateProvider.translations('de', {
 			main_startDiagnosis: 'Diagnose jetzt starten!',
 			main_welcome: 'Willkommen!',

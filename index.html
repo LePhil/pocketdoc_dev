@@ -92,7 +92,7 @@
 		</md-content>
 	</md-sidenav>
 
-	<ng-view id="app" layout="column" flex></ng-view>
+	<ng-view id="app" layout="column" flex ng-class="{'mainPage' : location.url() === '/' }"></ng-view>
 
 </body>
 </html>

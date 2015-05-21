@@ -16,7 +16,8 @@
     "angular-material": "master",
     "angular-cookies": "latest",
     "angular-translate": "latest",
-	  "angular-messages" : "latest",
+    "angular-translate-loader-static-files": "latest",
+    "angular-messages" : "latest",
     "underscore": "latest"
   }
 }

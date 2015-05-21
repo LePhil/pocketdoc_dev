@@ -523,14 +523,40 @@
 		};
 		
         /**
-         * [registerClick description]
-         * @return {[type]}
-         * @author Roman Eichenberger
+         * Click on Register --> Ask user if the email-address is correct.
+         * If so, register this user, if not, close dialog and wait.
+         * 
+         * @author Philipp Christen
          */
 		$scope.registerClick = function() {
-			UserService.createUser(
-				$scope.user,
-				function( data ) {
+            var email = $scope.user.email;
+
+            var confirm = $mdDialog.confirm()
+                .title( $translate.instant('reg_correctMail_title') )
+                .content( $translate.instant('reg_correctMail_content', { mail: email }) )
+                .ariaLabel( $translate.instant('reg_correctMail_title') )
+                .ok( $translate.instant('common_yes') )
+                .cancel( $translate.instant('common_no') )
+                .clickOutsideToClose(false);
+
+            $mdDialog.show( confirm ).then(
+                function() {
+                    $scope.register();
+                },
+                function() {
+                }
+            );
+		};
+
+        /**
+         * Actually registers a new user.
+         * 
+         * @author Roman Eichenberger, Philipp Christen
+         */
+        $scope.register = function() {
+            UserService.createUser(
+                $scope.user,
+                function( data ) {
                     $scope.$root.$broadcast("login", data);  
                     
                     if (typeof(FollowUpData.data) !== 'undefined' )
@@ -545,16 +571,20 @@
                         );
                     }
                     
-					$location.url('/');
-				},
-				function( error ) {
-					alert( error );
-				}
-			);
-		};
+                    $location.url('/');
+                },
+                function( error ) {
+                    alert( error );
+                }
+            );
+        };
 		
+        /**
+         * User clicks on "Save" which should save the changes made on the user
+         * 
+         * @author Roman Eichenberger, Philipp Christen
+         */
 		$scope.saveClick = function(){
-            debugger;
 			UserService.updateUser(
 				$scope.user,
 				function( data ){
@@ -567,6 +597,12 @@
 			);
 		};
 		
+        /**
+         * User clicks on "Delete Profile" which asks the user if they're
+         * serious and if so, deletes the profile.
+         * 
+         * @author Roman Eichenberger, Philipp Christen
+         */
 		$scope.deleteClick = function(){
 			
 			var confirm = $mdDialog.confirm()

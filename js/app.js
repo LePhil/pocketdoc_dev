@@ -55,6 +55,7 @@ var pocketdocApp = angular.module('pocketdocApp', [
 		$mdThemingProvider.theme('default').accentPalette('green');
 
 		$translateProvider.useSanitizeValueStrategy('escaped');
+
 		$translateProvider.translations('de', {
 			main_startDiagnosis: 'Diagnose jetzt starten!',
 			main_welcome: 'Willkommen!',
@@ -123,6 +124,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_actions: "Aktionen",
 			reg_deleteProfile: "Profil löschen",
 			reg_deleteProfile_title: "Profil löschen?",
+			reg_correctMail_title: "Adresse korrekt?",
+			reg_correctMail_content: "Ist die Adresse '{{mail}}' korrekt?",
 			reg_deleteProfile_content: "Soll der Account wirklich gelöscht werden? Dies kann nicht rückgängig gemacht werden!",
 			reg_cancel: "Abbrechen",
 			reg_register: "Registrieren",
@@ -223,6 +226,8 @@ var pocketdocApp = angular.module('pocketdocApp', [
 			reg_actions: "Actions",
 			reg_deleteProfile: "Delete Profile",
 			reg_deleteProfile_title: "Delete Profile?",
+			reg_correctMail_title: "Correct address",
+			reg_correctMail_content: "Is the address '{{mail}}' correct?",
 			reg_deleteProfile_content: "Should this account be deleted permanently? This cannot be undone.",
 			reg_cancel: "Cancel",
 			reg_register: "Register",

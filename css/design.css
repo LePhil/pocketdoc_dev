@@ -145,12 +145,11 @@ h1{
 	left: 5px;
 }
 
-.md-dialog-container {
+md-dialog-container,
+md-backdrop,
+md-sidenav {
 	position: fixed;
 	top: 0px !important;
-}
-.md-backdrop {
-	position: fixed;
 }
 
 .smallHeader h2 {
@@ -173,18 +172,30 @@ h1{
 
 
 .newly-added {
-  animation: flyin 1.2s ease forwards;
-  opacity: 0;
-  transform: scale(2);
-  filter: blur(4px);
+	-webkit-animation: flyin 1.2s ease forwards; /* Safari 4+ */
+	-moz-animation:    flyin 1.2s ease forwards; /* Fx 5+ */
+	-o-animation:      flyin 1.2s ease forwards; /* Opera 12+ */
+	animation:         flyin 1.2s ease forwards; /* IE 10+, Fx 29+ */
+
+	-webkit-transform: scale(2);
+		-ms-transform: scale(2);
+			transform: scale(2);
+
+	opacity: 0;
+
+	-webkit-filter: blur(4px);
+			filter: blur(4px);
 }
 
 @keyframes flyin {
-   to { 
-     filter: blur(0);
-     transform: scale(1);
-     opacity: 1;
-   }
+	to { 
+		-webkit-filter: blur(0);
+				filter: blur(0);
+		-webkit-transform: scale(1);
+			-ms-transform: scale(1);
+				transform: scale(1);
+		opacity: 1;
+	}
 }
 
 .acceptTermsCheckbox.md-warn {

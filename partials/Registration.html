@@ -38,6 +38,26 @@
 			</md-card-content>
 		</md-card>
 		
+		<md-card ng-hide="isProfile">
+			<md-card-content>
+
+				<div class="profile-title" flex>{{ 'reg_AGBs' | translate }}:</div>
+
+				<div layout="row">
+					<md-checkbox
+						class="md-primary acceptTermsCheckbox"
+						ng-model="acceptedTerms"
+						aria-label="{{ 'reg_AGBs' | translate }}"
+						ng-class="{ 'md-warn' : !acceptedTerms }">
+						{{ 'reg_AGBs_text' | translate }}
+					</md-checkbox>
+
+			        <md-button ng-href="#/terms" target="_blank">{{ 'reg_AGBs' | translate }} ({{ 'common_newWindow' | translate }})</md-button>
+				</div>
+
+			</md-card-content>
+		</md-card>
+		
 		<md-card>
 			<md-card-content>
 
@@ -105,24 +125,21 @@
 
 			</md-card-content>
 		</md-card>
-	</div>
-	<div>
-		<div>
-			<md-card>
-				<md-card-content>
-				
-					<div flex layout="row" layout-align="center center" ng-hide="isProfile">
-						<!-- <md-button ng-click="cancelClick()" class="registration-button" flex>{{ 'reg_cancel' | translate }}</md-button> -->
-						<md-button class="md-raised md-primary registration-button" ng-click="registerClick()" flex ng-disabled="registrationForm.$invalid">{{ 'reg_register' | translate }}</md-button>
-					</div>
 
-					<div flex layout="row" layout-align="center center" ng-show="isProfile">
-						<!-- <md-button ng-click="cancelClick()" class="registration-button" flex>{{ 'reg_back' | translate }}</md-button> -->
-						<md-button class="md-raised md-primary registration-button" ng-click="saveClick()" flex ng-disabled="registrationForm.$invalid">{{ 'reg_save' | translate }}</md-button>
-					</div>
-					
-				</md-card-content>
-			</md-card>
-		</div>
 	</div>
+
+	<md-card>
+		<md-card-content>
+		
+			<div flex layout="row" layout-align="center center" ng-hide="isProfile">
+				<md-button class="md-raised md-primary registration-button" ng-click="registerClick()" flex ng-disabled="!acceptedTerms || registrationForm.$invalid">{{ 'reg_register' | translate }}</md-button>
+			</div>
+
+			<div flex layout="row" layout-align="center center" ng-show="isProfile">
+				<md-button class="md-raised md-primary registration-button" ng-click="saveClick()" flex ng-disabled="registrationForm.$invalid">{{ 'reg_save' | translate }}</md-button>
+			</div>
+			
+		</md-card-content>
+	</md-card>
+
 </form>

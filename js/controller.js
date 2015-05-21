@@ -240,33 +240,6 @@
                     error
                 );
             }
-            
-//            RunService.answerQuestion(
-//                {
-//                    question: $scope.currentQuestion,
-//                    answerId : givenAnswer.id
-//                },
-//                function( questionData ) {
-//                    // Show new question
-//                    $scope.currentQuestion = questionData;
-//                    $scope.loading = false;
-//                    $scope.hidden = false;  
-//                },
-//                function( message ) {
-//                    // TODO: still show diagnosis if found, and supply the title of the content through the service as well...
-//                    $scope.loading = false;
-//                    // Error occured. Show Dialogue.
-//                    $mdDialog.show(
-//                        $mdDialog.alert()
-//                            .title( $translate.instant('error_noMoreQuestions_title') )
-//                            .content( message )
-//                            .ariaLabel('Alert Dialog Demo')
-//                            .ok( $translate.instant('common_ok') )
-//                    ).finally( function() {
-//                        $scope.goToMain();
-//                    });
-//                }
-//            );			
         };
 
         /**
@@ -424,6 +397,7 @@
             ['$scope', '$location', '$translate', '$mdDialog', 'FollowUpData', 'UserService', 'FollowupService', 'MetaDataService',
     function( $scope ,  $location ,  $translate ,  $mdDialog ,  FollowUpData ,  UserService ,  FollowupService ,  MetaDataService ) {
 		
+        $scope.acceptedTerms = false;
 		$scope.isProfile = UserService.getCurrentUser().id >= 0;
         $scope.languages = MetaDataService.getLanguages();
         $scope.ageRanges = MetaDataService.getAgeRanges();
@@ -442,13 +416,13 @@
         }
 		
 		$scope.checkEmail = function(){
-			if ($scope.isProfile)
+			if ( $scope.isProfile ) {
 				$scope.checkPassword();
+            }
 			
-			if ($scope.isProfile && oldEmail === $scope.user.email){
+			if ( $scope.isProfile && oldEmail === $scope.user.email ) {
 				$scope.registrationForm.email.$setValidity('used', true);
-			}
-			else{
+			} else {
 				UserService.isEmailInUse(
 					{
 						email: $scope.user.email
@@ -464,13 +438,14 @@
 		};
 		
 		$scope.checkPassword = function(){
-			if ($scope.isProfile){
+			if ( $scope.isProfile ) {
 				var oldPw = $scope.user.oldPassword;
 				var newPw = $scope.user.newPassword;
-				var valid = (typeof(oldPw) !== "undefined" && oldPw !== "") || ((typeof(newPw) === "undefined" || newPw === "") && $scope.user.email === oldEmail);
+				var valid = ( typeof(oldPw) !== "undefined" && oldPw !== "") 
+                         || ((typeof(newPw) === "undefined" || newPw === "")
+                         && $scope.user.email === oldEmail);
 				$scope.registrationForm.oldPassword.$setValidity('req', valid);
-			}
-			else{
+			} else {
 				$scope.registrationForm.regPassword.$setValidity('req', regPassword.value !== "");
 			}
 		};

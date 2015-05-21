@@ -170,7 +170,6 @@ md-sidenav {
     }
 }
 
-
 .newly-added {
 	-webkit-animation: flyin 1.2s ease forwards; /* Safari 4+ */
 	-moz-animation:    flyin 1.2s ease forwards; /* Fx 5+ */
@@ -201,4 +200,8 @@ md-sidenav {
 
 .acceptTermsCheckbox.md-warn {
 	color: rgb(244,67,54);
+}
+
+#miniTut {
+	opacity: 0.6;
 }

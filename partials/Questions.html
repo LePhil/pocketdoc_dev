@@ -26,10 +26,7 @@
 
 
 
-				<div><!-- ng-controller="registrationController" -->
-				<!--
-				<div ng-model="user">
-				-->
+				<div>
 
 					<div flex layout="column">
 						<md-input-container flex ng-show="loggedIn">
@@ -86,6 +83,7 @@
 
 
 	<div ng-hide="isPreDiag" layout="column" flex>
+		
 		<md-card class="currentQuestion">
 			<md-card-content>
 				<div ng-hide="loading || hidden">
@@ -93,6 +91,7 @@
 				</div>
 			</md-card-content>
 		</md-card>
+
 		<md-list id="answeredQuestions" class="partialContent">
 			<md-list-item class="answeredQuestion" ng-repeat="question in answeredQuestions | reverse" ng-click="reviseQuestion(question, $event)">
 				<h3 flex>{{question.question.description}}</h3>
@@ -106,8 +105,39 @@
 				<div ng-show="question.answer.id > 1">
 					<md-icon md-svg-icon="images/icons/dontknow.svg" class="s36 md-primary"></md-icon>
 				</div>
+
 			</md-list-item>
 		</md-list>
+
+		<md-card id="miniTut" ng-show="answeredQuestions.length === 0">
+			<md-card-content class="smallHeader" layout="column">
+				
+				<h2>{{ 'run_tut_title' | translate }}</h2>
+				<p>{{ 'run_tut_QandA' | translate }}</p>
+
+				<div layout="row" layout-align="center center">
+					<md-button flex="25" class="md-raised" disabled>
+						<!--<md-icon md-svg-icon="images/icons/yes.svg" class="s36 md-accent"></md-icon>-->
+						{{ 'common_yes' | translate }}					
+					</md-button>
+
+					<md-button flex="25" class="md-raised" disabled>
+						<!--<md-icon md-svg-icon="images/icons/dontknow.svg" class="s36 md-primary"></md-icon>-->
+						{{ 'common_dontKnow' | translate }}
+					</md-button>
+
+					<md-button flex="25" class="md-raised" disabled>
+						<!--<md-icon md-svg-icon="images/icons/no.svg" class="s36 md-warn"></md-icon>-->
+						{{ 'common_no' | translate }}
+					</md-button>
+				</div>
+
+				<p>{{ 'run_tut_alreadyAnswered' | translate }}</p>
+				<p>{{ 'run_tut_answerToStart' | translate }}</p>
+
+			</md-card-content>
+		</md-card>
+
 	</div>
 
 	<div>

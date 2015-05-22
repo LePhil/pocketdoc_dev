@@ -346,7 +346,7 @@
                 if ( goToRegistration ) {
                     FollowUpData.data = $scope.getFollowUpData();
                     FollowUpData.userData = DiagnosisData.userData;
-                    $location.url("/registration");
+                    $location.url("/registration").replace();
                 } else {
                     $scope.addFollowUp();
                 }

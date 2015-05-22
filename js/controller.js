@@ -978,18 +978,12 @@
                 $scope.profile();
             } else {
                 $mdDialog.show({
-//                    controller: 'HeaderController',
                     templateUrl: '../partials/loginDialog.html',
                     clickOutsideToClose: true
                 })
                 .then( function( goToRegistration) {
-                    
-                    $scope.isLoggedIn = UserService.isLoggedIn();
-
                     if ( goToRegistration ) {
                         $location.url("/registration");
-                    } else {
-                        $scope.addFollowUp();
                     }
                 }, function() {
                     console.log( "error" );

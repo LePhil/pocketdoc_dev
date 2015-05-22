@@ -1,4 +1,4 @@
-﻿<div flex class="partialContent" layout="column">
+﻿<div flex class="partialContent">
 	<md-content layout-padding layout="column" flex>
 		<div layout="row">
 			<img id="logo" ng-class="{'smaller' : loggedIn }" src="images/PocketDocMaskottchen.jpg">
@@ -19,7 +19,7 @@
 			
 			<section layout="column" ng-hide="followUps.length == 0">
 				<md-subheader class="md-no-sticky md-primary">{{ 'main_followUp_open' | translate }}</md-subheader>
-				<md-list layout="column" layout-padding id="followUpList" class="partialContent">
+				<md-list layout="column" layout-padding id="followUpList" class="">
 					<md-list-item class="followUp" ng-repeat="followup in followUps" md-swipe-left="deleteFollowUp( followup, event)" ng-class="{'newly-added' : followup.newest}" layout="row">
 
 						<div flex class="md-list-item-text followUpDesc" ng-class="{'notReady': !isFollowUpReady( followup.timeAdded ) }" layout="column">
@@ -27,7 +27,7 @@
 								<span ng-show="isFollowUpReady( followup.timeAdded)">{{ followup.timeAdded | date:'dd.MM.yyyy HH:mm' }}</span>
 								<span ng-show="!isFollowUpReady( followup.timeAdded)">{{ 'main_followUp_remaining' | translate }} {{ getRemainingTime( followup.timeAdded ) | date:'HH:mm:ss' }}</span>
 							</p>
-							<h4>{{ 'main_followUp_diag' | translate }}: {{ getDiagnosis( followup ) }}</h4>
+							<h4><span hide-sm>{{ 'main_followUp_diag' | translate }}: </span>{{ getDiagnosis( followup ) }}</h4>
 						</div>
 
 						<md-button class="md-icon-button" ng-click="deleteFollowUp(followup, $event)" aria-label="{{ 'main_followUp_delete' | translate }}">

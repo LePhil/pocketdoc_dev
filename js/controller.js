@@ -336,7 +336,6 @@
          */
         $scope.showLoginDialog = function() {
             $mdDialog.show({
-//                controller: LoginController,
                 templateUrl: '../partials/loginDialog.html',
                 clickOutsideToClose: true
             })
@@ -364,10 +363,18 @@
      * @author Roman Eichenberger, Philipp Christen
      */
     pocketdocControllers.controller('loginController',
-            ['$scope', '$location', '$mdDialog', 'UserService',
-    function( $scope ,  $location ,  $mdDialog ,  UserService){
+            ['$scope', '$location', '$mdDialog', 'UserService', '$route',
+    function( $scope ,  $location ,  $mdDialog ,  UserService ,  $route ){
         
         $scope.location = $location;
+
+        // Prevents changing of the location by using the backspace-button
+        // or any other non-app-key. But it closes the dialog, giving
+        // control back to the original scope where there's no listener.
+        $scope.$on("$routeChangeStart", function (event, next, current) {
+            $scope.loginDialogCancel();
+            event.preventDefault();
+        });
         
         $scope.loginDialogCancel = function() { $mdDialog.cancel(); };
             

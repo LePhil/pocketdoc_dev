@@ -489,6 +489,8 @@
 		};
 		
 		$scope.checkPassword = function(){
+            $scope.registrationForm.oldPassword.$setValidity('wrong', true);
+            
 			if ( $scope.isProfile ) {
 				var oldPw = $scope.user.oldPassword;
 				var newPw = $scope.user.newPassword;
@@ -611,14 +613,17 @@
          * @author Roman Eichenberger, Philipp Christen
          */
 		$scope.saveClick = function(){
-			UserService.updateUser(
+            UserService.updateUser(
 				$scope.user,
 				function( data ){
 					$translate.use( $scope.user.lang );
 					$window.history.back(); // $location.url('/');
 				},
 				function( error ){
-					alert( error );
+                    if (error.errorType === 1)
+                        $scope.registrationForm.oldPassword.$setValidity('wrong', false);
+                    else
+    					alert( error.message );
 				}
 			);
 		};

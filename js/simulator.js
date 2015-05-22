@@ -50,14 +50,18 @@
 		
 		// TODO: refactor (e.g. only grep once)
 		var update = function( data, success, error ) {
-			debugger;
-
+			
 			var users = JSON.parse(localStorage.getItem("users"));
 			var user = $.grep(users, function(e){ return e.id == data.id; })[0];
 			
 			if ( ( typeof(data.oldPassword) !== "undefined" && data.oldPassword !== "")
 				 && data.oldPassword !== user.password ) {
-				error("Das eingegebene Passwort ist fehlerhaft!");
+				error(
+					{
+						errorType: 1,	// Type wrong password
+						message: "Das eingegebene Passwort ist fehlerhaft!"
+					}
+				);
 				return;
 			}
 			
@@ -73,14 +77,11 @@
 			users = $.grep(users, function(e){ return e.id != data.id; });
 
 			var changedUser = buildUserObject( data );
-			debugger;
-
+		
 			users.push( changedUser );
 			
 			localStorage.setItem( "users", angular.toJson(users) );
 			
-			debugger;
-
 			currentUser = changedUser;
 			delete currentUser.password;
 			

@@ -27,6 +27,7 @@
 					<input ng-model="user.oldPassword" type="password" id="oldPassword" name="oldPassword" ng-blur="checkPassword()">
 					<div ng-messages="registrationForm.oldPassword.$error">
 						<div ng-message="req">{{ 'reg_mandatory' | translate }}!</div>
+						<div ng-message="wrong">{{ 'reg_oldPassword_wrong' | translate }}</div>
 					</div>
 				</md-input-container>
 				

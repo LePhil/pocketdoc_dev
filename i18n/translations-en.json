@@ -56,6 +56,7 @@
 	"reg_password": "Password",
 	"reg_password_new": "New password",
 	"reg_password_current": "Current password",
+	"reg_oldPassword_wrong": "Wrong password!",
 	"reg_personalInformation": "Personal Information",
 	"reg_name": "Name",
 	"reg_sex": "Gender",

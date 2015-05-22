@@ -116,20 +116,9 @@
 				<p>{{ 'run_tut_QandA' | translate }}</p>
 
 				<div layout="row" layout-align="center center">
-					<md-button flex="25" class="md-raised" disabled>
-						<!--<md-icon md-svg-icon="images/icons/yes.svg" class="s36 md-accent"></md-icon>-->
-						{{ 'common_yes' | translate }}					
-					</md-button>
-
-					<md-button flex="25" class="md-raised" disabled>
-						<!--<md-icon md-svg-icon="images/icons/dontknow.svg" class="s36 md-primary"></md-icon>-->
-						{{ 'common_dontKnow' | translate }}
-					</md-button>
-
-					<md-button flex="25" class="md-raised" disabled>
-						<!--<md-icon md-svg-icon="images/icons/no.svg" class="s36 md-warn"></md-icon>-->
-						{{ 'common_no' | translate }}
-					</md-button>
+					<div class="miniTutHelper" flex="25">{{ 'common_yes' | translate }}</div>
+					<div class="miniTutHelper" flex="25">{{ 'common_dontKnow' | translate }}</div>
+					<div class="miniTutHelper" flex="25">{{ 'common_no' | translate }}</div>
 				</div>
 
 				<p>{{ 'run_tut_alreadyAnswered' | translate }}</p>

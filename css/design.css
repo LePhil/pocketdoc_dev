@@ -201,3 +201,11 @@ md-sidenav {
 #miniTut {
 	opacity: 0.6;
 }
+
+.miniTutHelper {
+	text-align: center;
+	margin: 3px;
+	background-color: #DADADA;
+	border-radius: 2px;
+	padding: 3px 0px;
+}

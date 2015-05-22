@@ -18,8 +18,8 @@
 			<h1>{{ 'main_welcomeBack' | translate }}<span ng-hide="isEmpty(userName)">, {{userName}}.</span></h1>
 			
 			<section layout="column" ng-hide="followUps.length == 0">
-				<md-subheader class="md-primary">{{ 'main_followUp_open' | translate }}</md-subheader>
-				<md-list layout="column" layout-padding id="followUpList">
+				<md-subheader class="md-no-sticky md-primary">{{ 'main_followUp_open' | translate }}</md-subheader>
+				<md-list layout="column" layout-padding id="followUpList" class="partialContent">
 					<md-list-item class="followUp" ng-repeat="followup in followUps" md-swipe-left="deleteFollowUp( followup, event)" ng-class="{'newly-added' : followup.newest}" layout="row">
 
 						<div flex class="md-list-item-text followUpDesc" ng-class="{'notReady': !isFollowUpReady( followup.timeAdded ) }" layout="column">

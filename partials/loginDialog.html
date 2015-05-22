@@ -1,4 +1,4 @@
-<md-dialog>
+<md-dialog ng-controller="loginController">
   <md-dialog-content layout-padding>
 
       <div layout="row" layout-aligh="center center" flex class="smallHeader">
@@ -21,7 +21,7 @@
           </div>
         </md-input-container>
 
-        <md-input-container class="pwContainer">
+        <md-input-container>
           <label for="password">{{ 'header_login_password' | translate }}</label>
           <input type="password" name="loginPassword" id="password" ng-model="user.password">
           <div ng-messages="loginForm.loginPassword.$error">

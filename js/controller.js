@@ -328,36 +328,6 @@
             };  
         };
 
-
-        /**
-         * Mini-Controller for the Login-Dialgue
-         * 
-         * @param {[type]} $scope    [description]
-         * @param {[type]} $mdDialog [description]
-         */
-        var LoginController = function($scope, $mdDialog) {
-            $scope.loginDialogCancel = function() { $mdDialog.cancel(); };
-            
-            $scope.loginDialogRegister = function() { $mdDialog.hide( true ); };
-
-            $scope.loginDialogSubmit = function() {
-                UserService.loginUser(
-                    {
-                        email : $scope.user.email,
-                        password : $scope.user.password 
-                    },
-                    function( data ) {
-                        $scope.$root.$broadcast("login", data);
-
-                        $mdDialog.hide( false );
-                    },
-                    function( error ) {
-                        console.log( error );
-                    }
-                );
-            };
-        };
-
         /**
          * Shows the login dialogue.
          *
@@ -366,7 +336,7 @@
          */
         $scope.showLoginDialog = function() {
             $mdDialog.show({
-                controller: LoginController,
+//                controller: LoginController,
                 templateUrl: '../partials/loginDialog.html',
                 clickOutsideToClose: true
             })
@@ -386,6 +356,86 @@
         };
 	}]);
 	
+    /**
+     * Gets used to handle all login forms.
+     *
+     * @name loginController
+     * @return {[type]}
+     * @author Roman Eichenberger, Philipp Christen
+     */
+    pocketdocControllers.controller('loginController',
+            ['$scope', '$location', '$mdDialog', 'UserService',
+    function( $scope ,  $location ,  $mdDialog ,  UserService){
+        
+        $scope.location = $location;
+        
+        $scope.loginDialogCancel = function() { $mdDialog.cancel(); };
+            
+        $scope.loginDialogRegister = function() { $mdDialog.hide( true ); };
+
+        $scope.loginDialogSubmit = function() {
+            
+            $scope.loginForm.loginEmail.$setValidity('notFound', true);
+            $scope.loginForm.loginPassword.$setValidity('wrong', true);
+            
+            UserService.loginUser(
+                {
+                    email : $scope.user.email,
+                    password : $scope.user.password 
+                },
+                function( data ) {
+                    $scope.loggedIn = true;
+                    $scope.$root.$broadcast("login", data);
+                    $scope.user = {};
+                    $mdDialog.hide( false );
+                },
+                function( error ) {
+                    if (error.errorType == 0)
+                        $scope.loginForm.loginEmail.$setValidity('notFound', false);
+                    else if (error.errorType == 1)
+                        $scope.loginForm.loginPassword.$setValidity('wrong', false);
+                    else
+                        console.log( error.message );
+                        
+                    $scope.login_error = error.message;
+                }
+            );
+        };
+        
+        /**
+         * Mini-Controller for Custom Dialog, provides some simple methods.
+         * 
+         * @param {[type]} $scope           [description]
+         * @param {[type]} $mdDialog        [description]
+         * @author Philipp Christen
+         */
+        var ForgotPasswordController = function($scope, $mdDialog) {
+            $scope.cancel = function() { $mdDialog.cancel(); };
+            $scope.accept = function() { $mdDialog.hide(); };
+        };
+
+        /**
+         * Shows the "Reset Password" dialogue.
+         * 
+         * @return {[type]} [description]
+         * @author Philipp Christen
+         */
+        $scope.forgotPassword = function() {
+            $mdDialog.hide();
+            $mdDialog.show({
+                controller: ForgotPasswordController,
+                templateUrl: '../partials/forgotPasswordDialog.html',
+                resolve: {
+                }
+            })
+            .then( function() {
+                // TODO
+            }, function() {
+                // TODO
+            });
+        };
+    }]);
+    
     /**
      * Gets used on the registration page and handles all interaction there.
      *
@@ -922,86 +972,23 @@
                 $scope.profile();
             } else {
                 $mdDialog.show({
-                    controller: 'HeaderController',
+//                    controller: 'HeaderController',
                     templateUrl: '../partials/loginDialog.html',
                     clickOutsideToClose: true
                 })
-                .then( function() {
+                .then( function( goToRegistration) {
+                    
                     $scope.isLoggedIn = UserService.isLoggedIn();
+
+                    if ( goToRegistration ) {
+                        $location.url("/registration");
+                    } else {
+                        $scope.addFollowUp();
+                    }
                 }, function() {
                     console.log( "error" );
                 });
             }
-        };
-
-        $scope.loginDialogCancel = function() {
-            $mdDialog.cancel();
-        };
-        
-        $scope.loginDialogRegister = function() {
-            $mdDialog.hide();
-            $location.url("/registration");
-        };
-
-        $scope.loginDialogSubmit = function() {
-            $scope.loginForm.loginEmail.$setValidity('notFound', true);
-            $scope.loginForm.loginPassword.$setValidity('wrong', true);
-            
-            UserService.loginUser(
-                {
-                    email : $scope.user.email,
-                    password : $scope.user.password 
-                },
-                function( data ) {
-                    $mdDialog.hide();
-                    $scope.loggedIn = true;
-                    $scope.user = {};
-                    $scope.$root.$broadcast("login", data);
-                },
-                function( error ) {
-                    if (error.errorType == 0)
-                        $scope.loginForm.loginEmail.$setValidity('notFound', false);
-                    else if (error.errorType == 1)
-                        $scope.loginForm.loginPassword.$setValidity('wrong', false);
-                    else
-                        console.log( error.message );
-                        
-                    $scope.login_error = error.message;
-                }
-            );
-        };
-
-        /**
-         * Mini-Controller for Custom Dialog, provides some simple methods.
-         * 
-         * @param {[type]} $scope           [description]
-         * @param {[type]} $mdDialog        [description]
-         * @author Philipp Christen
-         */
-        var ForgotPasswordController = function($scope, $mdDialog) {
-            $scope.cancel = function() { $mdDialog.cancel(); };
-            $scope.accept = function() { $mdDialog.hide(); };
-        };
-
-        /**
-         * Shows the "Reset Password" dialogue.
-         * 
-         * @return {[type]} [description]
-         * @author Philipp Christen
-         */
-        $scope.forgotPassword = function() {
-            $mdDialog.hide();
-            $mdDialog.show({
-                controller: ForgotPasswordController,
-                templateUrl: '../partials/forgotPasswordDialog.html',
-                resolve: {
-                }
-            })
-            .then( function() {
-                // TODO
-            }, function() {
-                // TODO
-            });
         };
         
         /**

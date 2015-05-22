@@ -13,8 +13,8 @@
 	margin:	auto;
 }
 #logo.smaller{
-	height: 150px;
-	width: 150px;
+	height: 50px;
+	width: 50px;
 }
 
 .white md-icon.md-default-theme {
@@ -112,6 +112,14 @@ h1{
 
 .currentQuestion{
 	min-height: 80px;
+}
+
+.diagnosisDescription{
+	margin: 0;
+}
+
+.diagnosisQuestion{
+	margin: 8px 0 0 0;
 }
 
 .forgotPassword {

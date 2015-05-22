@@ -400,6 +400,7 @@
                     $scope.login_error = error.message;
                 }
             );
+            
         };
         
         /**

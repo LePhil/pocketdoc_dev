@@ -180,7 +180,7 @@
                 RunService.acceptDiagnosis(
                     undefined,
                     function() {
-                        $location.url("/diagnosis");
+                        $location.url("/diagnosis").replace();
                         DiagnosisData.diagnosis = diagnosis;
                         DiagnosisData.actionSuggestion = actionSuggestion;
                         DiagnosisData.userData = RunService.getUserData();
@@ -265,8 +265,8 @@
 	}]);
 	
 	pocketdocControllers.controller('diagnosisController',
-            ['$scope', '$location', 'DiagnosisData', 'FollowUpData', 'UserService', 'FollowupService', 'RunService', '$mdDialog',
-    function( $scope ,  $location ,  DiagnosisData ,  FollowUpData ,  UserService ,  FollowupService ,  RunService ,  $mdDialog ) {
+            ['$scope', '$location', '$window', 'DiagnosisData', 'FollowUpData', 'UserService', 'FollowupService', 'RunService', '$mdDialog',
+    function( $scope ,  $location ,  $window ,  DiagnosisData ,  FollowUpData ,  UserService ,  FollowupService ,  RunService ,  $mdDialog ) {
 		
 		$scope.diagnosis = DiagnosisData.diagnosis;
 		$scope.actionSuggestion = DiagnosisData.actionSuggestion;
@@ -276,7 +276,7 @@
         $scope.isLoggedIn = UserService.isLoggedIn();
 
 
-        $scope.goToMain = function() { $location.url('/'); };
+        $scope.goToMain = function() { $window.history.back(); /*$location.url('/'); */ };
 
         /**
          * User wants to register for a followUp. If they're already logged in,
@@ -313,7 +313,7 @@
                 followUpData.newest = true;
                 
                 FollowupService.registerFollowup( followUpData );
-                $location.url('/');
+                $window.history.back(); // $location.url('/');
             } else {
                 console.log( "Error: not logged in" );
             }
@@ -444,8 +444,8 @@
      * @author Roman Eichenberger, Philipp Christen
      */
 	pocketdocControllers.controller('registrationController',
-            ['$scope', '$location', '$translate', '$mdDialog', 'FollowUpData', 'UserService', 'FollowupService', 'MetaDataService',
-    function( $scope ,  $location ,  $translate ,  $mdDialog ,  FollowUpData ,  UserService ,  FollowupService ,  MetaDataService ) {
+            ['$scope', '$location', '$translate', '$window', '$mdDialog', 'FollowUpData', 'UserService', 'FollowupService', 'MetaDataService',
+    function( $scope ,  $location ,  $translate ,  $window ,  $mdDialog ,  FollowUpData ,  UserService ,  FollowupService ,  MetaDataService ) {
 		
         $scope.acceptedTerms = false;
 		$scope.isProfile = UserService.getCurrentUser().id >= 0;
@@ -544,7 +544,7 @@
          * @author Roman Eichenberger
          */
 		$scope.cancelClick = function() {
-			$location.url('/');
+			$window.history.back(); //$location.url('/');
 		};
 		
         /**
@@ -596,7 +596,7 @@
                         );
                     }
                     
-                    $location.url('/');
+                    $window.history.back(); //$location.url('/');
                 },
                 function( error ) {
                     alert( error );
@@ -614,7 +614,7 @@
 				$scope.user,
 				function( data ){
 					$translate.use( $scope.user.lang );
-					$location.url('/');
+					$window.history.back(); // $location.url('/');
 				},
 				function( error ){
 					alert( error );
@@ -644,7 +644,7 @@
 						undefined,
 						function( data ){
 							$scope.$root.$broadcast("logout", data);
-							$location.url('/');
+							$window.history.back(); // $location.url('/');
 						},
 						function( error ){
 							alert( error );
@@ -667,7 +667,7 @@
                 {},
                 function( data ) {
                     $scope.$root.$broadcast("logout", data);
-                    $location.url('/');
+                    $window.history.back(); // $location.url('/');
                 },
                 function( error ) {
                     alert( error );
@@ -841,8 +841,8 @@
 	}]);
 
     pocketdocControllers.controller('HeaderController',
-            ['$scope', '$rootScope', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService', '$cookies',
-    function( $scope ,  $rootScope ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ,  $cookies ) {
+            ['$scope', '$rootScope', '$window', '$mdDialog', '$timeout', '$mdSidenav', '$log', '$translate', '$location', 'UserService', 'MetaDataService', '$cookies',
+    function( $scope ,  $rootScope ,  $window ,  $mdDialog ,  $timeout ,  $mdSidenav ,  $log ,  $translate ,  $location ,  UserService ,  MetaDataService ,  $cookies ) {
 		
         $scope.lang = UserService.getLang();
         $scope.languages = MetaDataService.getLanguages();
@@ -939,7 +939,7 @@
          * @author Philipp Christen
          */
         $scope.goToMain = function () {
-            $location.url("/");
+            $window.history.back(); // $location.url("/");
         };
 
         /**

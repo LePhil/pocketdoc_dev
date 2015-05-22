@@ -43,7 +43,7 @@
 
 				<div class="profile-title" flex>{{ 'reg_AGBs' | translate }}:</div>
 
-				<div layout="row">
+				<div layout="row" layout-sm="column">
 					<md-checkbox
 						class="md-primary acceptTermsCheckbox"
 						ng-model="acceptedTerms"
@@ -71,7 +71,7 @@
 				<div class="profile-title" flex>{{ 'reg_personalInformation' | translate }}:</div>
 
 				<div flex layout="column">
-					<md-input-container flex>
+					<md-input-container>
 						<label for="name">{{ 'reg_name' | translate }}:</label>
 						<input ng-model="user.name" id="name">
 					</md-input-container>
@@ -116,7 +116,7 @@
 				<div flex layout="column">
 					<div class="profile-subtitle" >{{ 'reg_language' | translate }}:</div>
 
-					<div flex layout="row" layout-align="start center" class="profile-row">
+					<div layout="row" layout-align="start center" class="profile-row">
 						<md-button
 							ng-repeat="language in languages"
 							id="language-button-{{language.locale}}"
@@ -132,7 +132,8 @@
 				 
 			</md-card-content>
 		</md-card>
-
+	
+		<!--
 		<md-card ng-show="isProfile" >
 			<md-card-content>
 
@@ -158,13 +159,29 @@
 
 			</md-card-content>
 		</md-card>
-
+		-->
 	</div>
 
 	<md-card>
-		<md-card-content>
-		
-			<div flex layout="row" layout-align="center center" >
+		<md-card-content layout="column">
+			<div layout="row" layout-align="center center" ng-show="isProfile">
+				<md-button
+					class="md-raised md-primary"
+					ng-click="logout()"
+					type="button"
+					flex>
+					{{ 'header_logout' | translate }}
+				</md-button>
+				
+				<md-button
+					class="md-raised md-warn"
+					ng-click="deleteClick()"
+					type="button"
+					flex>
+					{{ 'reg_deleteProfile' | translate }}
+				</md-button>
+			</div>
+			<div layout="row" layout-align="center center" >
 				<md-button
 					ng-hide="isProfile"
 					class="md-raised md-primary registration-button"

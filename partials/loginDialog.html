@@ -15,7 +15,7 @@
 
         <md-input-container>
           <label for="testInput">{{ 'header_login_email' | translate }}</label>
-          <input type="text" id="testInput" name="loginEmail" ng-model="user.email">
+          <input type="email" id="testInput" name="loginEmail" ng-model="user.email">
           <div ng-messages="loginForm.loginEmail.$error">
             <div ng-message="notFound">{{ login_error }}</div>
             <div ng-message="notSet">{{ login_error }}</div>

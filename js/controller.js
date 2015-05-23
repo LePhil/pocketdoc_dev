@@ -463,6 +463,8 @@
 		$scope.isProfile = UserService.getCurrentUser().id >= 0;
         $scope.languages = MetaDataService.getLanguages();
         $scope.ageRanges = MetaDataService.getAgeRanges();
+        
+        $scope.dataInvalid = true;
 		
 		$scope.user = UserService.getCurrentUser();
 		var oldEmail = $scope.user.email;
@@ -477,6 +479,16 @@
 			$scope.user.password = "";
         }
 		
+        $scope.checkValidity = function(){
+        
+            $scope.dataInvalid = false;
+            $scope.dataInvalid = typeof($scope.user.name) === "undefined" || $scope.dataInvalid;
+            $scope.dataInvalid = typeof($scope.user.gender) === "undefined" || $scope.dataInvalid;
+            $scope.dataInvalid = typeof($scope.user.age_category) === "undefined" || $scope.dataInvalid;
+            $scope.dataInvalid = $scope.registrationForm.$invalid || $scope.dataInvalid;
+            
+        };
+        
 		$scope.checkEmail = function(){
 			if ( $scope.isProfile ) {
 				$scope.checkPassword();

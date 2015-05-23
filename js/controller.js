@@ -272,6 +272,10 @@
         $scope.isSameDiag = false;
         $scope.isLoggedIn = UserService.isLoggedIn();
 
+        if ( !$scope.diagnosis) {
+            $scope.goToMain();
+        }
+
 
         $scope.goToMain = function() { $window.history.back(); /*$location.url('/'); */ };
 

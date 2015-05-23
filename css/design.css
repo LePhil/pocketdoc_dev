@@ -209,3 +209,14 @@ md-sidenav {
 	border-radius: 2px;
 	padding: 3px 0px;
 }
+
+.startDiagNowBtn {
+	color: rgb(63,81,181);
+	text-transform: uppercase;
+	cursor: pointer;
+	text-align: right;
+}
+
+.centerText {
+	text-align: center;
+}

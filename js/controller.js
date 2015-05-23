@@ -687,6 +687,18 @@
                 }
             );
         };
+        
+        /**
+         * Show terms in dialog.
+         * 
+         * @author Roman Eichenberger
+         */
+        $scope.showTermsDialog = function() {
+            $mdDialog.show({
+                templateUrl: '../partials/TermsDialog.html',
+                clickOutsideToClose: true
+            });
+        };
 		
 	}]);
 	

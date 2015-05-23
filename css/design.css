@@ -209,3 +209,7 @@ md-sidenav {
 	border-radius: 2px;
 	padding: 3px 0px;
 }
+
+.termsDialog{
+	overflow: auto;
+}

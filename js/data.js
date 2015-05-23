@@ -1377,7 +1377,7 @@
 								"text": "Sie könnten an Spannungskopfschmerzen leiden. Diese Kopfschmerzen werden durch muskuläre Verspannungen verursacht."
 							}, {
 								"lang": 1,
-								"text": "You could suffer from tension headaches. This can be caused by muscle tension or lack of sleep."
+								"text": "You could suffer from tension headaches. This can be caused by muscle tension."
 							}
 						]
 					}

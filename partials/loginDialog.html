@@ -18,6 +18,7 @@
           <input type="text" id="testInput" name="loginEmail" ng-model="user.email">
           <div ng-messages="loginForm.loginEmail.$error">
             <div ng-message="notFound">{{ login_error }}</div>
+            <div ng-message="notSet">{{ login_error }}</div>
           </div>
         </md-input-container>
 

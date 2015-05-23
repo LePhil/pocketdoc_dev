@@ -367,7 +367,8 @@
     function( $scope ,  $location ,  $mdDialog ,  UserService ,  $route ){
         
         $scope.location = $location;
-
+        $scope.user = {};
+        
         // Prevents changing of the location by using the backspace-button
         // or any other non-app-key. But it closes the dialog, giving
         // control back to the original scope where there's no listener.
@@ -383,6 +384,7 @@
         $scope.loginDialogSubmit = function() {
             
             $scope.loginForm.loginEmail.$setValidity('notFound', true);
+            $scope.loginForm.loginEmail.$setValidity('notSet', true);
             $scope.loginForm.loginPassword.$setValidity('wrong', true);
             
             UserService.loginUser(
@@ -401,6 +403,8 @@
                         $scope.loginForm.loginEmail.$setValidity('notFound', false);
                     else if (error.errorType == 1)
                         $scope.loginForm.loginPassword.$setValidity('wrong', false);
+                    else if (error.errorType == 2)
+                        $scope.loginForm.loginEmail.$setValidity('notSet', false);
                     else
                         console.log( error.message );
                         

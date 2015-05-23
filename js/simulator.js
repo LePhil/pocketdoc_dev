@@ -122,7 +122,7 @@
 			if ( !data || ( !data.session && !data.email ) ) {
 				error({
 					errorType: 2,
-					message: "Not allowed to log in"
+					message: "Keine Daten eingegeben!"
 				});
 				return;
 			}

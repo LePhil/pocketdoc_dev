@@ -228,3 +228,7 @@ md-sidenav {
 .termsTitle{
 	word-wrap: break-word;
 }
+
+.splashContent{
+	padding: 8px;
+}

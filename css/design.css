@@ -220,3 +220,6 @@ md-sidenav {
 .centerText {
 	text-align: center;
 }
+
+.termsDialog{
+	overflow: auto;}

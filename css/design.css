@@ -232,3 +232,7 @@ md-sidenav {
 .currentQuestion{
 	background-color: #DDF !important;
 }
+
+md-card md-card-content{
+	padding: 8px;
+}

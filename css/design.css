@@ -115,10 +115,6 @@ h1{
 	overflow: auto;
 }
 
-.currentQuestion{
-	min-height: 80px;
-}
-
 .diagnosisDescription{
 	margin: 0;
 }
@@ -231,4 +227,8 @@ md-sidenav {
 
 .splashContent{
 	padding: 8px;
+}
+
+.currentQuestion{
+	background-color: #DDF;
 }

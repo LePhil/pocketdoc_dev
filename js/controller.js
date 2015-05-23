@@ -200,7 +200,7 @@
                 // Show new question
                 $scope.currentQuestion = questionData;
                 $scope.loading = false;
-                $scope.hidden = false;  
+                $scope.hidden = false;
             };
             
             var error = function( message ) {
@@ -218,8 +218,7 @@
                 });
             };
             
-            if (!$scope.revise)
-            {
+            if (!$scope.revise) {
                 RunService.answerQuestion(
                     {
                         question: $scope.currentQuestion,
@@ -228,9 +227,7 @@
                     success,
                     error
                 );
-            }
-            else
-            {
+            } else {
                 RunService.changeAnswer(
                     {
                         questionId: $scope.currentQuestion.id,

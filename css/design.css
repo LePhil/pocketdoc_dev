@@ -222,4 +222,9 @@ md-sidenav {
 }
 
 .termsDialog{
-	overflow: auto;}
+	overflow: auto;
+}
+
+.termsTitle{
+	word-wrap: break-word;
+}

@@ -230,5 +230,5 @@ md-sidenav {
 }
 
 .currentQuestion{
-	background-color: #DDF;
+	background-color: #DDF !important;
 }

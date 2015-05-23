@@ -1,4 +1,4 @@
-﻿<div flex class="partialContent">
+﻿<div flex class="partialContent makeSpaceForFixedFooter">
 	<div layout-padding layout="column" class="splashContent" flex>
 		<div layout="row">
 			<img id="logo" ng-class="{'smaller' : loggedIn }" src="images/PocketDocMaskottchen.jpg">
@@ -43,16 +43,18 @@
 		</div>
 	</div>
 </div>
-<md-card>
-	<md-card-content>
-		<div id="mainRun" layout="row" layout-align="end center" flex>
-			
-			<div hide-gt-sm class="md-primary startDiagNowBtn" flex ng-click="run()">{{ 'main_startDiagnosis' | translate }}</div>
-			<md-button hide-sm class="md-primary" ng-click="run()">{{ 'main_startDiagnosis' | translate }}</md-button>
-			
-			<md-button class="md-fab md-primary" ng-click="run()" aria-label="{{ 'main_startDiagnosis' | translate }}">
-				<md-icon md-svg-src="images/icons/play.svg" style="color: white;"></md-icon>
-			</md-button>
-		</div>
-	</md-card-content>
-</md-card>
+<div class="fixedFooter">
+	<md-card>
+		<md-card-content>
+			<div id="mainRun" layout="row" layout-align="end center" flex>
+				
+				<div hide-gt-sm class="md-primary startDiagNowBtn" flex ng-click="run()">{{ 'main_startDiagnosis' | translate }}</div>
+				<md-button hide-sm class="md-primary" ng-click="run()">{{ 'main_startDiagnosis' | translate }}</md-button>
+				
+				<md-button class="md-fab md-primary" ng-click="run()" aria-label="{{ 'main_startDiagnosis' | translate }}">
+					<md-icon md-svg-src="images/icons/play.svg" style="color: white;"></md-icon>
+				</md-button>
+			</div>
+		</md-card-content>
+	</md-card>
+</div>

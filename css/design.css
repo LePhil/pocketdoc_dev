@@ -248,10 +248,19 @@ md-sidenav {
 	bottom: 0px;
 	width: 100%;
 	background-color: white;
+	z-index: 10;
 }
-
 .makeSpaceForFixedFooter {
 	margin-bottom: 89px;
+}
+.makeSpaceForFixedFooter.big {
+	margin-bottom: 128px;
+}
+
+@media (max-width: 599px) {
+	.makeSpaceForFixedFooter.big {
+		margin-bottom: 176px;
+	}	
 }
 
 md-card md-card-content{

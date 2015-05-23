@@ -1,5 +1,5 @@
 <form novalidate name="registrationForm" layout="column" flex>
-	<div class="partialContent" flex>
+	<div class="partialContent makeSpaceForFixedFooter" flex ng-class="{'big': isProfile}">
 		<md-card>
 			<md-card-content>
 
@@ -166,48 +166,49 @@
 		-->
 	</div>
 
-	<md-card>
-		<md-card-content layout="column">
-			<div layout="row" layout-sm="column" ng-show="isProfile">
-				<md-button
-					class="md-raised md-primary"
-					ng-click="logout()"
-					type="button"
-					flex-gt-sm>
-					{{ 'header_logout' | translate }}
-				</md-button>
+	<div class="fixedFooter">
+		<md-card>
+			<md-card-content layout="column">
+				<div layout="row" layout-sm="column" ng-show="isProfile">
+					<md-button
+						class="md-raised md-primary"
+						ng-click="logout()"
+						type="button"
+						flex-gt-sm>
+						{{ 'header_logout' | translate }}
+					</md-button>
+					
+					<md-button
+						class="md-raised md-warn"
+						ng-click="deleteClick()"
+						type="button"
+						flex-gt-sm>
+						{{ 'reg_deleteProfile' | translate }}
+					</md-button>
+				</div>
+				<div layout="row" layout-align="center center" >
+					<md-button
+						ng-hide="isProfile"
+						class="md-raised md-primary registration-button"
+						ng-click="registerClick()"
+						flex
+						type="submit"
+						ng-disabled="!acceptedTerms ||dataInvalid">
+						{{ 'reg_register' | translate }}
+					</md-button>
+
+					<md-button
+						ng-show="isProfile"
+						class="md-raised md-primary registration-button"
+						ng-click="saveClick()"
+						flex
+						type="submit"
+						ng-disabled="dataInvalid">
+						{{ 'reg_save' | translate }}
+					</md-button>
+				</div>
 				
-				<md-button
-					class="md-raised md-warn"
-					ng-click="deleteClick()"
-					type="button"
-					flex-gt-sm>
-					{{ 'reg_deleteProfile' | translate }}
-				</md-button>
-			</div>
-			<div layout="row" layout-align="center center" >
-				<md-button
-					ng-hide="isProfile"
-					class="md-raised md-primary registration-button"
-					ng-click="registerClick()"
-					flex
-					type="submit"
-					ng-disabled="!acceptedTerms ||dataInvalid">
-					{{ 'reg_register' | translate }}
-				</md-button>
-
-				<md-button
-					ng-show="isProfile"
-					class="md-raised md-primary registration-button"
-					ng-click="saveClick()"
-					flex
-					type="submit"
-					ng-disabled="dataInvalid">
-					{{ 'reg_save' | translate }}
-				</md-button>
-			</div>
-			
-		</md-card-content>
-	</md-card>
-
+			</md-card-content>
+		</md-card>
+	</div>
 </form>

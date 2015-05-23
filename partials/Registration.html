@@ -17,7 +17,7 @@
 				<md-input-container flex ng-hide="isProfile">
 					<label for="regPassword">{{ 'reg_password' | translate }}:</label>
 					<input ng-model="user.password" type="password" id="regPassword" name="regPassword" ng-blur="checkPassword(); checkValidity();">
-					<div ng-messages="registrationForm.password.$error">
+					<div ng-messages="registrationForm.regPassword.$error">
 						<div ng-message="req">{{ 'reg_mandatory' | translate }}!</div>
 					</div>
 				</md-input-container>

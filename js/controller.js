@@ -487,10 +487,8 @@
         };
         
 		$scope.checkEmail = function(){
-			if ( $scope.isProfile ) {
-				$scope.checkPassword();
-            }
-			
+			$scope.checkPassword();
+            
 			if ( $scope.isProfile && oldEmail === $scope.user.email ) {
 				$scope.registrationForm.email.$setValidity('used', true);
 			} else {
@@ -522,7 +520,7 @@
 				$scope.registrationForm.regPassword.$setValidity('req', regPassword.value !== "");
 			}
 		};
-
+        
         /**
          * Sets the gender of the to-be-registered user.
          * 

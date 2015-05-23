@@ -238,6 +238,7 @@ md-sidenav {
 .currentQuestion{
 	background-color: #DDF !important;
 }
+
 .currentQuestion h3 {
 	margin: 0;
 }
@@ -251,4 +252,8 @@ md-sidenav {
 
 .makeSpaceForFixedFooter {
 	margin-bottom: 89px;
+}
+
+md-card md-card-content{
+	padding: 8px;
 }

@@ -248,8 +248,8 @@ md-sidenav {
 	bottom: 0px;
 	width: 100%;
 	background-color: white;
+	z-index: 10;
 }
-
 .makeSpaceForFixedFooter {
 	margin-bottom: 89px;
 }
@@ -262,8 +262,6 @@ md-sidenav {
 		margin-bottom: 176px;
 	}	
 }
-
-
 
 md-card md-card-content{
 	padding: 8px;

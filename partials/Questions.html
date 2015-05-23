@@ -14,11 +14,11 @@
 				<div class="profile-subtitle">{{ 'preDiag_forMeOrNot' | translate }}</div>
 
 				<div layout="row" class="profile-row" layout-sm="column">
-					<md-button flex-gt-sm class="md-raised" ng-click="changeCurrentUser(true)" ng-class="{'md-primary': forCurrentUser}">
+					<md-button flex-gt-sm class="md-raised" ng-click="changeCurrentUser(true); checkValidity();" ng-class="{'md-primary': forCurrentUser}">
 						{{ 'preDiag_forMe' | translate }}
 					</md-button>
 
-					<md-button flex-gt-sm class="md-raised" ng-click="changeCurrentUser(false)" ng-class="{'md-primary': !forCurrentUser }">
+					<md-button flex-gt-sm class="md-raised" ng-click="changeCurrentUser(false); checkValidity();" ng-class="{'md-primary': !forCurrentUser }">
 						{{ 'preDiag_notForMe' | translate }}
 					</md-button>
 				</div>
@@ -31,18 +31,18 @@
 				<div flex layout="column">
 					<md-input-container ng-show="loggedIn">
 						<label for="name">{{ 'reg_name' | translate }}:</label>
-						<input ng-model="user.name" id="name">
+						<input ng-model="user.name" id="name" ng-blur="checkValidity()">
 					</md-input-container>
 
 					<div class="profile-subtitle">{{ 'reg_sex' | translate }}:</div>
 
 					<div layout="row" class="profile-row" layout-sm="column">
-						<md-button id="gender-button-male" flex-gt-sm class="md-raised registration-button" ng-click="setGender(0)" ng-class="{'md-primary': user.gender == 0}">
+						<md-button id="gender-button-male" flex-gt-sm class="md-raised registration-button" ng-click="setGender(0); checkValidity();" ng-class="{'md-primary': user.gender == 0}">
 							<md-icon md-svg-icon="images/icons/gender-male.svg"></md-icon>
 							<span>{{ 'reg_sex_male' | translate }}</span>
 						</md-button>
 
-						<md-button id="gender-button-female" flex-gt-sm class="md-raised registration-button" ng-click="setGender(1)" ng-class="{'md-primary': user.gender == 1}">
+						<md-button id="gender-button-female" flex-gt-sm class="md-raised registration-button" ng-click="setGender(1); checkValidity();" ng-class="{'md-primary': user.gender == 1}">
 							<md-icon md-svg-icon="images/icons/gender-female.svg"></md-icon>
 							<span>{{ 'reg_sex_female' | translate }}</span>
 						</md-button>
@@ -50,7 +50,7 @@
 
 					<div class="profile-subtitle">{{ 'reg_ageRange' | translate }}:</div>
 
-					<md-select placeholder="{{ 'reg_defaultValueSelect' | translate }}" ng-model="user.age_category" class="age-category">
+					<md-select placeholder="{{ 'reg_defaultValueSelect' | translate }}" ng-model="user.age_category" class="age-category" ng-change="checkValidity();">
 						<md-option
 							ng-repeat="AR in ageRanges"
 							value="{{AR.id}}">
@@ -166,7 +166,7 @@
 		<md-card ng-show="isPreDiag">
 			<md-card-content>
 				<div layout="row" layout-align="center center">
-					<md-button flex class="md-raised md-primary" ng-click="confirmPreDiag()">
+					<md-button flex class="md-raised md-primary" ng-click="confirmPreDiag()" ng-disabled="dataInvalid">
 						{{ 'preDiag_startDiag' | translate }}
 					</md-button>
 				</div>

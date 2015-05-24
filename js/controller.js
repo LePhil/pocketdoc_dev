@@ -17,7 +17,19 @@
         
         $scope.languages = MetaDataService.getLanguages();
         $scope.ageRanges = MetaDataService.getAgeRanges();
-
+        
+        $scope.checkValidity = function(){
+            $scope.dataInvalid = typeof($scope.user.gender) === 'undefined' ||
+                                 typeof($scope.user.age_category) === 'undefined' ;
+                                 
+            if ($scope.loggedIn)
+                $scope.dataInvalid = typeof($scope.user.name) === 'undefined' ||
+                                     $scope.user.name === "" ||
+                                     $scope.dataInvalid;
+        };
+        
+        $scope.checkValidity();
+        
         $scope.changeCurrentUser = function( cur ) {
             $scope.forCurrentUser = cur;
 
@@ -704,16 +716,29 @@
         };
         
         /**
+         * Mini-Controller for terms dialog.
+         * 
+         * @author Roman Eichenberger
+         */
+        var DialogController = function($scope, $mdDialog) {
+            
+            $scope.close = function() { $mdDialog.cancel(); };
+        };
+        
+        /**
          * Show terms in dialog.
          * 
          * @author Roman Eichenberger
          */
         $scope.showTermsDialog = function() {
             $mdDialog.show({
+                controller: DialogController,
                 templateUrl: '../partials/TermsDialog.html',
                 clickOutsideToClose: true
             });
         };
+        
+        
 		
 	}]);
 	

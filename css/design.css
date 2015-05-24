@@ -249,9 +249,10 @@ md-sidenav {
 	width: 100%;
 	background-color: white;
 	z-index: 10;
+	max-width: 960px;
 }
 .makeSpaceForFixedFooter {
-	margin-bottom: 89px;
+	margin-bottom: 100px;
 }
 .makeSpaceForFixedFooter.big {
 	margin-bottom: 128px;

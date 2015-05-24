@@ -938,18 +938,12 @@
 			);
         };
 
-        $scope.toggleMenu = buildToggler('left');
-        
-        // Build handler to open/close a SideNav
-        function buildToggler( navID ) {
-            return function() {
-				return $mdSidenav( navID ).toggle()
-                    .then(function () { /* done */ });
-            }
-        }
+        $scope.openMenu = function() {
+            $mdSidenav( 'left' ).open();
+        };
 
         $scope.close = function () {
-            $mdSidenav('left').close().then(function () {});
+            $mdSidenav('left').close();
         };
 
         $scope.profile = function() {

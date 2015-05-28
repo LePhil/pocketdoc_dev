@@ -13,7 +13,12 @@ describe('Simulator tests', function() {
 	
 	// load modules
 	beforeEach(module('pocketdocApp'));
-
+	
+	// Cleaar data
+	afterEach(function(){
+		localStorage.clear();
+	});
+	
 	// Test UserService availability
 	it('check the existence of User Service', inject(function(UserService) {
 		expect(UserService).toBeDefined();

@@ -81,12 +81,12 @@ describe('Simulator tests', function() {
 		expect(FollowupService).toBeDefined();
 	}));
 	
-	// Test FollowUpService availability
+	// Test MetaDataService availability
 	it('check the existence of Meda Data Service', inject(function(MetaDataService) {
 		expect(MetaDataService).toBeDefined();
 	}));
 	
-	// Test FollowUpService availability
+	// Test UtilService availability
 	it('check the existence of Util Service', inject(function(UtilService) {
 		expect(UtilService).toBeDefined();
 	}));

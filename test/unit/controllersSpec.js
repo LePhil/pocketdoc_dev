@@ -1,6 +1,6 @@
 'use strict';
 
-describe('PocketDoc controllers', function() {
+describe('HeaderController', function() {
 	var scope,
 		$location,
 		store = {};
@@ -67,4 +67,106 @@ describe('PocketDoc controllers', function() {
 		expect( scope.lang ).toBe( 'en' );
 	}));
 
+});
+
+describe('QuestionController', function() {
+	var scope,
+		$location,
+		store = {};
+
+	beforeEach( function(){
+		module('pocketdocApp');
+
+		inject(function ( $rootScope, $controller, _$location_) {
+			$location = _$location_;
+			scope = $rootScope.$new();
+		});
+
+		spyOn(localStorage, 'getItem').andCallFake(function(key) {
+			return store[key];
+		});
+		
+		Object.defineProperty(sessionStorage, "setItem", { writable: true });
+		
+		spyOn(localStorage, 'setItem').andCallFake(function(key, value) {
+			store[key] = value;
+		});
+
+	});
+
+	afterEach(function () {
+		store = {};
+	});
+
+
+	it('should be for the current User by default', inject(function($controller) {
+		var ctrl = $controller('questionController', {
+			$scope:scope
+		});
+
+		expect(scope.forCurrentUser).toBe( true );
+	}));
+
+	it('should not be logged in', inject(function($controller) {
+		var ctrl = $controller('questionController', {
+			$scope:scope
+		});
+
+		expect(scope.isLoggedIn).toBe( false );
+	}));
+
+
+	it('should not be valid  in regards to the user by default', inject(function($controller) {
+		var ctrl = $controller('questionController', {
+			$scope:scope
+		});
+
+		scope.checkValidity();
+
+		expect(scope.dataInvalid).toBe( true );
+	}));
+
+	it('should not accept false values for a name', inject(function($controller) {
+		var ctrl = $controller('questionController', {
+			$scope:scope
+		});
+
+		scope.user.name = "";
+		scope.checkValidity();
+
+		expect(scope.dataInvalid).toBe( true );
+	}));
+
+	it('should accept correct values for a user', inject(function($controller) {
+		var ctrl = $controller('questionController', {
+			$scope:scope
+		});
+
+		scope.user.name = "Test";
+		scope.user.gender = 0;
+		scope.user.age_category = 0;
+		scope.checkValidity();
+
+		expect(scope.dataInvalid).toBe( false );
+	}));
+
+	it('should set the gender of the user correctly', inject(function($controller) {
+		var ctrl = $controller('questionController', {
+			$scope:scope
+		});
+
+		scope.setGender( 1 );
+
+		expect(scope.user.gender).toBe( 1 );
+	}));
+
+	it('should change the language of an user', inject(function($controller) {
+		var ctrl = $controller('questionController', {
+			$scope:scope
+		});
+
+		expect(scope.user.lang).toBe( 'de' );
+		scope.changeLanguage("en");
+		expect(scope.user.lang).toBe( 'en' );
+	}));
 });

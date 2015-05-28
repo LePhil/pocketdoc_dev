@@ -2,20 +2,21 @@
 
 describe('PocketDoc controllers', function() {
 
-	
-//    beforeEach(module('pocketdocControllers'));
-//
-//    it('Check if validity works', inject(function($controller) {
-//		var scope = {};
-//        var controller =  $controller('questionController',{
-//			'$scope' : scope
-//		});
-//		
-//		scope.user.gender = 0;
-//		scope.user.name = 'test';
-//		scope.user.age_category = 0;
-//		
-//		expect(scope.dataInvalid).toBe(false);
-//    }));
+  beforeEach(module('pocketdocApp'));
+
+	var scope, $location;
+
+	beforeEach(inject(function ( $rootScope, $controller, _$location_) {
+		$location = _$location_;
+		scope = $rootScope.$new();
+	}));
+
+	it('should provide german as the default language', inject(function($controller) {
+		var ctrl = $controller('HeaderController', {
+			$scope:scope
+		});
+
+		expect(scope.lang).toBe( "de" );
+	}));
 
 });

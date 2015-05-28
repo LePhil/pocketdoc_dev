@@ -17,7 +17,12 @@ module.exports = function(config){
       'bower_components/angular-material/angular-material.min.js',
       'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
       'bower_components/angular-messages/angular-messages.min.js',
-      'js/**/*.js',
+      'js/data.js',
+      'js/simulator.js',
+      'js/controller.js',
+      'js/factories.js',
+      'js/services.js',
+      'js/app.js',
       'test/unit/**/*.js'
     ],
 

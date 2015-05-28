@@ -170,3 +170,58 @@ describe('QuestionController', function() {
 		expect(scope.user.lang).toBe( 'en' );
 	}));
 });
+
+describe('DiagnosisController', function() {
+	var scope,
+		$location;
+
+	beforeEach( function(){
+		module('pocketdocApp');
+
+		inject(function ( $rootScope, $controller, _$location_) {
+			$location = _$location_;
+			scope = $rootScope.$new();
+		});
+	});
+
+	it('should not be logged in by default', inject(function($controller) {
+		var ctrl = $controller('diagnosisController', {
+			$scope:scope,
+			DiagnosisData:{
+				diagnosis: {}
+			}
+		});
+
+		expect(scope.isLoggedIn).toBe( false );
+	}));
+
+	it('should show loggin dialog if not logged in and accepting followUP', inject(function($controller) {
+		var ctrl = $controller('diagnosisController', {
+			$scope:scope,
+			DiagnosisData:{
+				diagnosis: {}
+			}
+		});
+		
+		spyOn(scope, 'showLoginDialog');
+		
+		scope.acceptFollowUp();
+
+		expect(scope.showLoginDialog).toHaveBeenCalled();
+	}));
+
+	it('should show error in console if not logged in and adding followup', inject(function($controller) {
+		var ctrl = $controller('diagnosisController', {
+			$scope:scope,
+			DiagnosisData:{
+				diagnosis: {}
+			}
+		});
+		
+		spyOn(console, 'log');
+		
+		scope.addFollowUp();
+
+		expect(console.log).toHaveBeenCalledWith("Error: not logged in");
+	}));
+});

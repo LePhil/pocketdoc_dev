@@ -36,7 +36,7 @@ describe('Simulator tests', function() {
 				expect(UserService.isLoggedIn()).toBe(true);
 			},
 			function(error){
-				expect(true).toThrow(new Error("Create failed!"));
+				expect(true).toBe(false);
 			}
 		);
 		
@@ -49,18 +49,135 @@ describe('Simulator tests', function() {
 			function(data){
 				UserService.isEmailInUse(
 					{
-						email: 'test@test.ch'
+						email: defaultUser.email
 					},
 					function(data){
 						expect(data.inUse).toBe(true);
 					},
 					function(error){
-						expect(true).toThrow(new Error("Is Email in use failed!"));
+						expect(true).toBe(false);
 					}
 				);
 			},
 			function(error){
-				expect(true).toThrow(new Error("Create in is Email in use failed!"));
+				expect(true).toBe(false);
+			}
+		);
+		
+	}));
+	
+	it('Check login', inject(function(UserService) {
+		
+		UserService.createUser(
+			defaultUser,
+			function(data){
+				UserService.logoutUser(
+					{},
+					function(data){
+						UserService.loginUser(
+							{
+								email: defaultUser.email,
+								password: defaultUser.password
+							},
+							function(data){
+								expect(UserService.isLoggedIn()).toBe(true);
+							},
+							function(error){
+								expect(true).toBe(false);
+							}
+						);
+					},
+					function(error){
+						expect(true).toBe(false);
+					}
+				);
+			},
+			function(error){
+				expect(true).toBe(false);
+			}
+		);
+		
+	}));
+	
+	it('Check logout', inject(function(UserService) {
+		
+		UserService.createUser(
+			defaultUser,
+			function(data){
+				UserService.logoutUser(
+					{},
+					function(data){
+						expect(UserService.isLoggedIn()).toBe(false);
+					},
+					function(error){
+						expect(true).toBe(false);
+					}
+				);
+			},
+			function(error){
+				expect(true).toBe(false);
+			}
+		);
+		
+	}));
+	
+	it('Check delete', inject(function(UserService) {
+		
+		UserService.createUser(
+			defaultUser,
+			function(data){
+				UserService.deleteUser(
+					{},
+					function(data){
+						UserService.isEmailInUse(
+							{
+								email: defaultUser.email
+							},
+							function(data){
+								expect(data.inUse).toBe(false);
+							},
+							function(error){
+								expect(true).toBe(false);
+							}
+						);
+					},
+					function(error){
+						expect(true).toBe(false);
+					}
+				);
+			},
+			function(error){
+				expect(true).toBe(false);
+			}
+		);
+		
+	}));
+	
+	it('Check update', inject(function(UserService) {
+		
+		UserService.createUser(
+			defaultUser,
+			function(data){
+				var updatedUser = Object.create(defaultUser);
+				updatedUser.name = 'new';
+				updatedUser.gender = 1;
+				updatedUser.email = 'new@test.ch';
+				updatedUser.oldPassword = 'test';
+				UserService.updateUser(
+					updatedUser,
+					function(data){
+						var current = UserService.getCurrentUser();
+						expect(current.name).toBe(updatedUser.name);
+						expect(current.gender).toBe(updatedUser.gender);
+						expect(current.email).toBe(updatedUser.email);
+					},
+					function(error){
+						expect(true).toBe(false);
+					}
+				);
+			},
+			function(error){
+				expect(true).toBe(false);
 			}
 		);
 		
@@ -69,6 +186,18 @@ describe('Simulator tests', function() {
 	// Test RunService availability
 	it('check the existence of Run Service', inject(function(RunService) {
 		expect(RunService).toBeDefined();
+	}));
+	
+	it('check the Start of run', inject(function(RunService, UserService) {
+		RunService.startRun(
+			UserService.getCurrentUser(),
+			function(data){
+				expect(data.answers).toBeDefined();
+			},
+			function(error){
+				
+			}
+		);
 	}));
 
 	// Test DiagnosisService availability

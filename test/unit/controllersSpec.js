@@ -67,6 +67,17 @@ describe('HeaderController', function() {
 		expect( scope.lang ).toBe( 'en' );
 	}));
 
+	it('should try to change window location when going to main', inject(function($controller) {
+		var ctrl = $controller('HeaderController', {
+			$scope:scope
+		});
+
+		spyOn(window.history, 'back');
+		scope.goToMain();
+
+		expect(window.history.back).toHaveBeenCalled();
+	}));
+
 });
 
 describe('QuestionController', function() {

@@ -14,6 +14,8 @@ module.exports = function(config){
       'bower_components/angular-cookies/angular-cookies.min.js',
       'bower_components/angular-translate/angular-translate.min.js',
       'bower_components/angular-material/angular-material.min.js',
+      'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+      'bower_components/angular-messages/angular-messages.min.js',
       'js/**/*.js',
       'test/unit/**/*.js'
     ],

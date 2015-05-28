@@ -233,6 +233,22 @@ describe('Simulator tests', function() {
 		expect(FollowupService).toBeDefined();
 	}));
 	
+	it('check register followup', inject(function(FollowupService) {
+		
+		FollowupService.registerFollowup(
+			{
+				"user": 2,
+                "oldDiagnosis": 0,
+                "oldActionSuggestion": 0,
+                "startQuestion": 5, 
+                "timeAdded": Date.now()
+            }
+		);
+		
+		expect(FollowupService.getFollowupsForUser(2).length).toBe(1);
+		
+	}));
+	
 	// Test MetaDataService availability
 	it('check the existence of Meta Data Service', inject(function(MetaDataService) {
 		expect(MetaDataService).toBeDefined();

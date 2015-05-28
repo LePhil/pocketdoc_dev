@@ -2,6 +2,15 @@
 
 describe('Simulator tests', function() {
 
+	var defaultUser = {
+		email: 'test@test.ch',
+		password: 'test',
+		name: 'test',
+		gender: '0',
+		age_category: '0',
+		lang: 'de'
+	};
+	
 	// load modules
 	beforeEach(module('pocketdocApp'));
 
@@ -17,14 +26,7 @@ describe('Simulator tests', function() {
 	it('Create User and check if logged in', inject(function(UserService) {
 		
 		UserService.createUser(
-			{
-				email: 'test@test.ch',
-				password: 'test',
-				name: 'test',
-				gender: '0',
-				age_category: '0',
-				lang: 'de'
-			},
+			defaultUser,
 			function(data){
 				expect(UserService.isLoggedIn()).toBe(true);
 			},
@@ -38,14 +40,7 @@ describe('Simulator tests', function() {
 	it('Email in use', inject(function(UserService) {
 		
 		UserService.createUser(
-			{
-				email: 'test@test.ch',
-				password: 'test',
-				name: 'test',
-				gender: '0',
-				age_category: '0',
-				lang: 'de'
-			},
+			defaultUser,
 			function(data){
 				UserService.isEmailInUse(
 					{
@@ -82,13 +77,77 @@ describe('Simulator tests', function() {
 	}));
 	
 	// Test MetaDataService availability
-	it('check the existence of Meda Data Service', inject(function(MetaDataService) {
+	it('check the existence of Meta Data Service', inject(function(MetaDataService) {
 		expect(MetaDataService).toBeDefined();
+	}));
+	
+	it('check the existence of language data', inject(function(MetaDataService) {
+		expect(MetaDataService.getLanguages()).toBeDefined();
+	}));
+	
+	it('check the existence of age ranges', inject(function(MetaDataService) {
+		expect(MetaDataService.getAgeRanges()).toBeDefined();
 	}));
 	
 	// Test UtilService availability
 	it('check the existence of Util Service', inject(function(UtilService) {
 		expect(UtilService).toBeDefined();
+	}));
+	
+	it('Check getElementById function', inject(function(UtilService) {
+		var data =	[
+			{id : 3},
+			{id : 2},
+			{id : 1},
+			{id : 0}
+		];
+		
+		expect(UtilService.getElementById(
+			2,
+			data
+		)).toBe(data[1]);
+	}));
+	
+	it('Check getCurrentLanguageObject function', inject(function(UtilService) {
+		var data =	[
+			{value : 'de', lang: 0},
+			{value : 'en', lang: 1},
+			{value : 'fr', lang: 2},
+			{value : 'es', lang: 3},
+		];
+		
+		expect(UtilService.getCurrentLanguageObject(
+			2,
+			data
+		).value).toBe('fr');
+	}));
+	
+	it('Check getLocaleById function', inject(function(UtilService) {
+		var data =	[
+			{locale : 'de', id: 0},
+			{locale : 'en', id: 1},
+			{locale : 'fr', id: 2},
+			{locale : 'es', id: 3},
+		];
+		
+		expect(UtilService.getLocaleById(
+			2,
+			data
+		)).toBe('fr');
+	}));
+	
+	it('Check getIdByLocale function', inject(function(UtilService) {
+		var data =	[
+			{locale : 'de', id: 0},
+			{locale : 'en', id: 1},
+			{locale : 'fr', id: 2},
+			{locale : 'es', id: 3},
+		];
+		
+		expect(UtilService.getIdByLocale(
+			'de',
+			data
+		)).toBe(0);
 	}));
 	
 });

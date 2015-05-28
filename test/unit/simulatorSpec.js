@@ -195,11 +195,34 @@ describe('Simulator tests', function() {
 				expect(data.answers).toBeDefined();
 			},
 			function(error){
-				
+				expect(true).toBe(false);
 			}
 		);
 	}));
-
+	
+	it('check giving answer to question', inject(function(RunService, UserService) {
+		RunService.startRun(
+			UserService.getCurrentUser(),
+			function(data){
+				RunService.answerQuestion(
+					{
+						question: data,
+						answerId : data.answers[0].id
+					},
+					function(data){
+						expect(data.answers).toBeDefined();
+					},
+					function(error){
+						expect(true).toBe(false);
+					}
+				);
+			},
+			function(error){
+				expect(true).toBe(false);
+			}
+		);
+	}));
+	
 	// Test DiagnosisService availability
 	it('check the existence of Diagnosis Service', inject(function(DiagnosisService) {
 		expect(DiagnosisService).toBeDefined();

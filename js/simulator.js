@@ -48,7 +48,6 @@
 			
 		};
 		
-		// TODO: refactor (e.g. only grep once)
 		var update = function( data, success, error ) {
 			
 			var users = JSON.parse(localStorage.getItem("users"));
@@ -100,8 +99,6 @@
 			if ((users.length - 1) === leftUsers.length) {
 				localStorage.setItem( "users", angular.toJson(leftUsers) );
 				
-				// TODO: remove all openRuns, history, followUps from this user!
-
 				currentUser = {
 					id: -1,
 					lang: currentUser.lang
@@ -117,7 +114,6 @@
 			}
 		};
 		
-		// TODO: refactor
 		var login = function( data, success, error ) {
 			if ( !data || ( !data.session && !data.email ) ) {
 				error({
@@ -371,7 +367,6 @@
 		var start = function( userData, success, error ) {
 			var startQuestionID = 0,
 				qData = {};
-			// TODO: handle userData
 			user = userData;
 
 			if ( followUp !== null ) {
@@ -514,12 +509,10 @@
 	backend.factory('DiagnosisService', ['DataService', 'UtilService', 'UserService', function( DataService, UtilService, UserService ){
 
 		var langId = UtilService.getIdByLocale(UserService.getLang(), DataService.languages());
-				
-		var getAll = function(success, error ) {
-			// TODO?
-		};
+		
+		// Placeholder
+		var getAll = function(success, error ) {};
 
-		// TODO!!! REFACTOR THIS, IS WAY TOO COMPLICATED! ALSO: no comments.
 		var getByID = function( diagID, actionID, success, error ) {
 			var diagnosisData = {};
 

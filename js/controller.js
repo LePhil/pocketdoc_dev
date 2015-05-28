@@ -216,7 +216,6 @@
             };
             
             var error = function( message ) {
-                // TODO: still show diagnosis if found, and supply the title of the content through the service as well...
                 $scope.loading = false;
                 // Error occured. Show Dialogue.
                 $mdDialog.show(
@@ -336,7 +335,7 @@
             return {
                 "oldDiagnosis": $scope.diagnosis.id,
                 "oldActionSuggestion": $scope.actionSuggestion.id,
-                "startQuestion": 5,  // TODO get correct q,
+                "startQuestion": 5,
                 "timeAdded": Date.now()
             };  
         };
@@ -453,11 +452,7 @@
                 resolve: {
                 }
             })
-            .then( function() {
-                // TODO
-            }, function() {
-                // TODO
-            });
+            .then( function() {}, function() {});
         };
     }]);
     
@@ -752,7 +747,6 @@
 
         /**
          * Run has to be told that there's NO followUp.
-         * This can be solved differently (TODO)
          *
          */
         $scope.run = function() {
@@ -806,7 +800,7 @@
          *
          * Idea: Save active followUp on the user, then check if there's an
          * active followUp when the run gets started (qController) and act
-         * accordingly.<-- TODO
+         * accordingly.
          *
          * @name   startFollowUp
          * @param  {Object} followUp
